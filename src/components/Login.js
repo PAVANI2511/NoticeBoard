@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Login.css';
+
 function Login() {
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
@@ -8,11 +9,49 @@ function Login() {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
+  // Real-time validation states
+  const [emailValid, setEmailValid] = useState(null);
+  const [passwordValid, setPasswordValid] = useState(null);
+
+  // Email format checker
+  const isValidEmail = email =>
+    /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
+  // Password rule checker
+  const isValidPassword = password =>
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?#&])[A-Za-z\d@$!%*?#&]{8,}$/.test(password);
+
+  const handleEmailChange = e => {
+    const val = e.target.value;
+    setEmail(val);
+    setError('');
+    if (!val) setEmailValid(null);
+    else setEmailValid(isValidEmail(val));
+  };
+
+  const handlePasswordChange = e => {
+    const val = e.target.value;
+    setPassword(val);
+    setError('');
+    if (!val) setPasswordValid(null);
+    else setPasswordValid(isValidPassword(val));
+  };
+
   const handleSubmit = async e => {
     e.preventDefault();
 
     if (!email || !password) {
       setError('Email and password are required.');
+      return;
+    }
+
+    if (!isValidEmail(email)) {
+      setError('Please enter a valid email address.');
+      return;
+    }
+
+    if (!isValidPassword(password)) {
+      setError('Password does not meet security requirements.');
       return;
     }
 
@@ -31,12 +70,12 @@ function Login() {
 
       if (response.ok) {
         alert('Login successful!');
-        navigate('/dashboard')
+        navigate('/dashboard');
       } else {
-        setError(data.message || 'Invalid credentials.');
+        setError(data.message || 'Invalid credentials. Please check your account.');
       }
     } catch (err) {
-      setError('Error connecting to server.');
+      setError('Error connecting to server. Please try again later.');
     } finally {
       setLoading(false);
     }
@@ -58,21 +97,30 @@ function Login() {
               placeholder="Enter Email"
               className="input-field"
               value={email}
-              onChange={e => {
-                setEmail(e.target.value);
-                setError('');
-              }}
+              onChange={handleEmailChange}
             />
+            {emailValid === false && (
+              <p className="error-text">Please enter a valid email.</p>
+            )}
+            {emailValid === true && (
+              <p className="success-text">Valid email ✅</p>
+            )}
+
             <input
               type="password"
               placeholder="Enter Password"
               className="input-field"
               value={password}
-              onChange={e => {
-                setPassword(e.target.value);
-                setError('');
-              }}
+              onChange={handlePasswordChange}
             />
+            {passwordValid === false && (
+              <p className="error-text">
+                Password must be at least 8 characters, and include uppercase, lowercase, number, and special character.
+              </p>
+            )}
+            {passwordValid === true && (
+              <p className="success-text">Strong password ✅</p>
+            )}
 
             {error && <p className="error-text">{error}</p>}
 
@@ -92,7 +140,7 @@ function Login() {
             <hr /> <span>or</span> <hr />
           </div>
 
-          <p className="register-text">If you are not register</p>
+          <p className="register-text">If you are not registered</p>
           <button className="signin-btn" onClick={() => navigate('/signin')}>Sign In</button>
         </div>
       </div>
