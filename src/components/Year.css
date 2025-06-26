@@ -1,0 +1,32 @@
+.container {
+  text-align: center;
+  margin-top: 50px;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.header {
+  background-color: #6c63ff;
+  color: #fff;
+  padding: 15px 0;
+  font-size: 22px;
+  border-radius: 10px 10px 0 0;
+  margin: 0 auto;
+  width: 300px;
+}
+
+.year-button {
+  display: block;
+  margin: 20px auto;
+  padding: 12px;
+  width: 250px;
+  background-color: #e0e0e0;
+  border: none;
+  border-radius: 25px;
+  font-size: 18px;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.year-button:hover {
+  background-color: #d5d5d5;
+}

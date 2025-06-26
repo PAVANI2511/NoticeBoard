@@ -24,6 +24,7 @@ function SignIn() {
 
   const strongPasswordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%?#&])[A-Za-z\d@$!%?#&]{8,}$/;
   const usernameRegex = /^(?=[A-Za-z\d@$!%?#&]{5,})(?=(?:[^@$!%?#&]*[@$!%?#&][^@$!%?#&]*)$)(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*?#&]+$/;
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
   const validatePhone = (code, number) => {
     if (code === '+91') {
@@ -33,8 +34,8 @@ function SignIn() {
     }
     if (code === '+1') {
       return /^[2-9]\d{2}[2-9]\d{6}$/.test(number)
-        ? { valid: true, message: 'Phone number looks valid!' }
-        : { valid: false, message: 'US phone number must be 10 digits.' };
+        ? { valid: true, message: 'US phone number must be 10 digits.' }
+        : { valid: false, message: 'Invalid US phone number.' };
     }
     if (code === '+44') {
       return /^[1-9]\d{9,10}$/.test(number)
@@ -64,6 +65,14 @@ function SignIn() {
         valid = false;
       } else {
         message = 'Username looks good!';
+        valid = true;
+      }
+    } else if (name === 'email') {
+      if (!emailRegex.test(value)) {
+        message = 'Please enter a valid email address.';
+        valid = false;
+      } else {
+        message = 'Email looks good!';
         valid = true;
       }
     } else if (name === 'password') {
@@ -103,6 +112,11 @@ function SignIn() {
 
     if (!usernameRegex.test(username)) {
       setError('Username must contain letters, at least one number, and exactly one special character.');
+      return;
+    }
+
+    if (!emailRegex.test(email)) {
+      setError('Invalid email format.');
       return;
     }
 
@@ -155,14 +169,33 @@ function SignIn() {
           <h2 className="login-title">Sign In</h2>
 
           <form onSubmit={handleSubmit}>
-            <input type="text" name="username" placeholder="Username" value={form.username} onChange={handleChange} className="input-field" />
+            <input
+              type="text"
+              name="username"
+              placeholder="Username"
+              value={form.username}
+              onChange={handleChange}
+              className="input-field"
+            />
             {fieldMessages.username && (
               <p className={`live-message-text ${isLiveValid.username ? 'valid' : 'invalid'}`}>
                 {isLiveValid.username ? <FaCheckCircle /> : <FaTimesCircle />} {fieldMessages.username}
               </p>
             )}
 
-            <input type="email" name="email" placeholder="Email" value={form.email} onChange={handleChange} className="input-field" />
+            <input
+              type="email"
+              name="email"
+              placeholder="Email"
+              value={form.email}
+              onChange={handleChange}
+              className={`input-field ${isLiveValid.email === false ? 'invalid' : isLiveValid.email ? 'valid' : ''}`}
+            />
+            {fieldMessages.email && (
+              <p className={`live-message-text ${isLiveValid.email ? 'valid' : 'invalid'}`}>
+                {isLiveValid.email ? <FaCheckCircle /> : <FaTimesCircle />} {fieldMessages.email}
+              </p>
+            )}
 
             <div className="password-field-wrapper">
               <input

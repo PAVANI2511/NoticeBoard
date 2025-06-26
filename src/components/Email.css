@@ -1,0 +1,59 @@
+.email-container {
+  background-color: #ffffff;
+  padding: 30px 40px;
+  border-radius: 15px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  width: 350px;
+  margin: 50px auto;
+  text-align: left;
+}
+.email-container h2 {
+  text-align: center;
+  margin-bottom: 25px;
+  color: #333;
+}
+label {
+  display: block;
+  margin-top: 15px;
+  font-weight: 500;
+}
+
+input {
+  padding: 10px;
+  margin-top: 5px;
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  outline: none;
+}
+
+.button-group {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.send-btn {
+  background-color: #6c63ff;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.close-btn {
+  background-color: #ccc;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.send-btn:hover {
+  background-color: #574dff;
+}
+
+.close-btn:hover {
+  background-color: #b3b3b3;
+}
