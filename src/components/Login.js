@@ -8,16 +8,14 @@ function Login() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-
-  // Real-time validation states
   const [emailValid, setEmailValid] = useState(null);
   const [passwordValid, setPasswordValid] = useState(null);
+  const [emailRequired, setEmailRequired] = useState(false);
+  const [passwordRequired, setPasswordRequired] = useState(false);
 
-  // Email format checker
   const isValidEmail = email =>
     /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
-  // Password rule checker
   const isValidPassword = password =>
     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?#&])[A-Za-z\d@$!%*?#&]{8,}$/.test(password);
 
@@ -25,6 +23,7 @@ function Login() {
     const val = e.target.value;
     setEmail(val);
     setError('');
+    setEmailRequired(false);
     if (!val) setEmailValid(null);
     else setEmailValid(isValidEmail(val));
   };
@@ -33,6 +32,7 @@ function Login() {
     const val = e.target.value;
     setPassword(val);
     setError('');
+    setPasswordRequired(false);
     if (!val) setPasswordValid(null);
     else setPasswordValid(isValidPassword(val));
   };
@@ -40,8 +40,14 @@ function Login() {
   const handleSubmit = async e => {
     e.preventDefault();
 
-    if (!email || !password) {
-      setError('Email and password are required.');
+    const isEmailEmpty = !email;
+    const isPasswordEmpty = !password;
+
+    setEmailRequired(isEmailEmpty);
+    setPasswordRequired(isPasswordEmpty);
+
+    if (isEmailEmpty || isPasswordEmpty) {
+      setError(''); // prevent showing error below button
       return;
     }
 
@@ -70,7 +76,7 @@ function Login() {
 
       if (response.ok) {
         alert('Login successful!');
-        navigate('/dashboard');
+        navigate('/departments');
       } else {
         setError(data.message || 'Invalid credentials. Please check your account.');
       }
@@ -91,7 +97,7 @@ function Login() {
         <div className="login-right">
           <h2 className="login-title">Login</h2>
 
-          <form onSubmit={handleSubmit} autoComplete='off'>
+          <form onSubmit={handleSubmit} autoComplete="off">
             <input
               type="email"
               placeholder="Enter Email"
@@ -99,12 +105,9 @@ function Login() {
               value={email}
               onChange={handleEmailChange}
             />
-            {emailValid === false && (
-              <p className="error-text">Please enter a valid email.</p>
-            )}
-            {emailValid === true && (
-              <p className="success-text">Valid email ✅</p>
-            )}
+            {emailRequired && <p className="error-text">Email is required.</p>}
+            {emailValid === false && <p className="error-text">Please enter a valid email.</p>}
+            {emailValid === true && <p className="success-text">Valid email ✅</p>}
 
             <input
               type="password"
@@ -113,20 +116,22 @@ function Login() {
               value={password}
               onChange={handlePasswordChange}
             />
+            {passwordRequired && <p className="error-text">Password is required.</p>}
             {passwordValid === false && (
               <p className="error-text">
                 Password must be at least 8 characters, and include uppercase, lowercase, number, and special character.
               </p>
             )}
-            {passwordValid === true && (
-              <p className="success-text">Strong password ✅</p>
-            )}
-
-            {error && <p className="error-text">{error}</p>}
+            {passwordValid === true && <p className="success-text">Strong password ✅</p>}
 
             <button type="submit" className="login-btn" disabled={loading}>
               {loading ? 'Logging in...' : 'Log In'}
             </button>
+
+            {/* Show error only if not a required fields issue */}
+            {error && !emailRequired && !passwordRequired && (
+              <p className="error-text">{error}</p>
+            )}
           </form>
 
           <div className="options">
@@ -149,3 +154,4 @@ function Login() {
 }
 
 export default Login;
+
