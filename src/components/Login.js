@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Login.css';
+
 function Login() {
   const navigate = useNavigate();
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -11,36 +13,43 @@ function Login() {
   const [passwordValid, setPasswordValid] = useState(null);
   const [emailRequired, setEmailRequired] = useState(false);
   const [passwordRequired, setPasswordRequired] = useState(false);
-  const isValidEmail = email =>
+
+  const isValidEmail = (email) =>
     /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-  const isValidPassword = password =>
+
+  const isValidPassword = (password) =>
     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?#&])[A-Za-z\d@$!%*?#&]{8,}$/.test(password);
-  const handleEmailChange = e => {
+
+  const handleEmailChange = (e) => {
     const val = e.target.value;
     setEmail(val);
     setError('');
     setEmailRequired(false);
-    if (!val) setEmailValid(null);
-    else setEmailValid(isValidEmail(val));
+    setEmailValid(val ? isValidEmail(val) : null);
   };
-  const handlePasswordChange = e => {
+
+  const handlePasswordChange = (e) => {
     const val = e.target.value;
     setPassword(val);
     setError('');
     setPasswordRequired(false);
-    if (!val) setPasswordValid(null);
-    else setPasswordValid(isValidPassword(val));
+    setPasswordValid(val ? isValidPassword(val) : null);
   };
-  const handleSubmit = async e => {
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
     const isEmailEmpty = !email;
     const isPasswordEmpty = !password;
+
     setEmailRequired(isEmailEmpty);
     setPasswordRequired(isPasswordEmpty);
+
     if (isEmailEmpty || isPasswordEmpty) {
-      setError(''); 
+      setError('');
       return;
     }
+
     if (!isValidEmail(email)) {
       setError('Please enter a valid email address.');
       return;
@@ -50,22 +59,21 @@ function Login() {
       setError('Password does not meet security requirements.');
       return;
     }
+
     try {
       setLoading(true);
 
       const response = await fetch('http://192.168.0.145:8000/api/login/', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ email, password })
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password }),
       });
 
       const data = await response.json();
 
       if (response.ok) {
         alert('Login successful!');
-        navigate('/departments');
+        navigate('/Departments');
       } else {
         setError(data.message || 'Invalid credentials. Please check your account.');
       }
@@ -117,7 +125,6 @@ function Login() {
               {loading ? 'Logging in...' : 'Log In'}
             </button>
 
-            {/* Show error only if not a required fields issue */}
             {error && !emailRequired && !passwordRequired && (
               <p className="error-text">{error}</p>
             )}
@@ -127,7 +134,13 @@ function Login() {
             <label>
               <input type="checkbox" /> Remember me
             </label>
-            <a href="#" className="forgot">Forgot password?</a>
+            <a
+              onClick={() => navigate('/Email')}
+              className="Email"
+              style={{ cursor: 'pointer' }}
+            >
+              Forgot password?
+            </a>
           </div>
 
           <div className="divider">
@@ -135,11 +148,12 @@ function Login() {
           </div>
 
           <p className="register-text">If you are not registered</p>
-          <button className="signin-btn" onClick={() => navigate('/signin')}>Sign In</button>
+          <button className="signin-btn" onClick={() => navigate('/signin')}>
+            Sign In
+          </button>
         </div>
       </div>
     </div>
   );
 }
-
 export default Login;

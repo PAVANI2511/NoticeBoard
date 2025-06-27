@@ -1,12 +1,24 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './Email.css';
 
 const Email = () => {
   const [email, setEmail] = useState("");
+  const navigate = useNavigate();
+
+  const isValidEmail = (email) =>
+    /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    alert("{Password link sent to: ${email}");
+
+    if (!isValidEmail(email)) {
+      alert("Please enter a valid email address.");
+      return;
+    }
+
+    alert(`Password link sent to: ${email}`);
+    navigate('/Password', { state: { email } });
   };
 
   return (
@@ -14,7 +26,7 @@ const Email = () => {
       <h2>Forgot Password</h2>
 
       <form onSubmit={handleSubmit}>
-        <label>email id:</label>
+        <label>Email ID:</label>
         <input
           type="email"
           value={email}

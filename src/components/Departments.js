@@ -1,7 +1,10 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import './Departments.css';
 
 const Departments = () => {
+  const navigate = useNavigate();
+
   const departments = [
     "Computer Science & Engineering (CSE)",
     "Computer Science & Engineering AI & ML (CSM)",
@@ -15,8 +18,9 @@ const Departments = () => {
   ];
 
   const handleClick = (dept) => {
-    alert(`You selected: ${dept}`);
+    navigate('/Year');
   };
+
   return (
     <div className="container">
       <div className="header">Departments</div>

@@ -1,24 +1,25 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./ForgotPassword.css";
-
 const ForgotPassword = () => {
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [message, setMessage] = useState("");
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-
+  const navigate = useNavigate(); 
   const handleSubmit = (e) => {
     e.preventDefault();
-
     if (newPassword !== confirmPassword) {
       setMessage("❌ Passwords do not match");
       return;
     }
-
     setMessage("✅ Password changed successfully!");
     setNewPassword("");
     setConfirmPassword("");
+    setTimeout(() => {
+      navigate("/login");
+    }, 1500);
   };
 
   return (
