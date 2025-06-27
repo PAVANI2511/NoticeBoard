@@ -97,6 +97,8 @@ function Login() {
           <form onSubmit={handleSubmit} autoComplete="off">
             <input
               type="email"
+              name="email"
+              autoComplete="off"
               placeholder="Enter Email"
               className="input-field"
               value={email}
@@ -108,6 +110,8 @@ function Login() {
 
             <input
               type="password"
+              name="password"
+              autoComplete="new-password"
               placeholder="Enter Password"
               className="input-field"
               value={password}
@@ -131,13 +135,13 @@ function Login() {
           </form>
 
           <div className="options">
-            <label>
-              <input type="checkbox" /> Remember me
+            <label className="remember-label">
+              <input type="checkbox" />
+              Remember me
             </label>
             <a
               onClick={() => navigate('/Email')}
               className="Email"
-              style={{ cursor: 'pointer' }}
             >
               Forgot password?
             </a>
@@ -156,4 +160,5 @@ function Login() {
     </div>
   );
 }
+
 export default Login;

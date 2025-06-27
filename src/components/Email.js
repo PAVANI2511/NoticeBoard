@@ -18,7 +18,7 @@ const Email = () => {
     }
 
     alert(`Password link sent to: ${email}`);
-    navigate('/Password', { state: { email } });
+    navigate('/Password');
   };
 
   return (
