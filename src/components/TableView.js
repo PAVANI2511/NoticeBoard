@@ -19,11 +19,11 @@ const TableView = () => {
   const currentData = data.slice(startIndex, startIndex + itemsPerPage);
 
   const goToPreviousPage = () => {
-    if (currentPage > 1) setCurrentPage((prev) => prev - 1);
+    if (currentPage > 1) setCurrentPage(prev => prev - 1);
   };
 
   const goToNextPage = () => {
-    if (currentPage < totalPages) setCurrentPage((prev) => prev + 1);
+    if (currentPage < totalPages) setCurrentPage(prev => prev + 1);
   };
 
   return (
@@ -44,9 +44,7 @@ const TableView = () => {
               {currentData.map((row, rowIndex) => (
                 <tr key={`row-${rowIndex}`}>
                   {headers.map((col, colIndex) => (
-                    <td key={`cell-${rowIndex}-${colIndex}`}>
-                      {row[col] ?? ''}
-                    </td>
+                    <td key={`cell-${rowIndex}-${colIndex}`}>{row[col] ?? ''}</td>
                   ))}
                 </tr>
               ))}
@@ -55,9 +53,9 @@ const TableView = () => {
 
           <div className="pagination-buttons">
             <button onClick={goToPreviousPage} disabled={currentPage === 1}>
-              ◀ Previous
+              ◀ Prev
             </button>
-            <span style={{ margin: '0 10px' }}>
+            <span>
               Page {currentPage} of {totalPages}
             </span>
             <button onClick={goToNextPage} disabled={currentPage === totalPages}>

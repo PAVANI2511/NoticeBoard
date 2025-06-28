@@ -20,11 +20,12 @@
   padding: 12px;
   width: 250px;
   background-color: #e0e0e0;
+  color: black; /* Ensure year text is black */
   border: none;
   border-radius: 25px;
   font-size: 18px;
   cursor: pointer;
-  transition: 0.3s ease;
+  transition: background-color 0.3s ease;
 }
 
 .year-button:hover {

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import './Login.css';
 
 function Login() {
@@ -7,60 +8,67 @@ function Login() {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  const [emailError, setEmailError] = useState('');
+  const [passwordError, setPasswordError] = useState('');
+  const [formError, setFormError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const isValidEmail = (email) =>
     /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
   const isValidPassword = (password) =>
-    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?#&])[A-Za-z\d@$!%*?#&]{8,}$/.test(password);
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%?#&])[A-Za-z\d@$!%?#&]{8,}$/.test(password);
 
   const handleEmailChange = (e) => {
-    setEmail(e.target.value);
-    setError('');
+    const value = e.target.value;
+    setEmail(value);
+    setEmailError(isValidEmail(value) ? '' : 'Invalid email format');
   };
 
   const handlePasswordChange = (e) => {
-    setPassword(e.target.value);
-    setError('');
+    const value = e.target.value;
+    setPassword(value);
+    setPasswordError(
+      isValidPassword(value)
+        ? ''
+        : 'Password must be 8+ chars with uppercase, lowercase, number, and symbol.'
+    );
+  };
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
     if (!email || !password) {
-      setError('Both email and password are required.');
+      setFormError('Both email and password are required.');
       return;
     }
 
-    if (!isValidEmail(email)) {
-      setError('Invalid email format.');
+    if (emailError || passwordError) {
+      setFormError('Fix the above errors before submitting.');
       return;
     }
 
-    if (!isValidPassword(password)) {
-      setError('Password format invalid.');
-      return;
-    }
-
+    setFormError('');
     setLoading(true);
 
     setTimeout(() => {
-      // Offline dummy test credentials
       const storedUsers = JSON.parse(localStorage.getItem('users')) || [];
       const matched = storedUsers.find(
         (user) => user.email === email && user.password === password
       );
 
-      // Hardcoded fallback test account
       if (
         (email === 'test@example.com' && password === 'Test@1234') ||
         matched
       ) {
         navigate('/Departments');
       } else {
-        setError('Invalid credentials. Try test@example.com / Test@1234');
+        setFormError('Invalid credentials. Try test@example.com / Test@1234');
       }
 
       setLoading(false);
@@ -81,24 +89,35 @@ function Login() {
             <input
               type="email"
               placeholder="Enter Email"
-              className="input-field"
+              className={`input-field ${emailError ? 'invalid' : ''}`}
               value={email}
               onChange={handleEmailChange}
             />
+            {emailError && <p className="error-text">{emailError}</p>}
 
-            <input
-              type="password"
-              placeholder="Enter Password"
-              className="input-field"
-              value={password}
-              onChange={handlePasswordChange}
-            />
+            <div className={`password-wrapper ${passwordError ? 'invalid' : ''}`}>
+              <input
+                type={showPassword ? 'text' : 'password'}
+                placeholder="Enter Password"
+                className="input-field password-field"
+                value={password}
+                onChange={handlePasswordChange}
+              />
+              <span className="eye-icon" onClick={togglePasswordVisibility}>
+                {showPassword ? <FaEyeSlash /> : <FaEye />}
+              </span>
+            </div>
+            {passwordError && <p className="error-text">{passwordError}</p>}
 
-            <button type="submit" className="login-btn" disabled={loading}>
+            <button
+              type="submit"
+              className="login-btn"
+              disabled={loading || emailError || passwordError}
+            >
               {loading ? 'Logging in...' : 'Log In'}
             </button>
 
-            {error && <p className="error-text">{error}</p>}
+            {formError && <p className="error-text">{formError}</p>}
           </form>
 
           <div className="options">

@@ -1,60 +1,63 @@
+.departments-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f2f2f2;
+}
 .container {
   font-family: Arial, sans-serif;
-  padding: 0;
   background-color: #fff;
-  border-radius: 10px;
-  max-width: 400px;
-  margin: 40px auto;
-  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  border-radius: 12px;
+  width: 350px;
+  height: 85vh;
+  margin: auto;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.15);
   display: flex;
   flex-direction: column;
-  max-height: 90vh; /* Prevent container from overflowing screen */
+  overflow: hidden;
 }
 .header {
-  background-color: #6c63ff; 
+  background-color: #6c63ff;
   color: #fff;
-  font-size: 24px;
+  font-size: 20px;
   font-weight: bold;
-  padding: 15px;
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
+  padding: 12px;
   text-align: center;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
 }
-
 .buttons {
-  margin-top: 0;
-  padding: 15px;
+  padding: 0 20px 15px 20px;
   overflow-y: auto;
   flex-grow: 1;
-  max-height: 60vh; /* Adjust this as needed */
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
-
-/* Optional scrollbar styling */
 .buttons::-webkit-scrollbar {
-  width: 8px;
+  width: 6px;
 }
-
 .buttons::-webkit-scrollbar-thumb {
   background-color: #aaa;
   border-radius: 4px;
 }
-
 .buttons::-webkit-scrollbar-thumb:hover {
   background: #888;
 }
-
 .dept-button {
-  display: block;
-  width: 100%;
   background-color: #d3d3d3;
   color: #000;
-  font-size: 16px;
-  margin: 10px 0;
-  padding: 15px;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 12px 20px;
   border: none;
   border-radius: 25px;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  text-align: center;
+  width: 100%;
 }
 
 .dept-button:hover {

@@ -54,12 +54,32 @@ body {
 .input-field {
   width: 100%;
   padding: 12px;
+  padding-right: 40px;
   margin: 10px 0;
   border-radius: 8px;
   border: none;
   background-color: #c6c3c3;
   font-size: 16px;
   box-sizing: border-box;
+}
+
+.input-field.invalid {
+  border: 1px solid red;
+}
+
+.password-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.eye-icon {
+  position: absolute;
+  top: 50%;
+  right: 12px;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #333;
+  font-size: 18px;
 }
 
 .login-btn {

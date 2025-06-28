@@ -37,6 +37,7 @@
   border-radius: 8px;
   cursor: pointer;
   font-weight: 500;
+  width: 300px; /* 👈 Match width with .drop-area */
 }
 
 .browse-button:hover,

@@ -1,73 +1,70 @@
 .table-container {
-  max-width: 90%;
+  max-width: 95%;
   margin: 40px auto;
   background-color: #ffffff;
-  padding: 24px;
+  padding: 20px;
   border-radius: 16px;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
   font-family: 'Segoe UI', sans-serif;
 }
 
-/* Table title */
+/* Title */
 .table-container h2 {
   text-align: center;
-  margin-bottom: 20px;
+  margin-bottom: 16px;
   color: #333;
 }
 
-/* The table itself */
+/* Table */
 .styled-table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 16px;
+  font-size: 14px;
   border: 1px solid #ccc;
 }
 
-/* Header row styling */
+/* Table Headers */
 .styled-table th {
   background-color: #4f46e5;
   color: white;
   text-align: left;
-  padding: 12px 16px;
+  padding: 10px;
   border: 1px solid #ccc;
-  position: sticky;
-  top: 0;
-  z-index: 1;
 }
 
-/* Cell styling */
+/* Table Cells */
 .styled-table td {
-  padding: 12px 16px;
+  padding: 10px;
   border: 1px solid #ccc;
   text-align: left;
 }
 
-/* Alternate row shading */
+/* Alternate Row Color */
 .styled-table tbody tr:nth-child(even) {
   background-color: #f9f9f9;
 }
 
-/* Hover effect on rows */
+/* Row Hover Effect */
 .styled-table tbody tr:hover {
   background-color: #f1f1f1;
 }
 
-/* Pagination controls */
+/* Pagination */
 .pagination-buttons {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 24px;
+  gap: 10px;
+  margin-top: 20px;
 }
 
-/* Pagination buttons */
 .pagination-buttons button {
   background-color: #4f46e5;
   color: white;
   border: none;
-  padding: 10px 20px;
-  margin: 0 8px;
+  padding: 6px 12px;
   border-radius: 6px;
+  font-size: 14px;
   cursor: pointer;
   transition: background-color 0.2s ease-in-out;
 }
