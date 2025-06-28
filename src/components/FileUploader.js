@@ -91,7 +91,7 @@ const FileUploader = () => {
         onDrop={handleDrop}
         onDragOver={(e) => e.preventDefault()}
       >
-        <img src="/upload-icon.png" alt="Upload" className="upload-icon" />
+        <img src="/clouds.webp" alt="Upload" className="upload-icon" />
         <p>Drag & Drop file here</p>
         <p>or</p>
         <button className="browse-button" onClick={handleBrowseClick}>
