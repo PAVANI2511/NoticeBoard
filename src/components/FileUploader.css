@@ -1,64 +1,58 @@
-.upload-container {
-  height: 100vh;
+.file-uploader-container {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  font-family: Arial, sans-serif;
   flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  font-family: 'Segoe UI', sans-serif;
 }
 
-.upload-box {
-  width: 280px;
-  height: 280px;
-  border-radius: 20px;
-  background-color: #f0f0f0;
-  border: 2px dashed #999;
+.drop-area {
+  border: 2px dashed #bbb;
+  border-radius: 12px;
+  width: 300px;
+  height: 300px;
+  background-color: #f7f7f7;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 12px;
-  padding: 20px;
-  box-shadow: 0 0 15px rgba(0,0,0,0.05);
-  transition: border 0.3s ease-in-out;
   text-align: center;
+  padding: 20px;
 }
 
 .upload-icon {
-  width: 60px;
-  height: 60px;
-  opacity: 0.7;
+  width: 40px;
+  height: 40px;
+  margin-bottom: 12px;
 }
 
-.browse-btn {
+.browse-button,
+.submit-button {
   background-color: #6c63ff;
   color: white;
+  padding: 10px 24px;
+  margin-top: 10px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.browse-button:hover,
+.submit-button:hover {
+  background-color: #5548d9;
+}
+
+.file-info {
+  margin-top: 16px;
   font-size: 15px;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 10px;
-  cursor: pointer;
-  font-weight: 600;
-  transition: background-color 0.3s ease-in-out;
+  color: #333;
 }
 
-.browse-btn:hover {
-  background-color: #4a42d4;
-}
-
-.submit-btn {
-  margin-top: 25px;
-  background-color: #6c63ff;
-  color: white;
-  font-size: 16px;
-  padding: 12px 45px;
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
-  font-weight: bold;
-  transition: background-color 0.3s ease-in-out;
-}
-
-.submit-btn:hover {
-  background-color: #4a42d4;
+.message {
+  margin-top: 8px;
+  font-size: 14px;
+  color: #333;
+  text-align: center;
 }
