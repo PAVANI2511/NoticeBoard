@@ -45,10 +45,7 @@ function Login() {
     setEmailRequired(isEmailEmpty);
     setPasswordRequired(isPasswordEmpty);
 
-    if (isEmailEmpty || isPasswordEmpty) {
-      setError('');
-      return;
-    }
+    if (isEmailEmpty || isPasswordEmpty) return;
 
     if (!isValidEmail(email)) {
       setError('Please enter a valid email address.');
@@ -63,7 +60,7 @@ function Login() {
     try {
       setLoading(true);
 
-      const response = await fetch('http://192.168.0.145:8000/api/login/', {
+      const response = await fetch('http://127.0.0.1:8000/api/token/', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),
@@ -71,11 +68,12 @@ function Login() {
 
       const data = await response.json();
 
-      if (response.ok) {
-        alert('Login successful!');
+      if (response.ok && data.access) {
+        localStorage.setItem('jwtToken', data.access);
+        localStorage.setItem('refreshToken', data.refresh);
         navigate('/Departments');
       } else {
-        setError(data.message || 'Invalid credentials. Please check your account.');
+        setError(data.detail || 'Invalid credentials. Please check your account.');
       }
     } catch (err) {
       setError('Error connecting to server. Please try again later.');
@@ -139,10 +137,7 @@ function Login() {
               <input type="checkbox" />
               Remember me
             </label>
-            <a
-              onClick={() => navigate('/Email')}
-              className="Email"
-            >
+            <a onClick={() => navigate('/Email')} className="Email">
               Forgot password?
             </a>
           </div>

@@ -151,6 +151,23 @@ body {
   margin-bottom: 10px;
 }
 
+.signin-btn {
+  width: 100%;
+  padding: 12px;
+  background-color: #28a745;
+  color: white;
+  font-weight: bold;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.signin-btn:hover {
+  background-color: #218838;
+}
+
 @media (max-width: 768px) {
   .login-card {
     flex-direction: column;
