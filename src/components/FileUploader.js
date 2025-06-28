@@ -37,20 +37,11 @@ const FileUploader = () => {
       }
 
       const [rawHeaderRow, ...rawDataRows] = allRows;
-
-      // Clean header: remove empty headers
       const headerRow = rawHeaderRow.filter((header) => header !== '');
+      const dataRows = rawDataRows.filter((row) => row.some((cell) => cell !== ''));
 
-      // Remove completely empty rows
-      const dataRows = rawDataRows.filter((row) =>
-        row.some((cell) => cell !== '')
-      );
-
-      // Build data rows based on header length
       const finalData = dataRows.map((row) =>
-        Object.fromEntries(
-          headerRow.map((key, index) => [key, row[index] ?? ''])
-        )
+        Object.fromEntries(headerRow.map((key, index) => [key, row[index] ?? '']))
       );
 
       setHeaders(headerRow);
@@ -81,7 +72,7 @@ const FileUploader = () => {
 
     localStorage.setItem('excelData', JSON.stringify(excelData));
     localStorage.setItem('headers', JSON.stringify(headers));
-    navigate('/table');
+    navigate('/tableview');
   };
 
   return (
