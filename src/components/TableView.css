@@ -53,9 +53,9 @@
 .pagination-buttons {
   display: flex;
   justify-content: center;
-  align-items: center;
-  gap: 10px;
-  margin-top: 20px;
+  align-items: right;
+  gap: 5px;
+  margin-top: 5px;
 }
 
 .pagination-buttons button {
