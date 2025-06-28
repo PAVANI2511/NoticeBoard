@@ -6,17 +6,17 @@ const Year = () => {
   const navigate = useNavigate();
 
   const handleClick = (year) => {
-    navigate('/Section');
+    navigate('/Sections', { state: { selectedYear: year } });
   };
 
   return (
     <div className="container">
       <div className="header">Select Year</div>
 
-      <button className="year-button" onClick={() => handleClick("1st Year")}>1st Year</button>
-      <button className="year-button" onClick={() => handleClick("2nd Year")}>2nd Year</button>
-      <button className="year-button" onClick={() => handleClick("3rd Year")}>3rd Year</button>
-      <button className="year-button" onClick={() => handleClick("4th Year")}>4th Year</button>
+      <button className="year-button" onClick={() => handleClick("1")}>1st Year</button>
+      <button className="year-button" onClick={() => handleClick("2")}>2nd Year</button>
+      <button className="year-button" onClick={() => handleClick("3")}>3rd Year</button>
+      <button className="year-button" onClick={() => handleClick("4")}>4th Year</button>
     </div>
   );
 };

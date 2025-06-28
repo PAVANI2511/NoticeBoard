@@ -101,7 +101,7 @@ function SignIn() {
     setIsLiveValid(prev => ({ ...prev, [name]: valid }));
   };
 
-  const handleSubmit = async e => {
+  const handleSubmit = e => {
     e.preventDefault();
     const { username, email, password, confirmPassword, phoneNo, countryCode } = form;
 
@@ -136,26 +136,23 @@ function SignIn() {
       return;
     }
 
-    try {
-      setLoading(true);
-      const response = await fetch('http://192.168.0.145:8000/api/signup/', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, email, password, phone: phoneNo }),
-      });
+    setLoading(true);
 
-      const data = await response.json();
-      if (response.ok) {
+    setTimeout(() => {
+      const existingUsers = JSON.parse(localStorage.getItem('users')) || [];
+      const alreadyExists = existingUsers.some(user => user.email === email);
+
+      if (alreadyExists) {
+        setError('Email is already registered.');
+      } else {
+        const newUser = { username, email, password, phoneNo };
+        localStorage.setItem('users', JSON.stringify([...existingUsers, newUser]));
         alert('Account created successfully!');
         navigate('/');
-      } else {
-        setError(data.message || 'Something went wrong.');
       }
-    } catch {
-      setError('Error connecting to server.');
-    } finally {
+
       setLoading(false);
-    }
+    }, 1000);
   };
 
   return (
@@ -169,28 +166,14 @@ function SignIn() {
           <h2 className="login-title">Sign In</h2>
 
           <form onSubmit={handleSubmit}>
-            <input
-              type="text"
-              name="username"
-              placeholder="Username"
-              value={form.username}
-              onChange={handleChange}
-              className="input-field"
-            />
+            <input type="text" name="username" placeholder="Username" value={form.username} onChange={handleChange} className="input-field" />
             {fieldMessages.username && (
               <p className={`live-message-text ${isLiveValid.username ? 'valid' : 'invalid'}`}>
                 {isLiveValid.username ? <FaCheckCircle /> : <FaTimesCircle />} {fieldMessages.username}
               </p>
             )}
 
-            <input
-              type="email"
-              name="email"
-              placeholder="Email"
-              value={form.email}
-              onChange={handleChange}
-              className={`input-field ${isLiveValid.email === false ? 'invalid' : isLiveValid.email ? 'valid' : ''}`}
-            />
+            <input type="email" name="email" placeholder="Email" value={form.email} onChange={handleChange} className="input-field" />
             {fieldMessages.email && (
               <p className={`live-message-text ${isLiveValid.email ? 'valid' : 'invalid'}`}>
                 {isLiveValid.email ? <FaCheckCircle /> : <FaTimesCircle />} {fieldMessages.email}

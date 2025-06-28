@@ -9,10 +9,6 @@ function Login() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-  const [emailValid, setEmailValid] = useState(null);
-  const [passwordValid, setPasswordValid] = useState(null);
-  const [emailRequired, setEmailRequired] = useState(false);
-  const [passwordRequired, setPasswordRequired] = useState(false);
 
   const isValidEmail = (email) =>
     /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
@@ -21,65 +17,54 @@ function Login() {
     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?#&])[A-Za-z\d@$!%*?#&]{8,}$/.test(password);
 
   const handleEmailChange = (e) => {
-    const val = e.target.value;
-    setEmail(val);
+    setEmail(e.target.value);
     setError('');
-    setEmailRequired(false);
-    setEmailValid(val ? isValidEmail(val) : null);
   };
 
   const handlePasswordChange = (e) => {
-    const val = e.target.value;
-    setPassword(val);
+    setPassword(e.target.value);
     setError('');
-    setPasswordRequired(false);
-    setPasswordValid(val ? isValidPassword(val) : null);
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
 
-    const isEmailEmpty = !email;
-    const isPasswordEmpty = !password;
-
-    setEmailRequired(isEmailEmpty);
-    setPasswordRequired(isPasswordEmpty);
-
-    if (isEmailEmpty || isPasswordEmpty) return;
+    if (!email || !password) {
+      setError('Both email and password are required.');
+      return;
+    }
 
     if (!isValidEmail(email)) {
-      setError('Please enter a valid email address.');
+      setError('Invalid email format.');
       return;
     }
 
     if (!isValidPassword(password)) {
-      setError('Password does not meet security requirements.');
+      setError('Password format invalid.');
       return;
     }
 
-    try {
-      setLoading(true);
+    setLoading(true);
 
-      const response = await fetch('http://127.0.0.1:8000/api/token/', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password }),
-      });
+    setTimeout(() => {
+      // Offline dummy test credentials
+      const storedUsers = JSON.parse(localStorage.getItem('users')) || [];
+      const matched = storedUsers.find(
+        (user) => user.email === email && user.password === password
+      );
 
-      const data = await response.json();
-
-      if (response.ok && data.access) {
-        localStorage.setItem('jwtToken', data.access);
-        localStorage.setItem('refreshToken', data.refresh);
+      // Hardcoded fallback test account
+      if (
+        (email === 'test@example.com' && password === 'Test@1234') ||
+        matched
+      ) {
         navigate('/Departments');
       } else {
-        setError(data.detail || 'Invalid credentials. Please check your account.');
+        setError('Invalid credentials. Try test@example.com / Test@1234');
       }
-    } catch (err) {
-      setError('Error connecting to server. Please try again later.');
-    } finally {
+
       setLoading(false);
-    }
+    }, 1000);
   };
 
   return (
@@ -95,41 +80,25 @@ function Login() {
           <form onSubmit={handleSubmit} autoComplete="off">
             <input
               type="email"
-              name="email"
-              autoComplete="off"
               placeholder="Enter Email"
               className="input-field"
               value={email}
               onChange={handleEmailChange}
             />
-            {emailRequired && <p className="error-text">Email is required.</p>}
-            {emailValid === false && <p className="error-text">Please enter a valid email.</p>}
-            {emailValid === true && <p className="success-text">Valid email ✅</p>}
 
             <input
               type="password"
-              name="password"
-              autoComplete="new-password"
               placeholder="Enter Password"
               className="input-field"
               value={password}
               onChange={handlePasswordChange}
             />
-            {passwordRequired && <p className="error-text">Password is required.</p>}
-            {passwordValid === false && (
-              <p className="error-text">
-                Password must be at least 8 characters, and include uppercase, lowercase, number, and special character.
-              </p>
-            )}
-            {passwordValid === true && <p className="success-text">Strong password ✅</p>}
 
             <button type="submit" className="login-btn" disabled={loading}>
               {loading ? 'Logging in...' : 'Log In'}
             </button>
 
-            {error && !emailRequired && !passwordRequired && (
-              <p className="error-text">{error}</p>
-            )}
+            {error && <p className="error-text">{error}</p>}
           </form>
 
           <div className="options">
@@ -137,9 +106,9 @@ function Login() {
               <input type="checkbox" />
               Remember me
             </label>
-            <a onClick={() => navigate('/Email')} className="Email">
+            <span className="Email" onClick={() => navigate('/Email')}>
               Forgot password?
-            </a>
+            </span>
           </div>
 
           <div className="divider">
