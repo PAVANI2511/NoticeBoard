@@ -10,7 +10,7 @@ import TableView from './components/TableView';
 import Email from './components/Email';
 import Password from './components/Password';
 import ForgotPassword from './components/ForgotPassword';
-
+import DepartmentStats from './components/DepartmentStats';
 function App() {
   return (
     <Router>
@@ -25,6 +25,7 @@ function App() {
         <Route path="/Email" element={<Email />} />
         <Route path="/Password" element={<Password />} />
         <Route path="/forgotpassword" element={<ForgotPassword />} />
+        <Route path="/departmentstats" element={<DepartmentStats/>}/>
       </Routes>
     </Router>
   );
