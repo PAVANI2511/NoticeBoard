@@ -7,8 +7,10 @@ const Departments = () => {
 
   const departments = [
     "Computer Science & Engineering (CSE)",
-    "Computer Science & Engineering AI & ML (CSM)",
     "Computer Science & Engineering Artificial Intelligence (CAI)",
+    "Computer Science & Engineering AI & ML (CSM)",
+    "Computer Science & Engineering Networks(CSN)",
+    "Computer Science & Engineering Technology(CST)",
     "Computer Science & Engineering Data Science (CSD)",
     "Computer Science & Engineering Cyber Security (CSC)",
     "Electronics And Communication Engineering (ECE)",
