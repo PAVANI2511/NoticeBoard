@@ -4,7 +4,7 @@ import Login from './components/Login';
 import SignIn from './components/SignIn';
 import Departments from './components/Departments';
 import Year from './components/Year';
-import Sections from './components/Sections';
+//import Sections from './components/Sections';
 import FileUploader from './components/FileUploader';
 import TableView from './components/TableView'; 
 import Email from './components/Email';
@@ -19,7 +19,6 @@ function App() {
         <Route path="/signin" element={<SignIn />} />
         <Route path="/departments" element={<Departments />} />
         <Route path="/year" element={<Year />} />
-        <Route path="/sections" element={<Sections />} />
         <Route path="/fileuploader" element={<FileUploader />} />
         <Route path="/tableview" element={<TableView />} /> 
         <Route path="/Email" element={<Email />} />
