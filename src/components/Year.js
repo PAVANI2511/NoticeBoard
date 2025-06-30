@@ -6,7 +6,7 @@ const Year = () => {
   const navigate = useNavigate();
 
   const handleClick = (year) => {
-    navigate('/Sections', { state: { selectedYear: year } });
+    navigate('/FileUploader'); 
   };
 
   return (

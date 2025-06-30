@@ -10,7 +10,7 @@ const Sections = () => {
   const sectionList = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I'];
 
   const handleClick = (section) => {
-    navigate('/FileUploader', {
+    navigate('/dashboard', {
       state: {
         selectedYear,
         selectedSection: section

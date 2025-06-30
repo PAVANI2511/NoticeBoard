@@ -40,6 +40,7 @@ function Login() {
     setShowPassword(!showPassword);
   };
 
+  // ✅ Properly declared handleSubmit function
   const handleSubmit = (e) => {
     e.preventDefault();
 
