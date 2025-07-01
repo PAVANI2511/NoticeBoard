@@ -1,3 +1,4 @@
+// src/components/Departments.js
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Departments.css';
@@ -24,7 +25,20 @@ const Departments = () => {
   };
 
   return (
-    <div className="departments-container">
+    <div
+      className="departments-container"
+      style={{
+        backgroundImage: "url('/wave-haikei.svg')",
+        backgroundSize: 'cover',
+        backgroundRepeat: 'no-repeat',
+        backgroundPosition: 'center',
+        backgroundAttachment: 'fixed',
+        minHeight: '100vh',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center'
+      }}
+    >
       <div className="container">
         <div className="header">Departments</div>
         <div className="buttons">

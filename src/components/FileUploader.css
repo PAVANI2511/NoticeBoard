@@ -1,12 +1,31 @@
+.upload-container {
+  font-family: Arial, sans-serif;
+  background-color: #ffffffee; /* slight transparency to see background */
+  border-radius: 12px;
+  width: 350px;
+  height: 85vh;
+  margin: auto;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+
+/* Centered upload UI */
 .file-uploader-container {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: 100vh;
-  font-family: 'Segoe UI', sans-serif;
+  background-color: #ffffffee; /* semi-transparent white */
+  border-radius: 12px;
+  padding: 30px 20px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  width: 360px;
 }
 
+/* Drop zone for file */
 .drop-area {
   border: 2px dashed #bbb;
   border-radius: 12px;
@@ -21,12 +40,14 @@
   padding: 20px;
 }
 
+/* Upload image inside drop area */
 .upload-icon {
   width: 40px;
   height: 40px;
   margin-bottom: 12px;
 }
 
+/* Buttons */
 .browse-button,
 .submit-button {
   background-color: #6c63ff;
@@ -37,7 +58,8 @@
   border-radius: 8px;
   cursor: pointer;
   font-weight: 500;
-  width: 300px; /* 👈 Match width with .drop-area */
+  width: 300px;
+  transition: background-color 0.3s ease;
 }
 
 .browse-button:hover,
@@ -45,12 +67,14 @@
   background-color: #5548d9;
 }
 
+/* Uploaded file info */
 .file-info {
   margin-top: 16px;
   font-size: 15px;
   color: #333;
 }
 
+/* Upload status or validation messages */
 .message {
   margin-top: 8px;
   font-size: 14px;

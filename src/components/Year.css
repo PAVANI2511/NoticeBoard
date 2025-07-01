@@ -1,9 +1,15 @@
 .container {
-  text-align: center;
-  margin-top: 50px;
-  font-family: 'Segoe UI', sans-serif;
+  font-family: Arial, sans-serif;
+  background-color: #ffffffee; /* slight transparency to see background */
+  border-radius: 12px;
+  width: 350px;
+  height: 85vh;
+  margin: auto;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 }
-
 .header {
   background-color: #3b34ba;
   color: #fff;

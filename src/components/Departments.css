@@ -1,24 +1,18 @@
-.departments-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  background-color: #f2f2f2;
-}
 .container {
   font-family: Arial, sans-serif;
-  background-color: #fff;
+  background-color: #ffffffee; /* slight transparency to see background */
   border-radius: 12px;
   width: 350px;
   height: 85vh;
   margin: auto;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
   display: flex;
   flex-direction: column;
   overflow: hidden;
 }
+
 .header {
-  background-color: #6c63ff;
+  background-color: #5047f9;
   color: #fff;
   font-size: 20px;
   font-weight: bold;
@@ -27,6 +21,7 @@
   border-top-left-radius: 12px;
   border-top-right-radius: 12px;
 }
+
 .buttons {
   padding: 0 20px 15px 20px;
   overflow-y: auto;
@@ -36,16 +31,20 @@
   flex-direction: column;
   gap: 10px;
 }
+
 .buttons::-webkit-scrollbar {
   width: 6px;
 }
+
 .buttons::-webkit-scrollbar-thumb {
   background-color: #aaa;
   border-radius: 4px;
 }
+
 .buttons::-webkit-scrollbar-thumb:hover {
   background: #888;
 }
+
 .dept-button {
   background-color: #d3d3d3;
   color: #000;

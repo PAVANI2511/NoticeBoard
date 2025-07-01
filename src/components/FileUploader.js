@@ -76,38 +76,53 @@ const FileUploader = () => {
   };
 
   return (
-    <div className="file-uploader-container">
-      <div
-        className="drop-area"
-        onDrop={handleDrop}
-        onDragOver={(e) => e.preventDefault()}
-      >
-        <img src="/clouds.webp" alt="Upload" className="upload-icon" />
-        <p>Drag & Drop file here</p>
-        <p>or</p>
-        <button className="browse-button" onClick={handleBrowseClick}>
-          Browse Files
-        </button>
-        <input
-          type="file"
-          accept=".xlsx, .xls"
-          onChange={handleFileChange}
-          ref={fileInputRef}
-          hidden
-        />
-      </div>
-
-      {fileName && (
-        <div className="file-info">
-          📄 <strong>{fileName}</strong>
+    <div
+      className="uploader-container"
+      style={{
+        backgroundImage: "url('/wave-haikei.svg')",
+        backgroundSize: 'cover',
+        backgroundRepeat: 'no-repeat',
+        backgroundPosition: 'center',
+        backgroundAttachment: 'fixed',
+        minHeight: '100vh',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}
+    >
+      <div className="file-uploader-container">
+        <div
+          className="drop-area"
+          onDrop={handleDrop}
+          onDragOver={(e) => e.preventDefault()}
+        >
+          <img src="/clouds.webp" alt="Upload" className="upload-icon" />
+          <p>Drag & Drop file here</p>
+          <p>or</p>
+          <button className="browse-button" onClick={handleBrowseClick}>
+            Browse Files
+          </button>
+          <input
+            type="file"
+            accept=".xlsx, .xls"
+            onChange={handleFileChange}
+            ref={fileInputRef}
+            hidden
+          />
         </div>
-      )}
 
-      {message && <div className="message">{message}</div>}
+        {fileName && (
+          <div className="file-info">
+            📄 <strong>{fileName}</strong>
+          </div>
+        )}
 
-      <button className="submit-button" onClick={handleSubmit}>
-        Submit
-      </button>
+        {message && <div className="message">{message}</div>}
+
+        <button className="submit-button" onClick={handleSubmit}>
+          Submit
+        </button>
+      </div>
     </div>
   );
 };
