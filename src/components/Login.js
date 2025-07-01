@@ -5,14 +5,13 @@ import './Login.css';
 
 function Login() {
   const navigate = useNavigate();
-
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
   const [formError, setFormError] = useState('');
-  const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const isValidEmail = (email) =>
     /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
@@ -40,7 +39,6 @@ function Login() {
     setShowPassword(!showPassword);
   };
 
-  // ✅ Properly declared handleSubmit function
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -85,26 +83,25 @@ function Login() {
 
         <div className="login-right">
           <h2 className="login-title">Login</h2>
-
-          <form onSubmit={handleSubmit} autoComplete="off">
+          <form onSubmit={handleSubmit} autoComplete="off" style={{ width: '100%' }}>
             <input
               type="email"
-              placeholder="Enter Email"
+              placeholder="Email"
               className={`input-field ${emailError ? 'invalid' : ''}`}
               value={email}
               onChange={handleEmailChange}
             />
             {emailError && <p className="error-text">{emailError}</p>}
 
-            <div className={`password-wrapper ${passwordError ? 'invalid' : ''}`}>
+            <div className="password-field-wrapper">
               <input
                 type={showPassword ? 'text' : 'password'}
-                placeholder="Enter Password"
-                className="input-field password-field"
+                placeholder="Password"
+                className={`input-field ${passwordError ? 'invalid' : ''}`}
                 value={password}
                 onChange={handlePasswordChange}
               />
-              <span className="eye-icon" onClick={togglePasswordVisibility}>
+              <span className="password-toggle-icon" onClick={togglePasswordVisibility}>
                 {showPassword ? <FaEyeSlash /> : <FaEye />}
               </span>
             </div>
@@ -112,7 +109,7 @@ function Login() {
 
             <button
               type="submit"
-              className="login-btn"
+              className="visible-login"
               disabled={loading || emailError || passwordError}
             >
               {loading ? 'Logging in...' : 'Log In'}
@@ -123,16 +120,15 @@ function Login() {
 
           <div className="options">
             <label className="remember-label">
-              <input type="checkbox" />
-              Remember me
+              <input type="checkbox" /> Remember me
             </label>
-            <span className="Email" onClick={() => navigate('/Email')}>
-              Forgot password?
-            </span>
+            <span className="Email" onClick={() => navigate('/Email')}>Forgot password?</span>
           </div>
 
           <div className="divider">
-            <hr /> <span>or</span> <hr />
+            <hr />
+            <span>or</span>
+            <hr />
           </div>
 
           <p className="register-text">If you are not registered</p>

@@ -1,3 +1,4 @@
+/* src/components/Login.css */
 body {
   margin: 0;
   padding: 0;
@@ -12,8 +13,6 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 20px;
-  box-sizing: border-box;
 }
 
 .login-card {
@@ -44,7 +43,6 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  flex: none;
 }
 
 .login-title {
@@ -54,23 +52,15 @@ body {
   text-align: center;
 }
 
-.input-container {
-  width: 100%;
-}
-
 .input-field {
   width: 100%;
-  min-width: 0;
-  max-width: 100%;
   padding: 12px;
-  padding-right: 40px;
   margin: 10px 0;
   border-radius: 8px;
   border: none;
   background-color: #c6c3c3;
   font-size: 16px;
   box-sizing: border-box;
-  transition: all 0.3s ease;
 }
 
 .input-field:focus {
@@ -83,22 +73,29 @@ body {
   border: 1px solid red;
 }
 
-.password-wrapper {
+.password-field-wrapper {
   position: relative;
   width: 100%;
 }
 
-.eye-icon {
+.password-toggle-icon {
   position: absolute;
+  right: 16px;
   top: 50%;
-  right: 12px;
   transform: translateY(-50%);
   cursor: pointer;
-  color: #333;
   font-size: 18px;
+  color: #555;
 }
 
-.login-btn {
+.error-text {
+  color: red;
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+.visible-login,
+.signin-btn {
   width: 100%;
   padding: 12px;
   background-color: #7a5ef9;
@@ -112,7 +109,8 @@ body {
   margin-top: 10px;
 }
 
-.login-btn:hover {
+.visible-login:hover,
+.signin-btn:hover {
   background-color: #5a4bd6;
 }
 
@@ -120,21 +118,21 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 14px;
-  margin-top: 16px;
   width: 100%;
-  flex-wrap: nowrap;
+  font-size: 14px;
+  margin-top: 10px;
+  gap: 10px;
 }
 
 .remember-label {
   display: flex;
   align-items: center;
-  font-size: 14px;
+  gap: 6px;
   white-space: nowrap;
+  line-height: 1;
 }
 
 .options input[type="checkbox"] {
-  margin-right: 6px;
   cursor: pointer;
 }
 
@@ -142,7 +140,7 @@ body {
   color: #007bff;
   text-decoration: none;
   cursor: pointer;
-  font-size: 14px;
+  line-height: 1;
 }
 
 .Email:hover {
@@ -173,35 +171,6 @@ body {
   text-align: center;
   margin-bottom: 10px;
   color: #555;
-}
-
-.error-text {
-  color: red;
-  font-size: 14px;
-  margin-bottom: 10px;
-}
-
-.success-text {
-  color: green;
-  font-size: 14px;
-  margin-bottom: 10px;
-}
-
-.signin-btn {
-  width: 100%;
-  padding: 12px;
-  background-color: #28a745;
-  color: white;
-  font-weight: bold;
-  font-size: 16px;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.signin-btn:hover {
-  background-color: #218838;
 }
 
 @media (max-width: 768px) {
