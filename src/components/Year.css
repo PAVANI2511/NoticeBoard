@@ -13,11 +13,11 @@
 .header {
   background-color: #3b34ba;
   color: #fff;
-  padding: 15px 0;
+  padding: 20px 0;
   font-size: 22px;
   border-radius: 10px 10px 0 0;
   margin: 0 auto;
-  width: 300px;
+  width: 100%;
 }
 
 .year-button {

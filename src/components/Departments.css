@@ -3,7 +3,7 @@
   background-color: #ffffffee; /* slight transparency to see background */
   border-radius: 12px;
   width: 350px;
-  height: 85vh;
+ height: 85vh;
   margin: auto;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
   display: flex;
@@ -16,10 +16,11 @@
   color: #fff;
   font-size: 20px;
   font-weight: bold;
-  padding: 12px;
+  padding: 20px;
   text-align: center;
   border-top-left-radius: 12px;
   border-top-right-radius: 12px;
+  
 }
 
 .buttons {
@@ -33,7 +34,7 @@
 }
 
 .buttons::-webkit-scrollbar {
-  width: 6px;
+  width: 5px;
 }
 
 .buttons::-webkit-scrollbar-thumb {
@@ -50,7 +51,7 @@
   color: #000;
   font-size: 14px;
   font-weight: 600;
-  padding: 12px 20px;
+  padding: 12px 30px;
   border: none;
   border-radius: 25px;
   cursor: pointer;
