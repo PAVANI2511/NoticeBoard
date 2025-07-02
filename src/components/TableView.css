@@ -14,7 +14,6 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 16px;
-  
 }
 
 /* Title */
@@ -36,12 +35,16 @@
   cursor: pointer;
   transition: background-color 0.2s ease-in-out;
   margin-left: auto;
-  width:15%;
+  width: 15%;
 }
 
 .stats-button:hover {
   background-color: #45a049;
-  
+}
+
+/* Table Wrapper for Overlay */
+.table-wrapper {
+  position: relative;
 }
 
 /* Table */
@@ -115,4 +118,40 @@
   color: #333;
   padding: 25px;
   white-space: nowrap;
+}
+
+/* Overlay Statistics Card */
+.overlay-card {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(255, 255, 255, 0.97);
+  padding: 24px 32px;
+  border-radius: 12px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+  z-index: 10;
+  text-align: center;
+  font-size: 16px;
+  width: 320px;
+}
+
+.overlay-card h3 {
+  margin: 0 0 12px;
+  color: #333;
+}
+
+.overlay-card button {
+  margin-top: 14px;
+  padding: 8px 16px;
+  background-color: #4f46e5;
+  border: none;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.overlay-card button:hover {
+  background-color: #3730a3;
 }
