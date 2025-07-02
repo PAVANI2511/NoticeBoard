@@ -8,7 +8,6 @@
   font-family: 'Segoe UI', sans-serif;
 }
 
-/* Layout Header */
 .table-header {
   display: flex;
   justify-content: space-between;
@@ -27,31 +26,20 @@
 .right-controls {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
 }
 
 /* Checkbox */
 .select-all-checkbox {
-  transform: scale(1.2);
+  transform: scale(1.4);
   cursor: pointer;
+  vertical-align: middle;
+  margin-top: 2px;
 }
 
-/* Resend Button */
-.resend-button {
-  background-color: #007bff;
-  color: white;
-}
-
-/* Statistics Button */
-.green-button {
-  background-color: #4CAF50;
-  color: white;
-  padding: 8px 20px;
-  min-width: 130px;
-}
-
+/* Buttons */
 .small-button {
-  padding: 8px 12px;
+  padding: 8px 14px;
   border: none;
   border-radius: 6px;
   font-size: 14px;
@@ -59,6 +47,17 @@
   display: flex;
   align-items: center;
   gap: 6px;
+}
+
+.resend-button {
+  background-color: #007bff;
+  color: white;
+}
+
+.green-button {
+  background-color: #4CAF50;
+  color: white;
+  min-width: 140px;
 }
 
 .small-button:hover {

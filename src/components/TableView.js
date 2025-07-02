@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import './TableView.css';
+import { FaPaperPlane, FaChartBar } from 'react-icons/fa';
 
 const TableView = () => {
   const [data, setData] = useState([]);
   const [headers, setHeaders] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 10;
+  const [selectedRows, setSelectedRows] = useState([]);
   const [selectAll, setSelectAll] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
-  const [mailStats, setMailStats] = useState({ sent: 0, notSent: 0 });
+  const itemsPerPage = 10;
 
   useEffect(() => {
     const storedData = JSON.parse(localStorage.getItem('excelData')) || [];
@@ -30,22 +31,33 @@ const TableView = () => {
   };
 
   const handleSelectAll = () => {
+    if (selectAll) {
+      setSelectedRows([]);
+    } else {
+      const pageRowIds = currentData.map((_, index) => index + startIndex);
+      setSelectedRows(pageRowIds);
+    }
     setSelectAll(!selectAll);
   };
 
   const handleResend = () => {
-    alert('Resending emails to all unsent users...');
+    if (selectedRows.length === 0) {
+      alert("⚠️ Please select at least one person to resend.");
+    } else {
+      alert("📧 Resend triggered for selected unsent records.");
+    }
   };
 
   const showStatistics = () => {
-    let sent = 0, notSent = 0;
-    data.forEach(row => {
-      if (row.status === 'sent') sent++;
-      else notSent++;
-    });
-    setMailStats({ sent, notSent });
     setShowPopup(true);
   };
+
+  const closePopup = () => {
+    setShowPopup(false);
+  };
+
+  const countSent = data.filter(row => row.sent === true).length;
+  const countUnsent = data.length - countSent;
 
   return (
     <div className="table-container">
@@ -53,21 +65,23 @@ const TableView = () => {
         <div className="left-controls">
           <input
             type="checkbox"
+            className="select-all-checkbox"
             title="Select All"
             checked={selectAll}
             onChange={handleSelectAll}
-            className="select-all-checkbox"
           />
-          <button className="small-button resend-button" onClick={handleResend} title="Resend Unsent">
-            <span role="img" aria-label="resend">🔁</span> <span>Resend</span>
+          <button className="small-button resend-button" onClick={handleResend}>
+            <FaPaperPlane />
+            Resend
           </button>
         </div>
 
         <h2>📊 Uploaded Excel Data</h2>
 
         <div className="right-controls">
-          <button className="small-button green-button" onClick={showStatistics} title="View Statistics">
-            <span role="img" aria-label="statistics">📈</span> <span>Statistics</span>
+          <button className="small-button green-button" onClick={showStatistics}>
+            <FaChartBar />
+            Statistics
           </button>
         </div>
       </div>
@@ -83,13 +97,18 @@ const TableView = () => {
               </tr>
             </thead>
             <tbody>
-              {currentData.map((row, rowIndex) => (
-                <tr key={`row-${rowIndex}`}>
-                  {headers.map((col, colIndex) => (
-                    <td key={`cell-${rowIndex}-${colIndex}`}>{row[col] ?? ''}</td>
-                  ))}
-                </tr>
-              ))}
+              {currentData.map((row, rowIndex) => {
+                const actualIndex = startIndex + rowIndex;
+                return (
+                  <tr key={`row-${rowIndex}`}>
+                    {headers.map((col, colIndex) => (
+                      <td key={`cell-${rowIndex}-${colIndex}`}>
+                        {row[col] ?? ''}
+                      </td>
+                    ))}
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
 
@@ -112,10 +131,12 @@ const TableView = () => {
       {showPopup && (
         <div className="popup-overlay">
           <div className="popup-content">
-            <h3>📊 Mail Delivery Statistics</h3>
-            <p>✅ Mails Sent: <strong>{mailStats.sent}</strong></p>
-            <p>❌ Mails Not Sent: <strong>{mailStats.notSent}</strong></p>
-            <button className="close-button" onClick={() => setShowPopup(false)}>Close</button>
+            <h3>📊 Mail Statistics</h3>
+            <p><strong>✅ Sent:</strong> {countSent}</p>
+            <p><strong>❌ Not Sent:</strong> {countUnsent}</p>
+            <button className="close-button" onClick={closePopup}>
+              Close
+            </button>
           </div>
         </div>
       )}
