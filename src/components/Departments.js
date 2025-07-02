@@ -10,8 +10,8 @@ const Departments = () => {
     "Computer Science & Engineering (CSE)",
     "Computer Science & Engineering Artificial Intelligence (CAI)",
     "Computer Science & Engineering AI & ML (CSM)",
-    "Computer Science & Engineering Networks(CSN)",
-    "Computer Science & Engineering Technology(CST)",
+    "Computer Science & Engineering Networks (CSN)",
+    "Computer Science & Engineering Technology (CST)",
     "Computer Science & Engineering Data Science (CSD)",
     "Computer Science & Engineering Cyber Security (CSC)",
     "Electronics And Communication Engineering (ECE)",
@@ -26,7 +26,7 @@ const Departments = () => {
 
   return (
     <div
-      className="departments-container"
+      className="departments-background"
       style={{
         backgroundImage: "url('/wave-haikei.svg')",
         backgroundSize: 'cover',
@@ -39,9 +39,9 @@ const Departments = () => {
         alignItems: 'center'
       }}
     >
-      <div className="container">
-        <div className="header">Departments</div>
-        <div className="buttons">
+      <div className="departments-card">
+        <div className="departments-header">Departments</div>
+        <div className="departments-list">
           {departments.map((dept, index) => (
             <button
               key={index}

@@ -1,65 +1,75 @@
-.container {
+/* Full-screen background wrapper */
+.departments-background {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Card container */
+.departments-card {
   font-family: Arial, sans-serif;
-  background-color: #ffffffee; /* slight transparency to see background */
-  border-radius: 12px;
-  width: 350px;
- height: 85vh;
-  margin: auto;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  background-color: #ffffffee; /* slightly transparent */
+  border-radius: 16px;
+  width: 500px;
+  height: 85vh;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
   display: flex;
   flex-direction: column;
   overflow: hidden;
 }
 
-.header {
+/* Header */
+.departments-header {
   background-color: #5047f9;
-  color: #fff;
-  font-size: 20px;
+  color: white;
+  font-size: 22px;
   font-weight: bold;
-  padding: 20px;
+  padding: 22px;
   text-align: center;
-  border-top-left-radius: 12px;
-  border-top-right-radius: 12px;
-  
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
 }
 
-.buttons {
-  padding: 0 20px 15px 20px;
+/* Scrollable department list */
+.departments-list {
+  padding: 20px;
   overflow-y: auto;
   flex-grow: 1;
-  box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 12px;
 }
 
-.buttons::-webkit-scrollbar {
-  width: 5px;
+/* Custom scrollbars */
+.departments-list::-webkit-scrollbar {
+  width: 6px;
 }
 
-.buttons::-webkit-scrollbar-thumb {
+.departments-list::-webkit-scrollbar-thumb {
   background-color: #aaa;
   border-radius: 4px;
 }
 
-.buttons::-webkit-scrollbar-thumb:hover {
+.departments-list::-webkit-scrollbar-thumb:hover {
   background: #888;
 }
 
+/* Department buttons */
 .dept-button {
-  background-color: #d3d3d3;
+  background-color: #e2e2e2;
   color: #000;
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 600;
-  padding: 12px 30px;
+  padding: 12px 20px;
   border: none;
   border-radius: 25px;
   cursor: pointer;
   transition: background-color 0.3s ease;
-  text-align: center;
   width: 100%;
+  text-align: center;
 }
 
 .dept-button:hover {
-  background-color: #c0c0c0;
+  background-color: #cfcfcf;
 }

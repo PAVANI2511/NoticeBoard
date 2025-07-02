@@ -6,7 +6,7 @@ const Year = () => {
   const navigate = useNavigate();
 
   const handleClick = (year) => {
-    navigate('/FileUploader'); 
+    navigate('/FileUploader');
   };
 
   return (
@@ -21,7 +21,7 @@ const Year = () => {
         minHeight: '100vh',
         display: 'flex',
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
       }}
     >
       <div className="container">
