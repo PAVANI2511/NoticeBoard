@@ -26,9 +26,18 @@ const TableView = () => {
     if (currentPage < totalPages) setCurrentPage(prev => prev + 1);
   };
 
+  const showStatistics = () => {
+    alert(`Total Rows: ${data.length}\nHeaders: ${headers.length}`);
+  };
+
   return (
     <div className="table-container">
-      <h2>📊 Uploaded Excel Data</h2>
+      <div className="table-header">
+        <h2>📊 Uploaded Excel Data</h2>
+        <button className="stats-button" onClick={showStatistics}>
+          📈 Statistics
+        </button>
+      </div>
 
       {currentData.length > 0 ? (
         <>
@@ -56,7 +65,7 @@ const TableView = () => {
               ◀ Prev
             </button>
             <span className="page-info">
-              Page <br></br>{currentPage} of {totalPages}
+              Page {currentPage} of {totalPages}
             </span>
             <button onClick={goToNextPage} disabled={currentPage === totalPages}>
               Next ▶
