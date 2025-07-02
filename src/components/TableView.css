@@ -8,11 +8,40 @@
   font-family: 'Segoe UI', sans-serif;
 }
 
-/* Title */
-.table-container h2 {
-  text-align: center;
+/* Header Row with Title and Button */
+.table-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   margin-bottom: 16px;
+  
+}
+
+/* Title */
+.table-header h2 {
+  margin: 0 auto;
   color: #333;
+  flex: 1;
+  text-align: center;
+}
+
+/* Statistics Button */
+.stats-button {
+  background-color: #4CAF50;
+  color: white;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+  margin-left: auto;
+  width:15%;
+}
+
+.stats-button:hover {
+  background-color: #45a049;
+  
 }
 
 /* Table */
@@ -52,13 +81,11 @@
 /* Pagination Container */
 .pagination-buttons {
   display: flex;
-  /* justify-content: flex-end; */
   float: right;
   align-items: center;
   gap: 8px;
   margin-top: 25px;
-  width:30%;
-
+  width: 30%;
 }
 
 /* Pagination Buttons */
@@ -86,7 +113,6 @@
 .page-info {
   font-size: 16px;
   color: #333;
-  padding:25px;
+  padding: 25px;
   white-space: nowrap;
-  
 }
