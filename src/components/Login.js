@@ -1,77 +1,83 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import './Login.css';
 
 function Login() {
   const navigate = useNavigate();
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [emailError, setEmailError] = useState('');
-  const [passwordError, setPasswordError] = useState('');
-  const [formError, setFormError] = useState('');
-  const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [emailValid, setEmailValid] = useState(null);
+  const [passwordValid, setPasswordValid] = useState(null);
+  const [emailRequired, setEmailRequired] = useState(false);
+  const [passwordRequired, setPasswordRequired] = useState(false);
 
-  const isValidEmail = (email) =>
-    /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-
+  const isValidEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
   const isValidPassword = (password) =>
     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%?#&])[A-Za-z\d@$!%?#&]{8,}$/.test(password);
 
   const handleEmailChange = (e) => {
-    const value = e.target.value;
-    setEmail(value);
-    setEmailError(isValidEmail(value) ? '' : 'Invalid email format');
+    const val = e.target.value;
+    setEmail(val);
+    setError('');
+    setEmailRequired(false);
+    setEmailValid(val ? isValidEmail(val) : null);
   };
 
   const handlePasswordChange = (e) => {
-    const value = e.target.value;
-    setPassword(value);
-    setPasswordError(
-      isValidPassword(value)
-        ? ''
-        : 'Password must be 8+ chars with uppercase, lowercase, number, and symbol.'
-    );
+    const val = e.target.value;
+    setPassword(val);
+    setError('');
+    setPasswordRequired(false);
+    setPasswordValid(val ? isValidPassword(val) : null);
   };
 
-  const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
-  };
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!email || !password) {
-      setFormError('Both email and password are required.');
+    const isEmailEmpty = !email;
+    const isPasswordEmpty = !password;
+
+    setEmailRequired(isEmailEmpty);
+    setPasswordRequired(isPasswordEmpty);
+
+    if (isEmailEmpty || isPasswordEmpty) return;
+
+    if (!isValidEmail(email)) {
+      setError('Please enter a valid email address.');
       return;
     }
 
-    if (emailError || passwordError) {
-      setFormError('Fix the above errors before submitting.');
+    if (!isValidPassword(password)) {
+      setError('Password must be 8+ chars with uppercase, lowercase, number, and symbol.');
       return;
     }
 
-    setFormError('');
-    setLoading(true);
+    try {
+      setLoading(true);
 
-    setTimeout(() => {
-      const storedUsers = JSON.parse(localStorage.getItem('users')) || [];
-      const matched = storedUsers.find(
-        (user) => user.email === email && user.password === password
-      );
+      const response = await fetch('http://127.0.0.1:8000/api/token/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password }),
+      });
 
-      if (
-        (email === 'test@example.com' && password === 'Test@1234') ||
-        matched
-      ) {
+      const data = await response.json();
+
+      if (response.ok && data.access) {
+        localStorage.setItem('jwtToken', data.access);
+        localStorage.setItem('refreshToken', data.refresh);
         navigate('/Departments');
       } else {
-        setFormError('Invalid credentials. Try test@example.com / Test@1234');
+        setError(data.detail || 'Invalid credentials. Try again.');
       }
-
+    } catch (err) {
+      setError('Server error. Please try again later.');
+    } finally {
       setLoading(false);
-    }, 1000);
+    }
   };
 
   return (
@@ -83,52 +89,58 @@ function Login() {
 
         <div className="login-right">
           <h2 className="login-title">Login</h2>
-          <form onSubmit={handleSubmit} autoComplete="off" style={{ width: '100%' }}>
+
+          <form onSubmit={handleSubmit} autoComplete="off" className="form-block">
             <input
               type="email"
-              placeholder="Email"
-              className={`input-field ${emailError ? 'invalid' : ''}`}
+              name="email"
+              placeholder="Enter Email"
+              className="input-field"
               value={email}
               onChange={handleEmailChange}
             />
-            {emailError && <p className="error-text">{emailError}</p>}
-
-            <div className="password-field-wrapper">
-              <input
-                type={showPassword ? 'text' : 'password'}
-                placeholder="Password"
-                className={`input-field ${passwordError ? 'invalid' : ''}`}
-                value={password}
-                onChange={handlePasswordChange}
-              />
-              <span className="password-toggle-icon" onClick={togglePasswordVisibility}>
-                {showPassword ? <FaEyeSlash /> : <FaEye />}
-              </span>
+            <div className="validation-msg">
+              {emailRequired && <p className="error-text">Email is required.</p>}
+              {emailValid === false && <p className="error-text">Invalid email format.</p>}
+              {emailValid === true && <p className="success-text">Valid email ✅</p>}
             </div>
-            {passwordError && <p className="error-text">{passwordError}</p>}
 
-            <button
-              type="submit"
-              className="visible-login"
-              disabled={loading || emailError || passwordError}
-            >
+            <input
+              type="password"
+              name="password"
+              placeholder="Enter Password"
+              className="input-field"
+              value={password}
+              onChange={handlePasswordChange}
+            />
+            <div className="validation-msg">
+              {passwordRequired && <p className="error-text">Password is required.</p>}
+              {passwordValid === false && (
+                <p className="error-text">
+                  Must be 8+ characters, with uppercase, lowercase, number, and special symbol.
+                </p>
+              )}
+              {passwordValid === true && <p className="success-text">Strong password ✅</p>}
+            </div>
+
+            <button type="submit" className="visible-login" disabled={loading}>
               {loading ? 'Logging in...' : 'Log In'}
             </button>
 
-            {formError && <p className="error-text">{formError}</p>}
+            {error && <p className="error-text" style={{ marginTop: '10px' }}>{error}</p>}
           </form>
 
           <div className="options">
             <label className="remember-label">
               <input type="checkbox" /> Remember me
             </label>
-            <span className="Email" onClick={() => navigate('/Email')}>Forgot password?</span>
+            <span className="Email" onClick={() => navigate('/Email')}>
+              Forgot password?
+            </span>
           </div>
 
           <div className="divider">
-            <hr />
-            <span>or</span>
-            <hr />
+            <hr /> <span>or</span> <hr />
           </div>
 
           <p className="register-text">If you are not registered</p>
