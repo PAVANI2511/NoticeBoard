@@ -12,7 +12,7 @@ function SignIn() {
     password: '',
     confirmPassword: '',
     countryCode: '+91',
-    phoneNo: '',
+    phone_number: '',
   });
 
   const [error, setError] = useState('');
@@ -48,7 +48,7 @@ function SignIn() {
   const handleChange = e => {
     const { name, value } = e.target;
 
-    if (name === 'phoneNo') {
+    if (name === 'phone_number') {
       const maxLen = form.countryCode === '+44' ? 11 : 10;
       if (value.length > maxLen) return;
     }
@@ -91,7 +91,7 @@ function SignIn() {
         message = 'Passwords match!';
         valid = true;
       }
-    } else if (name === 'phoneNo') {
+    } else if (name === 'phone_number') {
       const result = validatePhone(form.countryCode, value);
       message = result.message;
       valid = result.valid;
@@ -101,17 +101,17 @@ function SignIn() {
     setIsLiveValid(prev => ({ ...prev, [name]: valid }));
   };
 
-  const handleSubmit = e => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const { username, email, password, confirmPassword, phoneNo, countryCode } = form;
+    const { username, email, password, confirmPassword, phone_number, countryCode } = form;
 
-    if (!username || !email || !password || !confirmPassword || !phoneNo) {
+    if (!username || !email || !password || !confirmPassword || !phone_number) {
       setError('All fields are required.');
       return;
     }
 
     if (!usernameRegex.test(username)) {
-      setError('Username must contain letters, at least one number, and exactly one special character.');
+      setError('Username must contain letters, a number, and exactly one special character.');
       return;
     }
 
@@ -130,29 +130,43 @@ function SignIn() {
       return;
     }
 
-    const phoneCheck = validatePhone(countryCode, phoneNo);
+    const phoneCheck = validatePhone(countryCode, phone_number);
     if (!phoneCheck.valid) {
       setError(phoneCheck.message);
       return;
     }
 
     setLoading(true);
+    setError('');
 
-    setTimeout(() => {
-      const existingUsers = JSON.parse(localStorage.getItem('users')) || [];
-      const alreadyExists = existingUsers.some(user => user.email === email);
+    try {
+      const response = await fetch('http://localhost:8000/api/auth/register/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          username,
+          email,
+          phone_number,
+          password,
+          password_confirm: confirmPassword,
+        }),
+      });
 
-      if (alreadyExists) {
-        setError('Email is already registered.');
+      const data = await response.json();
+
+      if (!response.ok) {
+        setError(data.error || 'Registration failed.');
       } else {
-        const newUser = { username, email, password, phoneNo };
-        localStorage.setItem('users', JSON.stringify([...existingUsers, newUser]));
         alert('Account created successfully!');
         navigate('/');
       }
-
+    } catch (err) {
+      setError('Something went wrong. Please try again.');
+    } finally {
       setLoading(false);
-    }, 1000);
+    }
   };
 
   return (
@@ -226,16 +240,16 @@ function SignIn() {
               </select>
               <input
                 type="tel"
-                name="phoneNo"
+                name="phone_number"
                 placeholder="Phone Number"
-                value={form.phoneNo}
+                value={form.phone_number}
                 onChange={handleChange}
                 className="phone-number-input"
               />
             </div>
-            {fieldMessages.phoneNo && (
-              <p className={`live-message-text ${isLiveValid.phoneNo ? 'valid' : 'invalid'}`}>
-                {isLiveValid.phoneNo ? <FaCheckCircle /> : <FaTimesCircle />} {fieldMessages.phoneNo}
+            {fieldMessages.phone_number && (
+              <p className={`live-message-text ${isLiveValid.phone_number ? 'valid' : 'invalid'}`}>
+                {isLiveValid.phone_number ? <FaCheckCircle /> : <FaTimesCircle />} {fieldMessages.phone_number}
               </p>
             )}
 
