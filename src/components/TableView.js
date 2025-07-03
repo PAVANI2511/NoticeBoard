@@ -84,7 +84,7 @@ const TableView = () => {
             <button onClick={goToPreviousPage} disabled={currentPage === 1}>
               ◀ Prev
             </button>
-            <span className="page-info">Page {currentPage} of {totalPages}</span>
+            <span className="page-info">Page <br></br> {currentPage} of {totalPages}</span>
             <button onClick={goToNextPage} disabled={currentPage === totalPages}>
               Next ▶
             </button>
