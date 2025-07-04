@@ -16,10 +16,11 @@ function Login() {
   const [passwordRequired, setPasswordRequired] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
+  // ❌ Always clear tokens on load so login is shown every time
   useEffect(() => {
-    const token = localStorage.getItem('jwtToken');
-    if (token) navigate('/Departments');
-  }, [navigate]);
+    localStorage.removeItem('jwtToken');
+    localStorage.removeItem('refreshToken');
+  }, []);
 
   const isValidEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
   const isValidPassword = (password) =>
@@ -72,13 +73,12 @@ function Login() {
       });
 
       const data = await response.json();
-      console.log('Login response:', data); // 🔍 Debug output
+      console.log('Login response:', data);
 
       if (response.ok && data.tokens) {
         localStorage.setItem('jwtToken', data.tokens.access);
         localStorage.setItem('refreshToken', data.tokens.refresh);
         navigate('/Departments');
-      
       } else {
         setError(data.detail || 'Invalid credentials. Try again.');
       }
