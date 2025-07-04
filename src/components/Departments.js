@@ -1,7 +1,7 @@
-// src/components/Departments.js
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Departments.css';
+import Navbar from './Navbar'; // ✅ Import your Navbar component
 
 const Departments = () => {
   const navigate = useNavigate();
@@ -25,35 +25,40 @@ const Departments = () => {
   };
 
   return (
-    <div
-      className="departments-background"
-      style={{
-        backgroundImage: "url('/wave-haikei.svg')",
-        backgroundSize: 'cover',
-        backgroundRepeat: 'no-repeat',
-        backgroundPosition: 'center',
-        backgroundAttachment: 'fixed',
-        minHeight: '100vh',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center'
-      }}
-    >
-      <div className="departments-card">
-        <div className="departments-header">Departments</div>
-        <div className="departments-list">
-          {departments.map((dept, index) => (
-            <button
-              key={index}
-              className="dept-button"
-              onClick={() => handleClick(dept)}
-            >
-              {dept}
-            </button>
-          ))}
+    <>
+      <Navbar /> {/* ✅ Add Navbar here */}
+
+      <div
+        className="departments-background"
+        style={{
+          backgroundImage: "url('/wave-haikei.svg')",
+          backgroundSize: 'cover',
+          backgroundRepeat: 'no-repeat',
+          backgroundPosition: 'center',
+          backgroundAttachment: 'fixed',
+          minHeight: '100vh',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          paddingTop: '60px' // ✅ to prevent overlap with sticky navbar
+        }}
+      >
+        <div className="departments-card">
+          <div className="departments-header">Departments</div>
+          <div className="departments-list">
+            {departments.map((dept, index) => (
+              <button
+                key={index}
+                className="dept-button"
+                onClick={() => handleClick(dept)}
+              >
+                {dept}
+              </button>
+            ))}
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 
