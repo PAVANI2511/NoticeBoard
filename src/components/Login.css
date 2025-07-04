@@ -167,6 +167,26 @@ body {
   min-height: 20px;
 }
 
+/* 👁 Eye icon and password input wrapper */
+.password-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.password-input {
+  padding-right: 40px;
+}
+
+.toggle-icon {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  font-size: 1.1rem;
+  color: #555;
+}
+
 @media (max-width: 768px) {
   .login-card {
     flex-direction: column;

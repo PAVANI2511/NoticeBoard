@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Login.css';
+import { FaEye } from 'react-icons/fa';
 
 function Login() {
   const navigate = useNavigate();
@@ -13,6 +14,12 @@ function Login() {
   const [passwordValid, setPasswordValid] = useState(null);
   const [emailRequired, setEmailRequired] = useState(false);
   const [passwordRequired, setPasswordRequired] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+
+  useEffect(() => {
+    const token = localStorage.getItem('jwtToken');
+    if (token) navigate('/Departments');
+  }, [navigate]);
 
   const isValidEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
   const isValidPassword = (password) =>
@@ -51,29 +58,32 @@ function Login() {
     }
 
     if (!isValidPassword(password)) {
-      setError('Password must be 8+ chars with uppercase, lowercase, number, and symbol.');
+      setError('Password must include uppercase, lowercase, number, and special character.');
       return;
     }
 
     try {
       setLoading(true);
 
-      const response = await fetch('http://127.0.0.1:8000/api/token/', {
+      const response = await fetch('http://localhost:8000/api/auth/login/', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),
       });
 
       const data = await response.json();
+      console.log('Login response:', data); // 🔍 Debug output
 
-      if (response.ok && data.access) {
-        localStorage.setItem('jwtToken', data.access);
-        localStorage.setItem('refreshToken', data.refresh);
+      if (response.ok && data.tokens) {
+        localStorage.setItem('jwtToken', data.tokens.access);
+        localStorage.setItem('refreshToken', data.tokens.refresh);
         navigate('/Departments');
+      
       } else {
         setError(data.detail || 'Invalid credentials. Try again.');
       }
     } catch (err) {
+      console.error('Login error:', err);
       setError('Server error. Please try again later.');
     } finally {
       setLoading(false);
@@ -98,6 +108,7 @@ function Login() {
               className="input-field"
               value={email}
               onChange={handleEmailChange}
+              aria-label="Email"
             />
             <div className="validation-msg">
               {emailRequired && <p className="error-text">Email is required.</p>}
@@ -105,19 +116,30 @@ function Login() {
               {emailValid === true && <p className="success-text">Valid email ✅</p>}
             </div>
 
-            <input
-              type="password"
-              name="password"
-              placeholder="Enter Password"
-              className="input-field"
-              value={password}
-              onChange={handlePasswordChange}
-            />
+            <div className="password-wrapper">
+              <input
+                type={showPassword ? 'text' : 'password'}
+                name="password"
+                placeholder="Enter Password"
+                className="input-field password-input"
+                value={password}
+                onChange={handlePasswordChange}
+                aria-label="Password"
+              />
+              <span
+                className="toggle-icon"
+                onClick={() => setShowPassword(!showPassword)}
+                title={showPassword ? 'Hide password' : 'Show password'}
+              >
+                <FaEye />
+              </span>
+            </div>
+
             <div className="validation-msg">
               {passwordRequired && <p className="error-text">Password is required.</p>}
               {passwordValid === false && (
                 <p className="error-text">
-                  Must be 8+ characters, with uppercase, lowercase, number, and special symbol.
+                  Password must include uppercase, lowercase, number, and special character.
                 </p>
               )}
               {passwordValid === true && <p className="success-text">Strong password ✅</p>}
