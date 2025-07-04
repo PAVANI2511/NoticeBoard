@@ -11,6 +11,7 @@ import Email from './components/Email';
 import Password from './components/Password';
 import ForgotPassword from './components/ForgotPassword';
 //import DepartmentStats from './components/DepartmentStats';
+import AdminProfile from './components/profile';
 function App() {
   return (
     <Router>
@@ -24,6 +25,7 @@ function App() {
         <Route path="/Email" element={<Email />} />
         <Route path="/Password" element={<Password />} />
         <Route path="/forgotpassword" element={<ForgotPassword />} />
+        <Route path="/profile" element={<AdminProfile />} />
       </Routes>
     </Router>
   );

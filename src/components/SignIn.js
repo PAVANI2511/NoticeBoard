@@ -1,7 +1,13 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './SignIn.css';
-import { FaCheckCircle, FaTimesCircle, FaEye, FaEyeSlash } from 'react-icons/fa';
+import {
+  FaCheckCircle,
+  FaTimesCircle,
+  FaEye,
+  FaEyeSlash,
+  FaUserCircle
+} from 'react-icons/fa';
 
 function SignIn() {
   const navigate = useNavigate();
@@ -21,6 +27,7 @@ function SignIn() {
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [showMenu, setShowMenu] = useState(false);
 
   const strongPasswordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%?#&])[A-Za-z\d@$!%?#&]{8,}$/;
   const usernameRegex = /^(?=[A-Za-z\d@$!%?#&]{5,})(?=(?:[^@$!%?#&]*[@$!%?#&][^@$!%?#&]*)$)(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*?#&]+$/;
@@ -169,106 +176,122 @@ function SignIn() {
     }
   };
 
+  const handleLogout = () => {
+    alert('Logged out!');
+    navigate('/');
+  };
+
   return (
-    <div className="card-wrapper">
-      <div className="login-card">
-        <div className="login-left">
-          <img src="/smartboard.jpg" alt="Sign In Visual" className="left-image" />
-        </div>
+    <>
+      {/* Profile Icon & Dropdown */}
+      <div className="profile-icon-wrapper">
+        <FaUserCircle className="profile-icon" onClick={() => setShowMenu(!showMenu)} />
+        {showMenu && (
+          <div className="dropdown-menu">
+            <div className="dropdown-item" onClick={() => navigate('/profile')}>Profile</div>
+            <div className="dropdown-item" onClick={handleLogout}>Logout</div>
+          </div>
+        )}
+      </div>
 
-        <div className="login-right">
-          <h2 className="login-title">Sign In</h2>
-
-          <form onSubmit={handleSubmit}>
-            <input type="text" name="username" placeholder="Username" value={form.username} onChange={handleChange} className="input-field" />
-            {fieldMessages.username && (
-              <p className={`live-message-text ${isLiveValid.username ? 'valid' : 'invalid'}`}>
-                {isLiveValid.username ? <FaCheckCircle /> : <FaTimesCircle />} {fieldMessages.username}
-              </p>
-            )}
-
-            <input type="email" name="email" placeholder="Email" value={form.email} onChange={handleChange} className="input-field" />
-            {fieldMessages.email && (
-              <p className={`live-message-text ${isLiveValid.email ? 'valid' : 'invalid'}`}>
-                {isLiveValid.email ? <FaCheckCircle /> : <FaTimesCircle />} {fieldMessages.email}
-              </p>
-            )}
-
-            <div className="password-field-wrapper">
-              <input
-                type={showPassword ? 'text' : 'password'}
-                name="password"
-                placeholder="Create Password"
-                value={form.password}
-                onChange={handleChange}
-                className="input-field"
-              />
-              <span className="password-toggle-icon" onClick={() => setShowPassword(!showPassword)}>
-                {showPassword ? <FaEyeSlash /> : <FaEye />}
-              </span>
-            </div>
-            {fieldMessages.password && (
-              <p className={`live-message-text ${isLiveValid.password ? 'valid' : 'invalid'}`}>
-                {isLiveValid.password ? <FaCheckCircle /> : <FaTimesCircle />} {fieldMessages.password}
-              </p>
-            )}
-
-            <div className="password-field-wrapper">
-              <input
-                type={showConfirmPassword ? 'text' : 'password'}
-                name="confirmPassword"
-                placeholder="Confirm Password"
-                value={form.confirmPassword}
-                onChange={handleChange}
-                className="input-field"
-              />
-              <span className="password-toggle-icon" onClick={() => setShowConfirmPassword(!showConfirmPassword)}>
-                {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
-              </span>
-            </div>
-            {fieldMessages.confirmPassword && (
-              <p className={`live-message-text ${isLiveValid.confirmPassword ? 'valid' : 'invalid'}`}>
-                {isLiveValid.confirmPassword ? <FaCheckCircle /> : <FaTimesCircle />} {fieldMessages.confirmPassword}
-              </p>
-            )}
-
-            <div className="combined-phone-field">
-              <select name="countryCode" value={form.countryCode} onChange={handleChange} className="country-select">
-                <option value="+91">🇮🇳 +91</option>
-                <option value="+1">🇺🇸 +1</option>
-                <option value="+44">🇬🇧 +44</option>
-              </select>
-              <input
-                type="tel"
-                name="phone_number"
-                placeholder="Phone Number"
-                value={form.phone_number}
-                onChange={handleChange}
-                className="phone-number-input"
-              />
-            </div>
-            {fieldMessages.phone_number && (
-              <p className={`live-message-text ${isLiveValid.phone_number ? 'valid' : 'invalid'}`}>
-                {isLiveValid.phone_number ? <FaCheckCircle /> : <FaTimesCircle />} {fieldMessages.phone_number}
-              </p>
-            )}
-
-            {error && <p className="error-text">{error}</p>}
-
-            <button type="submit" className="signin-btn" disabled={loading}>
-              {loading ? 'Creating Account...' : 'Create Account'}
-            </button>
-          </form>
-
-          <div className="divider">
-            <hr /> <span>or</span> <hr />
+      {/* Sign In Form */}
+      <div className="card-wrapper">
+        <div className="login-card">
+          <div className="login-left">
+            <img src="/smartboard.jpg" alt="Sign In Visual" className="left-image" />
           </div>
 
-          <p className="register-text">Already have an account?</p>
-          <button className="login-btn visible-login" onClick={() => navigate('/')}>Log In</button>
+          <div className="login-right">
+            <h2 className="login-title">Sign In</h2>
+
+            <form onSubmit={handleSubmit}>
+              <input type="text" name="username" placeholder="Username" value={form.username} onChange={handleChange} className="input-field" />
+              {fieldMessages.username && (
+                <p className={`live-message-text ${isLiveValid.username ? 'valid' : 'invalid'}`}>
+                  {isLiveValid.username ? <FaCheckCircle /> : <FaTimesCircle />} {fieldMessages.username}
+                </p>
+              )}
+
+              <input type="email" name="email" placeholder="Email" value={form.email} onChange={handleChange} className="input-field" />
+              {fieldMessages.email && (
+                <p className={`live-message-text ${isLiveValid.email ? 'valid' : 'invalid'}`}>
+                  {isLiveValid.email ? <FaCheckCircle /> : <FaTimesCircle />} {fieldMessages.email}
+                </p>
+              )}
+
+              <div className="password-field-wrapper">
+                <input
+                  type={showPassword ? 'text' : 'password'}
+                  name="password"
+                  placeholder="Create Password"
+                  value={form.password}
+                  onChange={handleChange}
+                  className="input-field"
+                />
+                <span className="password-toggle-icon" onClick={() => setShowPassword(!showPassword)}>
+                  {showPassword ? <FaEyeSlash /> : <FaEye />}
+                </span>
+              </div>
+              {fieldMessages.password && (
+                <p className={`live-message-text ${isLiveValid.password ? 'valid' : 'invalid'}`}>
+                  {isLiveValid.password ? <FaCheckCircle /> : <FaTimesCircle />} {fieldMessages.password}
+                </p>
+              )}
+
+              <div className="password-field-wrapper">
+                <input
+                  type={showConfirmPassword ? 'text' : 'password'}
+                  name="confirmPassword"
+                  placeholder="Confirm Password"
+                  value={form.confirmPassword}
+                  onChange={handleChange}
+                  className="input-field"
+                />
+                <span className="password-toggle-icon" onClick={() => setShowConfirmPassword(!showConfirmPassword)}>
+                  {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
+                </span>
+              </div>
+              {fieldMessages.confirmPassword && (
+                <p className={`live-message-text ${isLiveValid.confirmPassword ? 'valid' : 'invalid'}`}>
+                  {isLiveValid.confirmPassword ? <FaCheckCircle /> : <FaTimesCircle />} {fieldMessages.confirmPassword}
+                </p>
+              )}
+
+              <div className="combined-phone-field">
+                <select name="countryCode" value={form.countryCode} onChange={handleChange} className="country-select">
+                  <option value="+91">🇮🇳 +91</option>
+                  <option value="+1">🇺🇸 +1</option>
+                  <option value="+44">🇬🇧 +44</option>
+                </select>
+                <input
+                  type="tel"
+                  name="phone_number"
+                  placeholder="Phone Number"
+                  value={form.phone_number}
+                  onChange={handleChange}
+                  className="phone-number-input"
+                />
+              </div>
+              {fieldMessages.phone_number && (
+                <p className={`live-message-text ${isLiveValid.phone_number ? 'valid' : 'invalid'}`}>
+                  {isLiveValid.phone_number ? <FaCheckCircle /> : <FaTimesCircle />} {fieldMessages.phone_number}
+                </p>
+              )}
+
+              {error && <p className="error-text">{error}</p>}
+
+              <button type="submit" className="signin-btn" disabled={loading}>
+                {loading ? 'Creating Account...' : 'Create Account'}
+              </button>
+            </form>
+
+            <div className="divider"><hr /><span>or</span><hr /></div>
+            <p className="register-text">Already have an account?</p>
+            <button className="login-btn visible-login" onClick={() => navigate('/')}>Log In</button>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 
