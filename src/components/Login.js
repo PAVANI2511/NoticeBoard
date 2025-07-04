@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Login.css';
-import { FaEye } from 'react-icons/fa';
+import { FaEye, FaUserCircle } from 'react-icons/fa';
 
 function Login() {
   const navigate = useNavigate();
@@ -15,8 +15,8 @@ function Login() {
   const [emailRequired, setEmailRequired] = useState(false);
   const [passwordRequired, setPasswordRequired] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
 
-  // ❌ Always clear tokens on load so login is shown every time
   useEffect(() => {
     localStorage.removeItem('jwtToken');
     localStorage.removeItem('refreshToken');
@@ -40,6 +40,16 @@ function Login() {
     setError('');
     setPasswordRequired(false);
     setPasswordValid(val ? isValidPassword(val) : null);
+  };
+
+  const toggleMenu = () => {
+    setMenuOpen((prev) => !prev);
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem('jwtToken');
+    localStorage.removeItem('refreshToken');
+    navigate('/');
   };
 
   const handleSubmit = async (e) => {
@@ -92,6 +102,17 @@ function Login() {
 
   return (
     <div className="card-wrapper">
+      {/* ✅ Top bar */}
+      <div className="user-menu">
+        <FaUserCircle className="menu-icon" onClick={toggleMenu} />
+        {menuOpen && (
+          <div className="menu-dropdown">
+            <span onClick={() => navigate('/profile')}>Profile</span>
+            <span onClick={handleLogout}>Logout</span>
+          </div>
+        )}
+      </div>
+
       <div className="login-card">
         <div className="login-left">
           <img src="/smartboard.jpg" alt="Login Visual" className="left-image" />

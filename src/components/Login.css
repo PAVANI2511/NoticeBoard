@@ -1,3 +1,4 @@
+/* Reset & Page */
 body {
   margin: 0;
   padding: 0;
@@ -7,18 +8,60 @@ body {
   overflow: hidden;
 }
 
+/* Wrapper */
 .card-wrapper {
   height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
+  position: relative;
 }
 
+/* Top-right user menu */
+.user-menu {
+  position: absolute;
+  top: 16px;
+  right: 24px;
+  cursor: pointer;
+  z-index: 10;
+}
+
+.menu-icon {
+  font-size: 26px;
+  color: #444;
+}
+
+.menu-dropdown {
+  position: absolute;
+  top: 48px;
+  right: 0;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 99;
+  min-width: 120px;
+  text-align: left;
+}
+
+.menu-dropdown span {
+  display: block;
+  padding: 10px 16px;
+  font-size: 14px;
+  color: #333;
+  cursor: pointer;
+}
+
+.menu-dropdown span:hover {
+  background-color: #f0f0f0;
+}
+
+/* Card Layout */
 .login-card {
   display: flex;
   width: 800px;
   height: 600px;
-  background-color: white;
+  background-color: #fff;
   border-radius: 16px;
   overflow: hidden;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
@@ -34,6 +77,7 @@ body {
   object-fit: cover;
 }
 
+/* Right Side */
 .login-right {
   width: 50%;
   padding: 30px;
@@ -51,14 +95,17 @@ body {
   text-align: center;
 }
 
+/* Form Styling */
 .form-block {
   width: 100%;
+  max-width: 320px;
+  margin: 0 auto;
 }
 
 .input-field {
   width: 100%;
-  padding: 12px;
-  margin: 10px 0 4px;
+  padding: 14px;
+  margin: 10px 0;
   border-radius: 8px;
   border: none;
   background-color: #c6c3c3;
@@ -72,10 +119,36 @@ body {
   box-shadow: 0 0 0 2px #7a5ef9;
 }
 
+.input-field.invalid {
+  border: 1px solid red;
+  background-color: #fdf2f2;
+}
+
+/* Password Field */
+.password-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.password-input {
+  padding-right: 44px;
+}
+
+.toggle-icon {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  font-size: 1.2rem;
+  color: #555;
+}
+
+/* Button Styling */
 .visible-login,
 .signin-btn {
   width: 100%;
-  padding: 12px;
+  padding: 14px;
   background-color: #7a5ef9;
   color: white;
   font-weight: bold;
@@ -92,6 +165,7 @@ body {
   background-color: #5a4bd6;
 }
 
+/* Options */
 .options {
   display: flex;
   justify-content: space-between;
@@ -125,6 +199,7 @@ body {
   text-decoration: underline;
 }
 
+/* Divider */
 .divider {
   display: flex;
   align-items: center;
@@ -144,6 +219,7 @@ body {
   padding: 0 10px;
 }
 
+/* Text */
 .register-text {
   font-size: 14px;
   text-align: center;
@@ -167,26 +243,7 @@ body {
   min-height: 20px;
 }
 
-/* 👁 Eye icon and password input wrapper */
-.password-wrapper {
-  position: relative;
-  width: 100%;
-}
-
-.password-input {
-  padding-right: 40px;
-}
-
-.toggle-icon {
-  position: absolute;
-  right: 14px;
-  top: 50%;
-  transform: translateY(-50%);
-  cursor: pointer;
-  font-size: 1.1rem;
-  color: #555;
-}
-
+/* Responsive */
 @media (max-width: 768px) {
   .login-card {
     flex-direction: column;
@@ -202,5 +259,15 @@ body {
 
   .login-right {
     padding: 20px;
+  }
+
+  .user-menu {
+    top: 12px;
+    right: 12px;
+  }
+
+  .menu-dropdown {
+    top: 44px;
+    right: 0;
   }
 }
