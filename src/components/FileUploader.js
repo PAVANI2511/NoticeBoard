@@ -2,7 +2,7 @@ import React, { useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import * as XLSX from 'xlsx';
 import './FileUploader.css';
-
+import Navbar from './Navbar';
 const FileUploader = () => {
   const fileInputRef = useRef();
   const [fileName, setFileName] = useState('');
@@ -76,6 +76,7 @@ const FileUploader = () => {
   };
 
   return (
+   
     <div
       className="uploader-container"
       style={{

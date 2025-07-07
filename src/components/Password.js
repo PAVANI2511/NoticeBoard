@@ -93,12 +93,13 @@ const handleVerifyOtp = async () => {
         autoFocus
       />
       <div className="button-row">
-        <button onClick={handleVerifyOtp} className="verify-btn" disabled={loading || otp.length !== 6}>
-          {loading ? 'Verifying...' : 'Verify OTP'}
-        </button>
         <button onClick={handleResendOtp} className="resend-btn" disabled={loading || resendCooldown > 0}>
           {resendCooldown > 0 ? `Resend in ${resendCooldown}s` : 'Resend OTP'}
         </button>
+        <button onClick={handleVerifyOtp} className="verify-btn" disabled={loading || otp.length !== 6}>
+          {loading ? 'Verifying...' : 'Verify OTP'}
+        </button>
+        
       </div>
       {resendMsg && <p className="success-text">{resendMsg}</p>}
       {error && <p className="error-text">{error}</p>}

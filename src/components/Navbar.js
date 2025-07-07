@@ -7,19 +7,59 @@ const Navbar = () => {
   const [showMenu, setShowMenu] = useState(false);
   const navigate = useNavigate();
 
-  const handleLogout = () => {
-    alert('Logged out!');
-    navigate('/');
+  const handleLogout = async () => {
+    const accessToken = localStorage.getItem('jwtToken');
+    const refreshToken = localStorage.getItem('refreshToken');
+
+    if (!accessToken || !refreshToken) {
+      alert("You're already logged out.");
+      navigate('/');
+      return;
+    }
+
+    try {
+      const response = await fetch('http://localhost:8000/api/auth/logout/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${accessToken}`,
+        },
+        body: JSON.stringify({ refresh_token: refreshToken }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        // Clear tokens on successful logout
+        localStorage.removeItem('jwtToken');
+        localStorage.removeItem('refreshToken');
+        alert(data.message || 'Logout successful');
+        navigate('/');
+      } else {
+        alert(data.message || 'Error during logout');
+        console.error(data.error || 'Unknown error');
+      }
+    } catch (error) {
+      console.error('Logout failed:', error);
+      alert('Something went wrong. Please try again.');
+    }
   };
 
   return (
     <nav className="navbar">
       <div className="navbar-right">
-        <FaUserCircle className="profile-icon" onClick={() => setShowMenu(!showMenu)} />
+        <FaUserCircle
+          className="profile-icon"
+          onClick={() => setShowMenu(!showMenu)}
+        />
         {showMenu && (
           <div className="dropdown-menu">
-            <div className="dropdown-item" onClick={() => navigate('/profile')}>Profile</div>
-            <div className="dropdown-item" onClick={handleLogout}>Logout</div>
+            <div className="dropdown-item" onClick={() => navigate('/profile')}>
+              Profile
+            </div>
+            <div className="dropdown-item" onClick={handleLogout}>
+              Logout
+            </div>
           </div>
         )}
       </div>

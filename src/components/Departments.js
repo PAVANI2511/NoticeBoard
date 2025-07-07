@@ -26,7 +26,7 @@ const Departments = () => {
 
   return (
     <>
-      <Navbar /> {/* ✅ Add Navbar here */}
+      <Navbar /> 
 
       <div
         className="departments-background"
@@ -40,7 +40,7 @@ const Departments = () => {
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
-          paddingTop: '60px' // ✅ to prevent overlap with sticky navbar
+          paddingTop: '60px'
         }}
       >
         <div className="departments-card">

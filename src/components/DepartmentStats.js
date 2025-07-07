@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './DepartmentStats.css';
-
+import Navbar from './Navbar'; 
 const DepartmentStats = () => {
   const [selectedDept, setSelectedDept] = useState('');
   const [selectedYear, setSelectedYear] = useState('');
@@ -31,6 +31,7 @@ const DepartmentStats = () => {
   };
 
   return (
+    
     <div className="dept-stats-container">
       <h2>📊 Mail Delivery Stats</h2>
 
