@@ -30,7 +30,6 @@ const Navbar = () => {
       const data = await response.json();
 
       if (response.ok) {
-        // Clear tokens on successful logout
         localStorage.removeItem('jwtToken');
         localStorage.removeItem('refreshToken');
         alert(data.message || 'Logout successful');
@@ -57,6 +56,8 @@ const Navbar = () => {
             <div className="dropdown-item" onClick={() => navigate('/profile')}>
               Profile
             </div>
+            
+            <hr />
             <div className="dropdown-item" onClick={handleLogout}>
               Logout
             </div>
