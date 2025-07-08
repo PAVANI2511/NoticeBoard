@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FaUserCircle } from 'react-icons/fa';
 import './Navbar.css';
@@ -6,6 +6,21 @@ import './Navbar.css';
 const Navbar = () => {
   const [showMenu, setShowMenu] = useState(false);
   const navigate = useNavigate();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    const token = localStorage.getItem('jwtToken');
+    setIsLoggedIn(!!token);
+  }, []);
+
+  const handleProfileClick = () => {
+    const token = localStorage.getItem('jwtToken');
+    if (!token) {
+      alert('You must be logged in to view/edit your profile.');
+    } else {
+      navigate('/profile');
+    }
+  };
 
   const handleLogout = async () => {
     const accessToken = localStorage.getItem('jwtToken');
@@ -36,7 +51,6 @@ const Navbar = () => {
         navigate('/');
       } else {
         alert(data.message || 'Error during logout');
-        console.error(data.error || 'Unknown error');
       }
     } catch (error) {
       console.error('Logout failed:', error);
@@ -53,10 +67,9 @@ const Navbar = () => {
         />
         {showMenu && (
           <div className="dropdown-menu">
-            <div className="dropdown-item" onClick={() => navigate('/profile')}>
+            <div className="dropdown-item" onClick={handleProfileClick}>
               Profile
             </div>
-            
             <hr />
             <div className="dropdown-item" onClick={handleLogout}>
               Logout

@@ -5,9 +5,9 @@ import {
   FaCheckCircle,
   FaTimesCircle,
   FaEye,
-  FaEyeSlash,
-  FaUserCircle
+  FaEyeSlash
 } from 'react-icons/fa';
+import Navbar from './Navbar';
 
 function SignIn() {
   const navigate = useNavigate();
@@ -27,7 +27,6 @@ function SignIn() {
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [showMenu, setShowMenu] = useState(false);
 
   const strongPasswordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%?#&])[A-Za-z\d@$!%?#&]{8,}$/;
   const usernameRegex = /^(?=[A-Za-z\d@$!%?#&]{5,})(?=(?:[^@$!%?#&]*[@$!%?#&][^@$!%?#&]*)$)(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*?#&]+$/;
@@ -176,25 +175,10 @@ function SignIn() {
     }
   };
 
-  const handleLogout = () => {
-    alert('Logged out!');
-    navigate('/');
-  };
-
   return (
     <>
-      {/* Profile Icon & Dropdown */}
-      <div className="profile-icon-wrapper">
-        <FaUserCircle className="profile-icon" onClick={() => setShowMenu(!showMenu)} />
-        {showMenu && (
-          <div className="dropdown-menu">
-            <div className="dropdown-item" onClick={() => navigate('/profile')}>Profile</div>
-            <div className="dropdown-item" onClick={handleLogout}>Logout</div>
-          </div>
-        )}
-      </div>
+      <Navbar />
 
-      {/* Sign In Form */}
       <div className="card-wrapper">
         <div className="login-card">
           <div className="login-left">

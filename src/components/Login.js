@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Login.css';
-import { FaEye, FaUserCircle } from 'react-icons/fa';
+import { FaEye } from 'react-icons/fa';
+import Navbar from './Navbar';
 
 function Login() {
   const navigate = useNavigate();
@@ -15,11 +16,13 @@ function Login() {
   const [emailRequired, setEmailRequired] = useState(false);
   const [passwordRequired, setPasswordRequired] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(false);
+  const [showProfile, setShowProfile] = useState(false);
 
   useEffect(() => {
     localStorage.removeItem('jwtToken');
     localStorage.removeItem('refreshToken');
+    setLoggedIn(false);
   }, []);
 
   const isValidEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
@@ -40,16 +43,6 @@ function Login() {
     setError('');
     setPasswordRequired(false);
     setPasswordValid(val ? isValidPassword(val) : null);
-  };
-
-  const toggleMenu = () => {
-    setMenuOpen((prev) => !prev);
-  };
-
-  const handleLogout = () => {
-    localStorage.removeItem('jwtToken');
-    localStorage.removeItem('refreshToken');
-    navigate('/');
   };
 
   const handleSubmit = async (e) => {
@@ -75,7 +68,6 @@ function Login() {
 
     try {
       setLoading(true);
-
       const response = await fetch('http://localhost:8000/api/auth/login/', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -83,11 +75,10 @@ function Login() {
       });
 
       const data = await response.json();
-      console.log('Login response:', data);
-
       if (response.ok && data.tokens) {
         localStorage.setItem('jwtToken', data.tokens.access);
         localStorage.setItem('refreshToken', data.tokens.refresh);
+        setLoggedIn(true);
         navigate('/Departments');
       } else {
         setError(data.detail || 'Invalid credentials. Try again.');
@@ -101,98 +92,88 @@ function Login() {
   };
 
   return (
-    <div className="card-wrapper">
-      {/* ✅ Top bar */}
-      <div className="user-menu">
-        <FaUserCircle className="menu-icon" onClick={toggleMenu} />
-        {menuOpen && (
-          <div className="menu-dropdown">
-            <span onClick={() => navigate('/profile')}>Profile</span>
-            <span onClick={handleLogout}>Logout</span>
+    <>
+      <Navbar onProfileClick={() => setShowProfile(!showProfile)} isLoggedIn={loggedIn} />
+
+      <div className="card-wrapper">
+        <div className="login-card">
+          <div className="login-left">
+            <img src="/smartboard.jpg" alt="Login Visual" className="left-image" />
           </div>
-        )}
-      </div>
 
-      <div className="login-card">
-        <div className="login-left">
-          <img src="/smartboard.jpg" alt="Login Visual" className="left-image" />
-        </div>
+          <div className="login-right">
+            <h2 className="login-title">Login</h2>
 
-        <div className="login-right">
-          <h2 className="login-title">Login</h2>
-
-          <form onSubmit={handleSubmit} autoComplete="off" className="form-block">
-            <input
-              type="email"
-              name="email"
-              placeholder="Enter Email"
-              className="input-field"
-              value={email}
-              onChange={handleEmailChange}
-              aria-label="Email"
-            />
-            <div className="validation-msg">
-              {emailRequired && <p className="error-text">Email is required.</p>}
-              {emailValid === false && <p className="error-text">Invalid email format.</p>}
-              {emailValid === true && <p className="success-text">Valid email ✅</p>}
-            </div>
-
-            <div className="password-wrapper">
+            <form onSubmit={handleSubmit} autoComplete="off" className="form-block">
               <input
-                type={showPassword ? 'text' : 'password'}
-                name="password"
-                placeholder="Enter Password"
-                className="input-field password-input"
-                value={password}
-                onChange={handlePasswordChange}
-                aria-label="Password"
+                type="email"
+                name="email"
+                placeholder="Enter Email"
+                className="input-field"
+                value={email}
+                onChange={handleEmailChange}
               />
-              <span
-                className="toggle-icon"
-                onClick={() => setShowPassword(!showPassword)}
-                title={showPassword ? 'Hide password' : 'Show password'}
-              >
-                <FaEye />
+              <div className="validation-msg">
+                {emailRequired && <p className="error-text">Email is required.</p>}
+                {emailValid === false && <p className="error-text">Invalid email format.</p>}
+                {emailValid === true && <p className="success-text">Valid email ✅</p>}
+              </div>
+
+              <div className="password-wrapper">
+                <input
+                  type={showPassword ? 'text' : 'password'}
+                  name="password"
+                  placeholder="Enter Password"
+                  className="input-field password-input"
+                  value={password}
+                  onChange={handlePasswordChange}
+                />
+                <span
+                  className="toggle-icon"
+                  onClick={() => setShowPassword(!showPassword)}
+                >
+                  <FaEye />
+                </span>
+              </div>
+
+              <div className="validation-msg">
+                {passwordRequired && <p className="error-text">Password is required.</p>}
+                {passwordValid === false && (
+                  <p className="error-text">
+                    Password must include uppercase, lowercase, number, and special character.
+                  </p>
+                )}
+                {passwordValid === true && <p className="success-text">Strong password ✅</p>}
+              </div>
+
+              <button type="submit" className="visible-login" disabled={loading}>
+                {loading ? 'Logging in...' : 'Log In'}
+              </button>
+
+              {error && <p className="error-text" style={{ marginTop: '10px' }}>{error}</p>}
+            </form>
+
+            <div className="options">
+              <label className="remember-label">
+                <input type="checkbox" /> Remember me
+              </label>
+              <span className="Email" onClick={() => navigate('/Email')}>
+                Forgot password?
               </span>
             </div>
 
-            <div className="validation-msg">
-              {passwordRequired && <p className="error-text">Password is required.</p>}
-              {passwordValid === false && (
-                <p className="error-text">
-                  Password must include uppercase, lowercase, number, and special character.
-                </p>
-              )}
-              {passwordValid === true && <p className="success-text">Strong password ✅</p>}
+            <div className="divider">
+              <hr /> <span>or</span> <hr />
             </div>
 
-            <button type="submit" className="visible-login" disabled={loading}>
-              {loading ? 'Logging in...' : 'Log In'}
+            <p className="register-text">If you are not registered</p>
+            <button className="signin-btn" onClick={() => navigate('/signin')}>
+              Sign In
             </button>
-
-            {error && <p className="error-text" style={{ marginTop: '10px' }}>{error}</p>}
-          </form>
-
-          <div className="options">
-            <label className="remember-label">
-              <input type="checkbox" /> Remember me
-            </label>
-            <span className="Email" onClick={() => navigate('/Email')}>
-              Forgot password?
-            </span>
           </div>
-
-          <div className="divider">
-            <hr /> <span>or</span> <hr />
-          </div>
-
-          <p className="register-text">If you are not registered</p>
-          <button className="signin-btn" onClick={() => navigate('/signin')}>
-            Sign In
-          </button>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 

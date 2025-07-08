@@ -1,13 +1,12 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import * as XLSX from 'xlsx';
 import './FileUploader.css';
 import Navbar from './Navbar';
 
 const FileUploader = () => {
   const fileInputRef = useRef();
   const [fileName, setFileName] = useState('');
-  const [excelData, setExcelData] = useState([]);
+  const [csvData, setCsvData] = useState([]);
   const [headers, setHeaders] = useState([]);
   const [message, setMessage] = useState('');
   const [sendEmails, setSendEmails] = useState(false);
@@ -25,53 +24,49 @@ const FileUploader = () => {
     }
   }, [branch, year, navigate]);
 
-  const readExcel = (file) => {
-    if (!file) return;
+  const readCSV = (file) => {
+    if (!file.name.endsWith('.csv')) {
+      setMessage("❌ Please upload a valid .csv file.");
+      return;
+    }
 
     setFileName(file.name);
-    setMessage('✅ File uploaded successfully.');
+    setMessage('✅ CSV file uploaded.');
 
     const reader = new FileReader();
-    reader.readAsBinaryString(file);
-
     reader.onload = (e) => {
-      const binaryStr = e.target.result;
-      const workbook = XLSX.read(binaryStr, { type: 'binary' });
-      const sheet = workbook.Sheets[workbook.SheetNames[0]];
-
-      const allRows = XLSX.utils.sheet_to_json(sheet, {
-        header: 1,
-        defval: '',
-        blankrows: false,
-      });
-
-      if (allRows.length === 0) {
-        setMessage('⚠️ The uploaded sheet is empty.');
+      const text = e.target.result;
+      const lines = text.trim().split('\n');
+      if (lines.length === 0) {
+        setMessage("⚠️ The file is empty.");
         return;
       }
 
-      const [rawHeaderRow, ...rawDataRows] = allRows;
-      const headerRow = rawHeaderRow.filter((header) => header !== '');
-      const dataRows = rawDataRows.filter((row) => row.some((cell) => cell !== ''));
-
-      const finalData = dataRows.map((row) =>
-        Object.fromEntries(headerRow.map((key, index) => [key, row[index] ?? '']))
-      );
+      const [headerLine, ...dataLines] = lines;
+      const headerRow = headerLine.split(',').map(h => h.trim());
+      const finalData = dataLines.map(line => {
+        const values = line.split(',').map(v => v.trim());
+        return Object.fromEntries(headerRow.map((key, index) => [key, values[index] ?? '']));
+      });
 
       setHeaders(headerRow);
-      setExcelData(finalData);
+      setCsvData(finalData);
     };
 
-    reader.onerror = () => setMessage('❌ Failed to read file.');
+    reader.onerror = () => {
+      setMessage("❌ Error reading the file.");
+    };
+
+    reader.readAsText(file);
   };
 
   const handleDrop = (e) => {
     e.preventDefault();
-    readExcel(e.dataTransfer.files[0]);
+    readCSV(e.dataTransfer.files[0]);
   };
 
   const handleFileChange = (e) => {
-    readExcel(e.target.files[0]);
+    readCSV(e.target.files[0]);
   };
 
   const handleBrowseClick = () => {
@@ -79,12 +74,12 @@ const FileUploader = () => {
   };
 
   const handleSubmit = () => {
-    if (excelData.length === 0) {
-      setMessage('⚠️ Please upload a file first.');
+    if (csvData.length === 0) {
+      setMessage("⚠️ Please upload a CSV file first.");
       return;
     }
 
-    localStorage.setItem('excelData', JSON.stringify(excelData));
+    localStorage.setItem('excelData', JSON.stringify(csvData));
     localStorage.setItem('headers', JSON.stringify(headers));
     localStorage.setItem('branch', branch);
     localStorage.setItem('year', year);
@@ -92,21 +87,27 @@ const FileUploader = () => {
   };
 
   const handleUploadToBackend = async () => {
-    if (!fileInputRef.current?.files[0]) {
+    const file = fileInputRef.current?.files[0];
+    if (!file) {
       setMessage("⚠️ Please select a file before uploading.");
       return;
     }
 
     const formData = new FormData();
-    formData.append("file", fileInputRef.current.files[0]);
+    formData.append("file", file);
     formData.append("send_emails", sendEmails);
 
     const accessToken = localStorage.getItem('jwtToken');
+    if (!accessToken) {
+      setMessage("❌ Missing access token. Please login again.");
+      return;
+    }
+
     setLoading(true);
     setMessage("⏳ Uploading...");
 
     try {
-      const response = await fetch("http://localhost:8000/api/students/upload-rooms/", {
+      const response = await fetch('http://localhost:8000/api/students/upload-rooms/', {
         method: "POST",
         headers: {
           Authorization: `Bearer ${accessToken}`,
@@ -124,8 +125,8 @@ Failed: ${result.failed_records}, Emails Sent: ${result.emails_sent}`);
         setMessage(`❌ Upload failed: ${result.message || "Unknown error"}`);
       }
     } catch (error) {
-      console.error(error);
-      setMessage("❌ Error uploading to backend.");
+      console.error("Upload error:", error);
+      setMessage(`❌ Upload failed: ${error.message}`);
     } finally {
       setLoading(false);
     }
@@ -134,26 +135,21 @@ Failed: ${result.failed_records}, Emails Sent: ${result.emails_sent}`);
   return (
     <>
       <Navbar />
-      <div
-        className="uploader-container"
-        style={{
-          backgroundImage: "url('/wave-haikei.svg')",
-          backgroundSize: 'cover',
-          backgroundRepeat: 'no-repeat',
-          backgroundPosition: 'center',
-          backgroundAttachment: 'fixed',
-          minHeight: '100vh',
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}
-      >
+      <div className="uploader-container" style={{
+        backgroundImage: "url('/wave-haikei.svg')",
+        backgroundSize: 'cover',
+        backgroundRepeat: 'no-repeat',
+        backgroundPosition: 'center',
+        backgroundAttachment: 'fixed',
+        minHeight: '100vh',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}>
         <div className="file-uploader-container">
           {branch && year && (
             <div className="context-info">
-              <p>
-                <strong>Branch:</strong> {branch} | <strong>Year:</strong> {year}
-              </p>
+              <p><strong>Branch:</strong> {branch} | <strong>Year:</strong> {year}</p>
               <button
                 className="hierarchy-button"
                 onClick={() => navigate('/Hierarchy')}
@@ -178,14 +174,12 @@ Failed: ${result.failed_records}, Emails Sent: ${result.emails_sent}`);
             onDragOver={(e) => e.preventDefault()}
           >
             <img src="/clouds.webp" alt="Upload" className="upload-icon" />
-            <p>Drag & Drop file here</p>
+            <p>Drag & Drop CSV file here</p>
             <p>or</p>
-            <button className="browse-button" onClick={handleBrowseClick}>
-              Browse Files
-            </button>
+            <button className="browse-button" onClick={handleBrowseClick}>Browse Files</button>
             <input
               type="file"
-              accept=".xlsx, .xls"
+              accept=".csv"
               onChange={handleFileChange}
               ref={fileInputRef}
               hidden
@@ -193,9 +187,7 @@ Failed: ${result.failed_records}, Emails Sent: ${result.emails_sent}`);
           </div>
 
           {fileName && (
-            <div className="file-info">
-              📄 <strong>{fileName}</strong>
-            </div>
+            <div className="file-info">📄 <strong>{fileName}</strong></div>
           )}
 
           <label style={{ marginTop: '10px' }}>

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import './Year.css';
+import Navbar from './Navbar';
 
 const Year = () => {
   const { branchCode } = useParams();
@@ -15,12 +16,15 @@ const Year = () => {
   useEffect(() => {
     const fetchYears = async () => {
       try {
-        const response = await fetch(`http://localhost:8000/api/students/branches/${branchCode}/years/`, {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-            'Content-Type': 'application/json',
-          },
-        });
+        const response = await fetch(
+          `http://localhost:8000/api/students/branches/${branchCode}/years/`,
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+              'Content-Type': 'application/json',
+            },
+          }
+        );
 
         if (!response.ok) throw new Error(`HTTP ${response.status}`);
         const data = await response.json();
@@ -49,34 +53,39 @@ const Year = () => {
   if (loading) return <div>Loading...</div>;
 
   return (
-    <div
-      className="year-background"
-      style={{
-        backgroundImage: "url('/wave-haikei.svg')",
-        backgroundSize: 'cover',
-        backgroundRepeat: 'no-repeat',
-        backgroundPosition: 'center',
-        backgroundAttachment: 'fixed',
-        minHeight: '100vh',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-      }}
-    >
-      <div className="container">
-        <div className="header">Select Year - {branchName}</div>
-        {error && <p style={{ color: 'red' }}>{error}</p>}
-        {years.map((y, index) => (
-  <button
-    key={y.year || index} // fallback to index if year is undefined
-    className="year-button"
-    onClick={() => handleClick(y)}
-  >
-    {y.name} ({y.student_count} students)
-  </button>
-))}
+    <>
+      <Navbar />
+
+      <div
+        className="year-background"
+        style={{
+          backgroundImage: "url('/wave-haikei.svg')",
+          backgroundSize: 'cover',
+          backgroundRepeat: 'no-repeat',
+          backgroundPosition: 'center',
+          backgroundAttachment: 'fixed',
+          minHeight: '100vh',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+      >
+        <div className="container">
+          <div className="header">Select Year - {branchName}</div>
+          {error && <p style={{ color: 'red' }}>{error}</p>}
+
+          {years.map((y, index) => (
+            <button
+              key={y.year || index}
+              className="year-button"
+              onClick={() => handleClick(y)}
+            >
+              {y.name} ({y.student_count} students)
+            </button>
+          ))}
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 
