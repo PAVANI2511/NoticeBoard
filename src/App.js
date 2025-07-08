@@ -12,6 +12,7 @@ import ForgotPassword from './components/ForgotPassword';
 import AdminProfile from './components/profile';
 import Hierarchy from './components/Hierarchy';
 import StudentList from './components/StudentList';
+import Student from './components/Student'; 
 function App() {
   return (
     <Router>
@@ -28,6 +29,8 @@ function App() {
         <Route path="/profile" element={<AdminProfile />} />
         <Route path="/Hierarchy" element={<Hierarchy />} />
         <Route path="/students/:branchCode/:year" element={<StudentList />} />
+        <Route path="/student" element={<Student />} />
+
       </Routes>
     </Router>
   );

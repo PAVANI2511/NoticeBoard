@@ -22,6 +22,10 @@ const Navbar = () => {
     }
   };
 
+  const handleStudentClick = () => {
+    navigate('/student'); // Ensure this route exists in your router
+  };
+
   const handleLogout = async () => {
     const accessToken = localStorage.getItem('jwtToken');
     const refreshToken = localStorage.getItem('refreshToken');
@@ -69,6 +73,9 @@ const Navbar = () => {
           <div className="dropdown-menu">
             <div className="dropdown-item" onClick={handleProfileClick}>
               Profile
+            </div>
+            <div className="dropdown-item" onClick={handleStudentClick}>
+              Student
             </div>
             <hr />
             <div className="dropdown-item" onClick={handleLogout}>

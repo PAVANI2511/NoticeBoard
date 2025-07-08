@@ -1,0 +1,99 @@
+.student-form {
+  max-width: 500px;
+  margin: 50px auto;
+  padding: 30px;
+  background: #f8f9fa;
+  border-radius: 12px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+}
+
+.student-form h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.student-form input[type="text"],
+.student-form input[type="tel"],
+.student-form select {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 8px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 16px;
+  outline: none;
+}
+
+.student-form input[type="text"]:focus,
+.student-form input[type="tel"]:focus,
+.student-form select:focus {
+  border-color: #4e8cff;
+}
+
+.btn-group {
+  display: flex;
+  justify-content: space-between;
+  margin: 15px 0;
+}
+
+.btn-group button {
+  flex: 1;
+  margin: 0 5px;
+  padding: 10px 0;
+  background-color: #4e8cff;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.btn-group button:hover {
+  background-color: #256fd1;
+}
+
+.live-message-text {
+  font-size: 13px;
+  margin: 2px 0 10px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.live-message-text.valid {
+  color: green;
+}
+
+.live-message-text.invalid {
+  color: crimson;
+}
+
+.error-text {
+  color: crimson;
+  font-size: 14px;
+  margin: 5px 0;
+}
+
+.combined-phone-field {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.combined-phone-field select {
+  flex: 0 0 80px;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+.combined-phone-field input {
+  flex: 1;
+}
+
+input[type="text"]::placeholder,
+input[type="tel"]::placeholder {
+  color: #aaa;
+}
