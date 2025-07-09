@@ -28,8 +28,8 @@ function App() {
         <Route path="/forgotpassword" element={<ForgotPassword />} />
         <Route path="/profile" element={<AdminProfile />} />
         <Route path="/Hierarchy" element={<Hierarchy />} />
-        <Route path="/students/:branchCode/:year" element={<StudentList />} />
         <Route path="/student" element={<Student />} />
+        <Route path="/StudentList" element={<StudentList />} />
 
       </Routes>
     </Router>
