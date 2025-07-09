@@ -25,6 +25,11 @@
   text-align: center;
   padding: 20px;
   cursor: pointer;
+  transition: border-color 0.3s ease;
+}
+
+.drop-area:hover {
+  border-color: #6c63ff;
 }
 
 .upload-icon {
@@ -33,21 +38,51 @@
   margin-bottom: 12px;
 }
 
-.submit-button {
-  background-color: #6c63ff;
-  color: white;
-  padding: 10px 24px;
+label {
+  margin-top: 12px;
+  font-size: 14px;
+  color: #444;
+}
+
+.button-group {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
   margin-top: 25px;
+  width: 300px;
+}
+
+.submit-button,
+.preview-button {
+  flex: 1;
+  padding: 10px 0;
   border: none;
   border-radius: 8px;
-  cursor: pointer;
   font-weight: 500;
-  width: 300px;
+  cursor: pointer;
   transition: background-color 0.3s ease;
+  color: white;
+}
+
+.submit-button {
+  background-color: #6c63ff;
 }
 
 .submit-button:hover {
   background-color: #5548d9;
+}
+
+.preview-button {
+  background-color: #28a745;
+}
+
+.preview-button:hover {
+  background-color: #1e7e34;
+}
+
+.preview-button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
 }
 
 .file-info {
@@ -61,10 +96,4 @@
   font-size: 14px;
   color: #333;
   text-align: center;
-}
-
-label {
-  margin-top: 12px;
-  font-size: 14px;
-  color: #444;
 }
