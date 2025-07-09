@@ -1,4 +1,6 @@
 import React, { useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import Papa from 'papaparse'; // CSV parser
 import './FileUploader.css';
 
 const FileUploader = () => {
@@ -6,6 +8,7 @@ const FileUploader = () => {
   const [file, setFile] = useState(null);
   const [message, setMessage] = useState('');
   const [sendEmails, setSendEmails] = useState(false);
+  const navigate = useNavigate();
 
   const handleFileChange = (event) => {
     const selectedFile = event.target.files[0];
@@ -53,6 +56,33 @@ Emails Sent: ${result.emails_sent}`);
     }
   };
 
+  const handlePreview = () => {
+    if (!file) {
+      setMessage('Please select a CSV file before previewing.');
+      return;
+    }
+
+    Papa.parse(file, {
+      header: true,
+      skipEmptyLines: true,
+      complete: (result) => {
+        if (result.data.length > 0) {
+          const headers = result.meta.fields;
+          const enrichedData = result.data.map(row => ({ ...row, sent: false }));
+
+          localStorage.setItem('excelData', JSON.stringify(enrichedData));
+          localStorage.setItem('headers', JSON.stringify(headers));
+          navigate('/TableView');
+        } else {
+          setMessage('❌ CSV file is empty or invalid.');
+        }
+      },
+      error: (error) => {
+        setMessage(`❌ Error parsing CSV: ${error.message}`);
+      }
+    });
+  };
+
   return (
     <div className="file-uploader-container">
       <div className="drop-area" onClick={handleBrowseClick}>
@@ -61,13 +91,14 @@ Emails Sent: ${result.emails_sent}`);
           alt="Upload Icon"
           className="upload-icon"
         />
-        <p>Click or drag your CSV/Excel file here</p>
+        <p>Click or drag your CSV file here</p>
       </div>
 
       <input
         type="file"
         ref={fileInputRef}
         onChange={handleFileChange}
+        accept=".csv"
         style={{ display: 'none' }}
       />
 
@@ -80,9 +111,14 @@ Emails Sent: ${result.emails_sent}`);
         Send Emails to Students
       </label>
 
-      <button className="submit-button" onClick={handleSubmit}>
-        Upload File
-      </button>
+      <div className="button-group">
+        <button className="submit-button" onClick={handleSubmit}>
+          Upload File
+        </button>
+        <button className="preview-button" onClick={handlePreview} disabled={!file}>
+          Preview
+        </button>
+      </div>
 
       {file && <div className="file-info">{file.name}</div>}
       {message && <div className="message">{message}</div>}

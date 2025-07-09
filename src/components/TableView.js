@@ -76,7 +76,7 @@ const TableView = () => {
           </button>
         </div>
 
-        <h2>📊 Uploaded Excel Data</h2>
+        <h2>📊 Uploaded CSV Data</h2>
 
         <div className="right-controls">
           <button className="small-button green-button" onClick={showStatistics}>
@@ -99,8 +99,9 @@ const TableView = () => {
             <tbody>
               {currentData.map((row, rowIndex) => {
                 const actualIndex = startIndex + rowIndex;
+                const isSelected = selectedRows.includes(actualIndex);
                 return (
-                  <tr key={`row-${rowIndex}`}>
+                  <tr key={`row-${rowIndex}`} className={isSelected ? 'selected' : ''}>
                     {headers.map((col, colIndex) => (
                       <td key={`cell-${rowIndex}-${colIndex}`}>
                         {row[col] ?? ''}
