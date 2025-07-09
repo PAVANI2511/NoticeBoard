@@ -22,7 +22,6 @@ const Departments = () => {
     EEE: 'Electrical & Electronics Engineering (EEE)',
     MEC: 'Mechanical Engineering (MEC)',
     CIV: 'Civil Engineering (CIV)',
-    ME: 'Mechanical Engineering (ME)', // fallback for ME
   };
 
   useEffect(() => {

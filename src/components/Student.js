@@ -16,10 +16,10 @@ function Student() {
 
   const [fieldMessages, setFieldMessages] = useState({});
   const [isLiveValid, setIsLiveValid] = useState({});
-  const [studentId, setStudentId] = useState("");
+  const [studentId, setStudentId] = useState(""); // DB ID for update/delete
   const [error, setError] = useState("");
 
-  const token = localStorage.getItem("token");
+  const token = localStorage.getItem("jwtToken");
 
   const validatePhone = (code, number) => {
     if (code === "+91") {
@@ -32,10 +32,10 @@ function Student() {
         ? { valid: true, message: "Valid US number" }
         : { valid: false, message: "US number: 10 digits, starts 2-9" };
     }
-    if (code === "+49") {
-      return /^\d{11}$/.test(number)
-        ? { valid: true, message: "Valid German number" }
-        : { valid: false, message: "German number: 11 digits" };
+    if (code === "+44") {
+      return /^\d{10}$/.test(number)
+        ? { valid: true, message: "Valid UK number" }
+        : { valid: false, message: "UK number: 10 digits" };
     }
     return { valid: false, message: "Unsupported country" };
   };
@@ -46,11 +46,11 @@ function Student() {
     const { name, value } = e.target;
 
     if (name === "phone_number") {
-      const maxLen = form.countryCode === "+49" ? 11 : 10;
+      const maxLen = 10;
       if (value.length > maxLen) return;
     }
-
     if (name === "roll_number" && value.length > 10) return;
+    if (name === "year" && value.length > 1) return;
 
     setForm((prev) => ({ ...prev, [name]: value }));
     setError("");
@@ -61,6 +61,9 @@ function Student() {
     if (["name", "branch", "year", "exam_hall_number"].includes(name)) {
       if (!value.trim()) {
         message = "This field is required";
+        valid = false;
+      } else if (name === "year" && (!/^[1-4]$/.test(value))) {
+        message = "Year must be between 1 and 4";
         valid = false;
       } else {
         message = "Looks good!";
@@ -104,7 +107,7 @@ function Student() {
 
   const handleCreate = async () => {
     try {
-      const response = await fetch("http://127.0.0.1:8000/api/students/", {
+      const response = await fetch("http://localhost:8000/api/students/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -126,7 +129,7 @@ function Student() {
 
   const handleUpdate = async () => {
     if (!studentId) {
-      alert("Enter student ID to update.");
+      alert("Please enter the Student ID (DB ID) to update.");
       return;
     }
     try {
@@ -152,7 +155,7 @@ function Student() {
 
   const handleDelete = async () => {
     if (!studentId) {
-      alert("Enter student ID to delete.");
+      alert("Please enter the Student ID (DB ID) to delete.");
       return;
     }
     try {
@@ -241,7 +244,7 @@ function Student() {
           <select name="countryCode" value={form.countryCode} onChange={handleChange}>
             <option value="+91">🇮🇳 +91</option>
             <option value="+1">🇺🇸 +1</option>
-            <option value="+49">🇩🇪 +49</option>
+            <option value="+44">🇬🇧 +44</option>
           </select>
           <input type="tel" name="phone_number" placeholder="Phone Number" value={form.phone_number} onChange={handleChange} />
         </div>
@@ -258,11 +261,29 @@ function Student() {
           </p>
         )}
 
-        <input type="text" name="branch" placeholder="Branch" value={form.branch} onChange={handleChange} />
-        <input type="text" name="year" placeholder="Year" value={form.year} onChange={handleChange} />
-        <input type="text" name="exam_hall_number" placeholder="Exam Hall Number" value={form.exam_hall_number} onChange={handleChange} />
+        <select name="branch" value={form.branch} onChange={handleChange}>
+          <option value="">Select Branch</option>
+          <option value="CSE">CSE</option>
+          <option value="CAI">CSE - AI</option>
+          <option value="CSM">CSE - AI & ML</option>
+          <option value="CSN">CSE - Networks</option>
+          <option value="CST">CSE - Tech</option>
+          <option value="CSD">CSE - Data Science</option>
+          <option value="CSC">CSE - Cyber Sec</option>
+          <option value="ECE">ECE</option>
+          <option value="EEE">EEE</option>
+          <option value="CIV">CIV</option>
+        </select>
 
-        {error && <p className="error-text">{error}</p>}
+        <select name="year" value={form.year} onChange={handleChange}>
+          <option value="">Select Year</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+        </select>
+
+        <input type="text" name="exam_hall_number" placeholder="Exam Hall Number" value={form.exam_hall_number} onChange={handleChange} />
 
         <div className="btn-group">
           <button type="button" onClick={handleCreate}>Create</button>
@@ -270,7 +291,12 @@ function Student() {
           <button type="button" onClick={handleDelete}>Delete</button>
         </div>
 
-        <input type="text" value={studentId} onChange={(e) => setStudentId(e.target.value)} placeholder="Student ID (for fetch/update/delete)" />
+        <input
+          type="text"
+          value={studentId}
+          onChange={(e) => setStudentId(e.target.value)}
+          placeholder="Enter DB Student ID (not roll number)"
+        />
 
         <div className="btn-group">
           <button type="button" onClick={handleGetSingle}>Get One</button>
