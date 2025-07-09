@@ -2,6 +2,7 @@ import React, { useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Papa from 'papaparse'; // CSV parser
 import './FileUploader.css';
+import Navbar from './Navbar';
 
 const FileUploader = () => {
   const fileInputRef = useRef();
@@ -84,45 +85,64 @@ Emails Sent: ${result.emails_sent}`);
   };
 
   return (
-    <div className="file-uploader-container">
-      <div className="drop-area" onClick={handleBrowseClick}>
-        <img
-          src="https://cdn-icons-png.flaticon.com/512/724/724933.png"
-          alt="Upload Icon"
-          className="upload-icon"
-        />
-        <p>Click or drag your CSV file here</p>
+    <>
+      <Navbar />
+      <div
+        className="departments-background"
+        style={{
+          backgroundImage: "url('/wave-haikei.svg')",
+          backgroundSize: 'cover',
+          backgroundRepeat: 'no-repeat',
+          backgroundPosition: 'center',
+          backgroundAttachment: 'fixed',
+          minHeight: '100vh',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          paddingTop: '20px',
+        }}
+      >
+        <div className="file-uploader-container">
+          <div className="drop-area" onClick={handleBrowseClick}>
+            <img
+              src="https://cdn-icons-png.flaticon.com/512/724/724933.png"
+              alt="Upload Icon"
+              className="upload-icon"
+            />
+            <p>Click or drag your CSV file here</p>
+          </div>
+
+          <input
+            type="file"
+            ref={fileInputRef}
+            onChange={handleFileChange}
+            accept=".csv"
+            style={{ display: 'none' }}
+          />
+
+          <label>
+            <input
+              type="checkbox"
+              checked={sendEmails}
+              onChange={() => setSendEmails(!sendEmails)}
+            />
+            Send Emails to Students
+          </label>
+
+          <div className="button-group">
+            <button className="submit-button" onClick={handleSubmit}>
+              Upload File
+            </button>
+            <button className="preview-button" onClick={handlePreview} disabled={!file}>
+              Preview
+            </button>
+          </div>
+
+          {file && <div className="file-info">{file.name}</div>}
+          {message && <div className="message">{message}</div>}
+        </div>
       </div>
-
-      <input
-        type="file"
-        ref={fileInputRef}
-        onChange={handleFileChange}
-        accept=".csv"
-        style={{ display: 'none' }}
-      />
-
-      <label>
-        <input
-          type="checkbox"
-          checked={sendEmails}
-          onChange={() => setSendEmails(!sendEmails)}
-        />
-        Send Emails to Students
-      </label>
-
-      <div className="button-group">
-        <button className="submit-button" onClick={handleSubmit}>
-          Upload File
-        </button>
-        <button className="preview-button" onClick={handlePreview} disabled={!file}>
-          Preview
-        </button>
-      </div>
-
-      {file && <div className="file-info">{file.name}</div>}
-      {message && <div className="message">{message}</div>}
-    </div>
+    </>
   );
 };
 
