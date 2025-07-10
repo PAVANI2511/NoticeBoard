@@ -5,6 +5,8 @@ import "./ForgotPassword.css";
 const ForgotPassword = () => {
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [passwordValid, setPasswordValid] = useState(false);
+  const [matchValid, setMatchValid] = useState(false);
   const [message, setMessage] = useState("");
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -16,7 +18,7 @@ const ForgotPassword = () => {
 
   useEffect(() => {
     const state = location.state;
-    if (state && state.email && state.otp) {
+    if (state?.email && state?.otp) {
       setEmail(state.email);
       setOtp(state.otp);
       localStorage.setItem("reset_email", state.email);
@@ -31,16 +33,23 @@ const ForgotPassword = () => {
     }
   }, [location.state]);
 
+  const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z\d]).{8,}$/;
+
+  useEffect(() => {
+    setPasswordValid(passwordPattern.test(newPassword));
+    setMatchValid(newPassword === confirmPassword && confirmPassword.length > 0);
+  }, [newPassword, confirmPassword]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (newPassword !== confirmPassword) {
-      setMessage("❌ Passwords do not match");
+    if (!passwordValid) {
+      setMessage("❌ Password doesn't meet complexity requirements.");
       return;
     }
 
-    if (!email || !otp) {
-      setMessage("❌ Email or OTP is missing. Try again.");
+    if (!matchValid) {
+      setMessage("❌ Passwords do not match.");
       return;
     }
 
@@ -57,7 +66,6 @@ const ForgotPassword = () => {
       });
 
       const data = await response.json();
-      console.log("Response from backend:", data);
 
       if (response.ok) {
         setMessage("✅ Password changed successfully!");
@@ -69,33 +77,20 @@ const ForgotPassword = () => {
           navigate("/");
         }, 1500);
       } else {
-        setMessage(`❌ ${data.message || "Failed to reset password"}`);
+        setMessage(`❌ ${data.message || "Failed to reset password."}`);
       }
     } catch (error) {
-      console.error("Reset password error:", error);
       setMessage("❌ Server error. Please try again.");
     }
   };
 
   return (
-    <div
-      className="forgot-password-container"
-      style={{
-        backgroundImage: "url('/wave-haikei.svg')",
-        backgroundSize: "cover",
-        backgroundRepeat: "no-repeat",
-        backgroundPosition: "center",
-        backgroundAttachment: "fixed",
-        minHeight: "100vh",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
+    <div className="forgot-password-container">
       <form onSubmit={handleSubmit} className="forgot-password-form">
         <h2>Change Password</h2>
 
-        <label>New password:</label>
+        {/* New Password */}
+        <label>New Password</label>
         <div className="password-input-wrapper">
           <input
             type={showNewPassword ? "text" : "password"}
@@ -103,6 +98,7 @@ const ForgotPassword = () => {
             value={newPassword}
             onChange={(e) => setNewPassword(e.target.value)}
             required
+            autoComplete="new-password"
           />
           <span
             className="toggle-eye"
@@ -112,8 +108,16 @@ const ForgotPassword = () => {
             {showNewPassword ? "🔒" : "👁"}
           </span>
         </div>
+        {newPassword.length > 0 && (
+          <p className={`validation-message ${passwordValid ? "valid" : ""}`}>
+            {passwordValid
+              ? "✅ Strong password"
+              : "❌ Password must be at least 8 characters long with uppercase, lowercase, number, and symbol."}
+          </p>
+        )}
 
-        <label>Confirm password:</label>
+        {/* Confirm Password */}
+        <label>Confirm Password</label>
         <div className="password-input-wrapper">
           <input
             type={showConfirmPassword ? "text" : "password"}
@@ -121,6 +125,7 @@ const ForgotPassword = () => {
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
             required
+            autoComplete="new-password"
           />
           <span
             className="toggle-eye"
@@ -130,8 +135,16 @@ const ForgotPassword = () => {
             {showConfirmPassword ? "🔒" : "👁"}
           </span>
         </div>
+        {confirmPassword.length > 0 && (
+          <p className={`validation-message ${matchValid ? "valid" : ""}`}>
+            {matchValid ? "✅ Passwords match" : "❌ Passwords do not match."}
+          </p>
+        )}
 
-        <button type="submit">Change Password</button>
+        <button type="submit" disabled={!passwordValid || !matchValid}>
+          Change Password
+        </button>
+
         {message && <p className="message">{message}</p>}
       </form>
     </div>
