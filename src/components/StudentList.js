@@ -34,7 +34,6 @@ const StudentList = () => {
 
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
-
   const navigate = useNavigate();
 
   const fetchStudents = async () => {
@@ -264,9 +263,7 @@ const StudentList = () => {
 
             <div className="pagination-buttons">
               <button onClick={goToPreviousPage} disabled={currentPage === 1}>◀ Prev</button>
-              <span className="page-info">
-                Page <br /> {currentPage} of {totalPages}
-              </span>
+              <span className="page-info">Page <br /> {currentPage} of {totalPages}</span>
               <button onClick={goToNextPage} disabled={currentPage === totalPages}>Next ▶</button>
             </div>
           </>
