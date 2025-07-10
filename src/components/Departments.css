@@ -12,7 +12,7 @@
   background-color: #ffffffee;
   border-radius: 16px;
   width: 600px; /* Wider card to fit long names */
-  height: 75vh;
+  height: 65vh;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
   display: flex;
   flex-direction: column;

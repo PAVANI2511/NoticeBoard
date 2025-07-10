@@ -83,7 +83,7 @@ const Departments = () => {
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
-          paddingTop: '60px',
+          paddingTop: '0px',
         }}
       >
         <div className="departments-card">
