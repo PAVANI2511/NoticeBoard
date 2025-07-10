@@ -1,3 +1,4 @@
+/* === Container === */
 .profile-container {
   max-width: 900px;
   margin: 60px auto;
@@ -9,6 +10,7 @@
   transition: all 0.3s ease;
 }
 
+/* === Title === */
 h2 {
   text-align: center;
   margin-bottom: 30px;
@@ -17,13 +19,14 @@ h2 {
   font-weight: 700;
 }
 
-/* 🆕 Vertical layout for desktop */
+/* === Grid layout for desktop === */
 .desktop-layout .profile-grid {
   display: flex;
   flex-direction: column;
   row-gap: 24px;
 }
 
+/* === Fields === */
 .field {
   display: flex;
   flex-direction: column;
@@ -58,7 +61,7 @@ h2 {
   box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.1);
 }
 
-/* ✅ Updated to span full width */
+/* === Button Group === */
 .buttons {
   display: flex;
   justify-content: center;
@@ -66,6 +69,7 @@ h2 {
   width: 100%;
 }
 
+/* === Buttons === */
 button {
   padding: 12px 28px;
   border: none;
@@ -97,6 +101,17 @@ button {
   background-color: #157347;
 }
 
+.cancel-btn {
+  background-color: #6c757d;
+  color: #fff;
+  margin-left: 10px;
+}
+
+.cancel-btn:hover {
+  background-color: #5c636a;
+}
+
+/* === Validation Messages === */
 .live-message-text {
   font-size: 13px;
   margin-top: 4px;

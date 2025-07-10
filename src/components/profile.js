@@ -2,20 +2,21 @@ import React, { useEffect, useState } from 'react';
 import './profile.css';
 import { FaCheckCircle, FaTimesCircle } from 'react-icons/fa';
 
+// Regex Constants
+const usernameRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%?#&])[A-Za-z\d@$!%?#&]{5,}$/;
+const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const phoneRegex = /^\+?[6-9]\d{9,14}$/;
+
 const AdminProfile = () => {
   const [admin, setAdmin] = useState(null);
+  const [originalAdmin, setOriginalAdmin] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
   const [validation, setValidation] = useState({});
   const [messages, setMessages] = useState({});
 
-  const usernameRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%?#&])[A-Za-z\d@$!%?#&]{5,}$/;
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  const phoneRegex = /^\+?[6-9]\d{9,14}$/;
-
   useEffect(() => {
     const fetchProfile = async () => {
       const accessToken = localStorage.getItem('jwtToken');
-      console.log("Access Token:", accessToken);
       if (!accessToken) {
         alert('You must be logged in to view this page.');
         return;
@@ -30,17 +31,17 @@ const AdminProfile = () => {
         });
 
         const data = await response.json();
-        console.log('Profile API status:', response.status);
-        console.log('Profile API response:', data);
-
         if (response.ok) {
-          setAdmin({
-      username: data.user.username || '',
-      email: data.user.email || '',
-      phone_number: data.user.phone_number || '',
-      });
+          const profileData = {
+            username: data.user.username || '',
+  email: data.user.email || '',
+  phone_number: data.user.phone_number || '',
+          };
+          console.log('API Response:', data);
+          setAdmin(profileData);
+          setOriginalAdmin(profileData);
         } else {
-          alert('Failed to load profile. Check console for error details.');
+          alert('Failed to load profile.');
         }
       } catch (error) {
         console.error('Error fetching profile:', error);
@@ -51,13 +52,19 @@ const AdminProfile = () => {
     fetchProfile();
   }, []);
 
+  useEffect(() => {
+    if (admin) {
+      Object.entries(admin).forEach(([key, value]) => validate(key, value));
+    }
+  }, [admin]);
+
   const validate = (name, value) => {
     let message = '';
     let valid = true;
 
     if (name === 'username') {
       if (!usernameRegex.test(value)) {
-        message = 'Username must be at least 5 characters, include a letter, number & special character.';
+        message = 'Username must include a letter, number & special character (min 5 chars).';
         valid = false;
       } else {
         message = 'Valid username.';
@@ -78,26 +85,54 @@ const AdminProfile = () => {
       }
     }
 
-    setMessages(prev => ({ ...prev, [name]: message }));
-    setValidation(prev => ({ ...prev, [name]: valid }));
+    setMessages((prev) => ({ ...prev, [name]: message }));
+    setValidation((prev) => ({ ...prev, [name]: valid }));
   };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setAdmin(prev => ({ ...prev, [name]: value }));
+    setAdmin((prev) => ({ ...prev, [name]: value }));
     validate(name, value);
   };
 
   const handleEdit = () => setIsEditing(true);
 
-  const handleSave = () => {
+  const handleCancel = () => {
+    setAdmin(originalAdmin);
+    setIsEditing(false);
+    setMessages({});
+    setValidation({});
+  };
+
+  const handleSave = async () => {
     const isAllValid = Object.values(validation).every(Boolean);
     if (!isAllValid) {
       alert('Please correct the invalid fields before saving.');
       return;
     }
-    setIsEditing(false);
-    alert('Profile updated successfully! (Note: Save logic not connected to backend)');
+
+    try {
+      const accessToken = localStorage.getItem('jwtToken');
+      const response = await fetch('http://localhost:8000/api/auth/profile/', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${accessToken}`,
+        },
+        body: JSON.stringify(admin),
+      });
+
+      if (response.ok) {
+        alert('Profile updated successfully!');
+        setOriginalAdmin(admin);
+        setIsEditing(false);
+      } else {
+        alert('Failed to update profile.');
+      }
+    } catch (error) {
+      console.error('Error updating profile:', error);
+      alert('An error occurred while updating the profile.');
+    }
   };
 
   if (!admin) {
@@ -130,7 +165,7 @@ const AdminProfile = () => {
               )}
             </>
           ) : (
-            <span>{admin.username || 'N/A'}</span>
+            <span>{admin.username?.trim() || 'N/A'}</span>
           )}
         </div>
 
@@ -152,7 +187,7 @@ const AdminProfile = () => {
               )}
             </>
           ) : (
-            <span>{admin.email || 'N/A'}</span>
+            <span>{admin.email?.trim() || 'N/A'}</span>
           )}
         </div>
 
@@ -174,16 +209,30 @@ const AdminProfile = () => {
               )}
             </>
           ) : (
-            <span>{admin.phone_number || 'N/A'}</span>
+            <span>{admin.phone_number?.trim() || 'N/A'}</span>
           )}
         </div>
       </div>
 
+      {/* Buttons */}
       <div className="buttons">
         {isEditing ? (
-          <button className="save-btn" onClick={handleSave}>Save</button>
+          <>
+            <button
+              className="save-btn"
+              onClick={handleSave}
+              disabled={!Object.values(validation).every(Boolean)}
+            >
+              Save
+            </button>
+            <button className="cancel-btn" onClick={handleCancel}>
+              Cancel
+            </button>
+          </>
         ) : (
-          <button className="edit-btn" onClick={handleEdit}>Edit</button>
+          <button className="edit-btn" onClick={handleEdit}>
+            Edit
+          </button>
         )}
       </div>
     </div>

@@ -1,25 +1,25 @@
-body {
-  overflow: hidden;
-}
-/* Container */
+
+
+/* === Container === */
 .student-list-container {
-  max-width: 95%;
+  max-width: 75%;
+  height: 90vh;
   margin: 40px auto;
   background-color: #ffffff;
-  padding: 20px;
+  padding: 30px;
   border-radius: 16px;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-  font-family: 'Segoe UI', sans-serif;
   text-align: center;
+  overflow-x: scroll;
 }
 
-/* Title */
+/* === Title === */
 h2 {
   color: #333;
   margin-bottom: 20px;
 }
 
-/* Search Input */
+/* === Search Input === */
 .search-input {
   padding: 10px;
   width: 300px;
@@ -29,7 +29,28 @@ h2 {
   border-radius: 8px;
 }
 
-/* Table */
+/* === Filter Dropdowns === */
+select {
+  padding: 10px 12px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #ffffff;
+  color: #333;
+  margin-top: 10px;
+  min-width: 160px;
+}
+
+/* Filter container for layout */
+.filter-container {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+/* === Table === */
 table {
   width: 100%;
   border-collapse: collapse;
@@ -60,16 +81,16 @@ tr:hover {
   background-color: #f1f1f1;
 }
 
-/* Inputs in editable cells */
+/* === Editable Inputs === */
 input[type="text"] {
   padding: 10px 15px;
   border: 1px solid #ccc;
   border-radius: 5px;
-  width: 50%;
+  width: 90%;
   box-sizing: border-box;
 }
 
-/* Buttons */
+/* === Buttons === */
 button {
   padding: 6px 12px;
   margin: 2px;
@@ -80,24 +101,16 @@ button {
   color: white;
 }
 
-.button1 {
-  background-color: #256fd1; /* Delete */
-}
-.button2 {
-  background-color: #256fd1; /* Save */
-}
-.button3{
-  background-color: red;
-}
-.button4{
-  background-color: red;
-}
+.button1 { background-color: #256fd1; } /* Edit */
+.button2 { background-color: #256fd1; } /* Save */
+.button3 { background-color: red; }     /* Cancel */
+.button4 { background-color: red; }     /* Delete */
 
 button:hover {
   opacity: 0.9;
 }
 
-/* Pagination - Matches TableView */
+/* === Pagination === */
 .pagination-buttons {
   display: flex;
   float: right;
@@ -105,6 +118,7 @@ button:hover {
   gap: 8px;
   margin-top: 5px;
   width: 30%;
+  
 }
 
 .pagination-buttons button {
@@ -133,33 +147,13 @@ button:hover {
   white-space: nowrap;
 }
 
-/* Error/Status messages */
+/* === Status/Error Messages === */
 p {
   font-size: 16px;
   color: #555;
 }
-/* Dropdown Filters */
-select {
-  padding: 10px 12px;
-  font-size: 14px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  background-color: #ffffff;
-  color: #333;
-  margin-top: 10px;
-  min-width: 160px;
-}
 
-/* Filter container (optional if you want spacing/layout control) */
-.filter-container {
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-  flex-wrap: wrap;
-  margin-bottom: 20px;
-}
-
-/* Responsive adjustments */
+/* === Responsive Adjustments === */
 @media (max-width: 768px) {
   .search-input,
   select {
@@ -174,5 +168,17 @@ select {
 
   .page-info {
     padding: 10px;
+  }
+
+  table {
+    font-size: 13px;
+  }
+
+  th, td {
+    padding: 10px;
+  }
+
+  input[type="text"] {
+    width: 100%;
   }
 }
