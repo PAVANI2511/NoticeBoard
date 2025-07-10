@@ -11,7 +11,6 @@ const ForgotPassword = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // Get email and otp_code from location or localStorage
   const [email, setEmail] = useState("");
   const [otp, setOtp] = useState("");
 
@@ -20,7 +19,6 @@ const ForgotPassword = () => {
     if (state && state.email && state.otp) {
       setEmail(state.email);
       setOtp(state.otp);
-      // Store in localStorage in case of page refresh
       localStorage.setItem("reset_email", state.email);
       localStorage.setItem("reset_otp", state.otp);
     } else {
@@ -80,9 +78,23 @@ const ForgotPassword = () => {
   };
 
   return (
-    <div className="forgot-password-container">
-      <h2>Change Password</h2>
+    <div
+      className="forgot-password-container"
+      style={{
+        backgroundImage: "url('/wave-haikei.svg')",
+        backgroundSize: "cover",
+        backgroundRepeat: "no-repeat",
+        backgroundPosition: "center",
+        backgroundAttachment: "fixed",
+        minHeight: "100vh",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
       <form onSubmit={handleSubmit} className="forgot-password-form">
+        <h2>Change Password</h2>
+
         <label>New password:</label>
         <div className="password-input-wrapper">
           <input
@@ -111,7 +123,7 @@ const ForgotPassword = () => {
             required
           />
           <span
-            className="toggle-eye"  
+            className="toggle-eye"
             onClick={() => setShowConfirmPassword((prev) => !prev)}
             title={showConfirmPassword ? "Hide password" : "Show password"}
           >

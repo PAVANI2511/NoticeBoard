@@ -43,7 +43,20 @@ const Email = () => {
   };
 
   return (
-    <div className="email-background">
+    <div
+      className="email-background"
+      style={{
+        backgroundImage: "url('/wave-haikei.svg')",
+        backgroundSize: 'cover',
+        backgroundRepeat: 'no-repeat',
+        backgroundPosition: 'center',
+        backgroundAttachment: 'fixed',
+        minHeight: '100vh',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}
+    >
       <div className="email-card">
         <h2>Forgot Password</h2>
         <form onSubmit={handleSubmit}>

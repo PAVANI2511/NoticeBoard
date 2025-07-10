@@ -25,35 +25,34 @@ function Password() {
     }
   }, [resendCooldown]);
 
-const handleVerifyOtp = async () => {
-  if (!email || otp.length !== 6) {
-    setError('Invalid OTP or email.');
-    return;
-  }
-
-  setLoading(true);
-  try {
-    const response = await fetch('http://localhost:8000/api/auth/verify-otp/', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, otp_code: otp }),
-    });
-
-    const data = await response.json();
-
-    if (response.ok) {
-      setError('');
-    navigate('/ForgotPassword', { state: { email, otp } });
-    } else {
-      setError(data.message || 'Invalid OTP. Please try again.');
+  const handleVerifyOtp = async () => {
+    if (!email || otp.length !== 6) {
+      setError('Invalid OTP or email.');
+      return;
     }
-  } catch {
-    setError('Something went wrong. Please try again.');
-  } finally {
-    setLoading(false);
-  }
-};
 
+    setLoading(true);
+    try {
+      const response = await fetch('http://localhost:8000/api/auth/verify-otp/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, otp_code: otp }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setError('');
+        navigate('/ForgotPassword', { state: { email, otp } });
+      } else {
+        setError(data.message || 'Invalid OTP. Please try again.');
+      }
+    } catch {
+      setError('Something went wrong. Please try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleResendOtp = async () => {
     setError('');
@@ -81,28 +80,42 @@ const handleVerifyOtp = async () => {
   };
 
   return (
-    <div className="password-container">
-      <h2>Verify OTP</h2>
-      <input
-        type="text"
-        placeholder="Enter OTP"
-        value={otp}
-        onChange={(e) => setOtp(e.target.value.replace(/\D/g, '').slice(0, 6))}
-        className="otp-input"
-        maxLength={6}
-        autoFocus
-      />
-      <div className="button-row">
-        <button onClick={handleResendOtp} className="resend-btn" disabled={loading || resendCooldown > 0}>
-          {resendCooldown > 0 ? `Resend in ${resendCooldown}s` : 'Resend OTP'}
-        </button>
-        <button onClick={handleVerifyOtp} className="verify-btn" disabled={loading || otp.length !== 6}>
-          {loading ? 'Verifying...' : 'Verify OTP'}
-        </button>
-        
+    <div
+      className="password-container"
+      style={{
+        backgroundImage: "url('/wave-haikei.svg')",
+        backgroundSize: 'cover',
+        backgroundRepeat: 'no-repeat',
+        backgroundPosition: 'center',
+        backgroundAttachment: 'fixed',
+        minHeight: '100vh',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}
+    >
+      <div className="password-card">
+        <h2>Verify OTP</h2>
+        <input
+          type="text"
+          placeholder="Enter OTP"
+          value={otp}
+          onChange={(e) => setOtp(e.target.value.replace(/\D/g, '').slice(0, 6))}
+          className="otp-input"
+          maxLength={6}
+          autoFocus
+        />
+        <div className="button-row">
+          <button onClick={handleResendOtp} className="resend-btn" disabled={loading || resendCooldown > 0}>
+            {resendCooldown > 0 ? `Resend in ${resendCooldown}s` : 'Resend OTP'}
+          </button>
+          <button onClick={handleVerifyOtp} className="verify-btn" disabled={loading || otp.length !== 6}>
+            {loading ? 'Verifying...' : 'Verify OTP'}
+          </button>
+        </div>
+        {resendMsg && <p className="success-text">{resendMsg}</p>}
+        {error && <p className="error-text">{error}</p>}
       </div>
-      {resendMsg && <p className="success-text">{resendMsg}</p>}
-      {error && <p className="error-text">{error}</p>}
     </div>
   );
 }

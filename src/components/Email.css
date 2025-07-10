@@ -1,26 +1,20 @@
-/* Full-screen background container */
-.email-background {
-  background-color: #ffffff; /* fallback if image fails */
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-/* Centered card container */
+/* Card container */
 .email-card {
-  background-color: #ffffff;
+  background-color: #ffffffee; /* Slight transparency */
   padding: 40px 50px;
   border-radius: 16px;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
   width: 400px;
   text-align: left;
+  font-family: Arial, sans-serif;
 }
 
+/* Heading */
 .email-card h2 {
   text-align: center;
   margin-bottom: 25px;
   color: #333;
+  font-size: 24px;
 }
 
 /* Label styling */
@@ -49,7 +43,7 @@ input {
   margin-top: 25px;
 }
 
-/* Send and Close buttons */
+/* Buttons */
 .send-btn,
 .close-btn {
   flex: 1;
