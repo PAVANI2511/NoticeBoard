@@ -18,7 +18,21 @@ function Student() {
   const [fieldMessages, setFieldMessages] = useState({});
   const [isLiveValid, setIsLiveValid] = useState({});
   const token = localStorage.getItem("jwtToken");
-  const navigate = useNavigate(); // ✅ for navigation
+  const navigate = useNavigate();
+
+  const branchNameMap = {
+    CSE: "Computer Science & Engineering (CSE)",
+    CAI: "Computer Science & Engineering Artificial Intelligence (CAI)",
+    CSM: "Computer Science & Engineering AI & ML (CSM)",
+    CSN: "Computer Science & Engineering Networks (CSN)",
+    CST: "Computer Science & Engineering Technology (CST)",
+    CSD: "Computer Science & Engineering Data Science (CSD)",
+    CSC: "Computer Science & Engineering Cyber Security (CSC)",
+    ECE: "Electronics & Communication Engineering (ECE)",
+    EEE: "Electrical & Electronics Engineering (EEE)",
+    MEC: "Mechanical Engineering (MEC)",
+    CIV: "Civil Engineering (CIV)",
+  };
 
   const validatePhone = (code, number) => {
     if (code === "+91") {
@@ -44,9 +58,7 @@ function Student() {
   const handleChange = (e) => {
     const { name, value } = e.target;
 
-    if (name === "phone_number") {
-      if (value.length > 10) return;
-    }
+    if (name === "phone_number" && value.length > 10) return;
     if (name === "roll_number" && value.length > 10) return;
     if (name === "year" && value.length > 1) return;
 
@@ -59,7 +71,7 @@ function Student() {
       if (!value.trim()) {
         message = "This field is required";
         valid = false;
-      } else if (name === "year" && (!/^[1-4]$/.test(value))) {
+      } else if (name === "year" && !/^[1-4]$/.test(value)) {
         message = "Year must be between 1 and 4";
         valid = false;
       } else {
@@ -136,13 +148,8 @@ function Student() {
           onChange={handleChange}
         />
         {fieldMessages.name && (
-          <p
-            className={`live-message-text ${
-              isLiveValid.name ? "valid" : "invalid"
-            }`}
-          >
-            {isLiveValid.name ? <FaCheckCircle /> : <FaTimesCircle />}{" "}
-            {fieldMessages.name}
+          <p className={`live-message-text ${isLiveValid.name ? "valid" : "invalid"}`}>
+            {isLiveValid.name ? <FaCheckCircle /> : <FaTimesCircle />} {fieldMessages.name}
           </p>
         )}
 
@@ -154,13 +161,8 @@ function Student() {
           onChange={handleChange}
         />
         {fieldMessages.roll_number && (
-          <p
-            className={`live-message-text ${
-              isLiveValid.roll_number ? "valid" : "invalid"
-            }`}
-          >
-            {isLiveValid.roll_number ? <FaCheckCircle /> : <FaTimesCircle />}{" "}
-            {fieldMessages.roll_number}
+          <p className={`live-message-text ${isLiveValid.roll_number ? "valid" : "invalid"}`}>
+            {isLiveValid.roll_number ? <FaCheckCircle /> : <FaTimesCircle />} {fieldMessages.roll_number}
           </p>
         )}
 
@@ -183,17 +185,8 @@ function Student() {
           />
         </div>
         {fieldMessages.phone_number && (
-          <p
-            className={`live-message-text ${
-              isLiveValid.phone_number ? "valid" : "invalid"
-            }`}
-          >
-            {isLiveValid.phone_number ? (
-              <FaCheckCircle />
-            ) : (
-              <FaTimesCircle />
-            )}{" "}
-            {fieldMessages.phone_number}
+          <p className={`live-message-text ${isLiveValid.phone_number ? "valid" : "invalid"}`}>
+            {isLiveValid.phone_number ? <FaCheckCircle /> : <FaTimesCircle />} {fieldMessages.phone_number}
           </p>
         )}
 
@@ -205,32 +198,18 @@ function Student() {
           onChange={handleChange}
         />
         {fieldMessages.gmail_address && (
-          <p
-            className={`live-message-text ${
-              isLiveValid.gmail_address ? "valid" : "invalid"
-            }`}
-          >
-            {isLiveValid.gmail_address ? (
-              <FaCheckCircle />
-            ) : (
-              <FaTimesCircle />
-            )}{" "}
-            {fieldMessages.gmail_address}
+          <p className={`live-message-text ${isLiveValid.gmail_address ? "valid" : "invalid"}`}>
+            {isLiveValid.gmail_address ? <FaCheckCircle /> : <FaTimesCircle />} {fieldMessages.gmail_address}
           </p>
         )}
 
         <select name="branch" value={form.branch} onChange={handleChange}>
           <option value="">Select Branch</option>
-          <option value="CSE">CSE</option>
-          <option value="CAI">CSE - AI</option>
-          <option value="CSM">CSE - AI & ML</option>
-          <option value="CSN">CSE - Networks</option>
-          <option value="CST">CSE - Tech</option>
-          <option value="CSD">CSE - Data Science</option>
-          <option value="CSC">CSE - Cyber Sec</option>
-          <option value="ECE">ECE</option>
-          <option value="EEE">EEE</option>
-          <option value="CIV">CIV</option>
+          {Object.entries(branchNameMap).map(([code, name]) => (
+            <option key={code} value={code}>
+              {name}
+            </option>
+          ))}
         </select>
 
         <select name="year" value={form.year} onChange={handleChange}>
