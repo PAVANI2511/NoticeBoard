@@ -1,0 +1,169 @@
+.table-container {
+  max-width: 95%;
+  margin: 40px auto;
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.table-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.table-header h2 {
+  margin: 0 auto;
+  color: #333;
+  flex: 1;
+  text-align: center;
+}
+
+.left-controls,
+.right-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Checkbox */
+.select-all-checkbox {
+  transform: scale(1.4);
+  cursor: pointer;
+  vertical-align: middle;
+  margin-top: 25px;
+}
+
+/* Buttons */
+.small-button {
+  padding: 8px 14px;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.resend-button {
+  background-color: #007bff;
+  color: white;
+}
+
+.green-button {
+  background-color: #4CAF50;
+  color: white;
+  min-width: 140px;
+}
+
+.small-button:hover {
+  opacity: 0.9;
+}
+
+/* Table */
+.styled-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  border: 1px solid #ccc;
+}
+
+.styled-table th {
+  background-color: #4f46e5;
+  color: white;
+  text-align: left;
+  padding: 10px;
+  border: 1px solid #ccc;
+}
+
+.styled-table td {
+  padding: 10px;
+  border: 1px solid #ccc;
+  text-align: left;
+}
+
+.styled-table tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.styled-table tbody tr:hover {
+  background-color: #f1f1f1;
+}
+
+/* Pagination */
+.pagination-buttons {
+  display: flex;
+  float: right;
+  align-items: center;
+  gap: 8px;
+  margin-top: 25px;
+  width: 30%;
+}
+
+.pagination-buttons button {
+  background-color: #4f46e5;
+  color: white;
+  border: none;
+  padding: 11px 15px;
+  border-radius: 6px;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.pagination-buttons button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.pagination-buttons button:hover:not(:disabled) {
+  background-color: #3730a3;
+}
+
+.page-info {
+  font-size: 16px;
+  color: #333;
+  padding: 25px;
+  white-space: nowrap;
+}
+
+/* Popup Styling */
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.popup-content {
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  max-width: 400px;
+  width: 90%;
+}
+
+.popup-content h3 {
+  margin-bottom: 15px;
+}
+
+.close-button {
+  margin-top: 20px;
+  background-color: #4f46e5;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+}

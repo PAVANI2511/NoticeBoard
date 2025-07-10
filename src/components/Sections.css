@@ -1,0 +1,74 @@
+.sections-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #f0f2f5;
+}
+
+.card {
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  width: 350px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  max-height: 85vh;
+  overflow: hidden;
+}
+
+.header {
+  background-color: #136dd3;
+  color: white;
+  font-size: 20px;
+  font-weight: bold;
+  text-align: center;
+  padding: 12px;
+  border-radius: 10px;
+  margin-bottom: 14px;
+}
+
+.section-buttons {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  overflow-y: auto;
+  padding-right: 6px;
+  padding-bottom: 10px;
+  max-height: 100%;
+}
+
+/* Scrollbar styling */
+.section-buttons::-webkit-scrollbar {
+  width: 6px;
+}
+
+.section-buttons::-webkit-scrollbar-thumb {
+  background-color: #aaa;
+  border-radius: 4px;
+}
+
+.section-buttons::-webkit-scrollbar-thumb:hover {
+  background: #888;
+}
+
+.section-button {
+  background-color: #d3d3d3;
+  color: #000;
+  font-size: 16px;
+  font-weight: 600;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  white-space: nowrap;
+  text-align: center;
+  width: 100%;
+}
+
+.section-button:hover {
+  background-color: #c0c0c0;
+}

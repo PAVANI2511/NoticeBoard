@@ -1,0 +1,178 @@
+body, html {
+  overflow: hidden;
+}
+/* Container */
+.student-list-container {
+  max-width: 95%;
+  margin: 40px auto;
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  font-family: 'Segoe UI', sans-serif;
+  text-align: center;
+}
+
+/* Title */
+h2 {
+  color: #333;
+  margin-bottom: 20px;
+}
+
+/* Search Input */
+.search-input {
+  padding: 10px;
+  width: 300px;
+  font-size: 16px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+/* Table */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #f9f9f9;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.05);
+  font-size: 14px;
+  border: 1px solid #ccc;
+  margin-top: 20px;
+}
+
+th, td {
+  padding: 12px 15px;
+  text-align: center;
+  border: 1px solid #ccc;
+}
+
+th {
+  background-color: #4f46e5;
+  color: white;
+  font-weight: 600;
+}
+
+tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+tr:hover {
+  background-color: #f1f1f1;
+}
+
+/* Inputs in editable cells */
+input[type="text"] {
+  padding: 10px 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 50%;
+  box-sizing: border-box;
+}
+
+/* Buttons */
+button {
+  padding: 6px 12px;
+  margin: 2px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: 500;
+  color: white;
+}
+
+.button1 {
+  background-color: #256fd1; /* Delete */
+}
+.button2 {
+  background-color: #256fd1; /* Save */
+}
+.button3{
+  background-color: red;
+}
+.button4{
+  background-color: red;
+}
+
+button:hover {
+  opacity: 0.9;
+}
+
+/* Pagination - Matches TableView */
+.pagination-buttons {
+  display: flex;
+  float: right;
+  align-items: center;
+  gap: 8px;
+  margin-top: 5px;
+  width: 30%;
+}
+
+.pagination-buttons button {
+  background-color: #4f46e5;
+  color: white;
+  border: none;
+  padding: 11px 15px;
+  border-radius: 6px;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.pagination-buttons button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.pagination-buttons button:hover:not(:disabled) {
+  background-color: #3730a3;
+}
+
+.page-info {
+  font-size: 16px;
+  color: #333;
+  padding: 25px;
+  white-space: nowrap;
+}
+
+/* Error/Status messages */
+p {
+  font-size: 16px;
+  color: #555;
+}
+/* Dropdown Filters */
+select {
+  padding: 10px 12px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #ffffff;
+  color: #333;
+  margin-top: 10px;
+  min-width: 160px;
+}
+
+/* Filter container (optional if you want spacing/layout control) */
+.filter-container {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .search-input,
+  select {
+    width: 90%;
+  }
+
+  .pagination-buttons {
+    width: 100%;
+    justify-content: center;
+    float: none;
+  }
+
+  .page-info {
+    padding: 10px;
+  }
+}
