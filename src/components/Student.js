@@ -115,6 +115,12 @@ function Student() {
   };
 
   const handleCreate = async () => {
+    const allValid = Object.values(isLiveValid).every(Boolean);
+    if (!allValid) {
+      alert("❌ Please fix validation errors before submitting.");
+      return;
+    }
+
     try {
       const response = await fetch("http://localhost:8000/api/students/", {
         method: "POST",
@@ -137,106 +143,120 @@ function Student() {
   };
 
   return (
-    <div className="student-form">
-      <h2>Student Form</h2>
-      <form>
-        <input
-          type="text"
-          name="name"
-          placeholder="Name"
-          value={form.name}
-          onChange={handleChange}
-        />
-        {fieldMessages.name && (
-          <p className={`live-message-text ${isLiveValid.name ? "valid" : "invalid"}`}>
-            {isLiveValid.name ? <FaCheckCircle /> : <FaTimesCircle />} {fieldMessages.name}
-          </p>
-        )}
-
-        <input
-          type="text"
-          name="roll_number"
-          placeholder="Roll Number"
-          value={form.roll_number}
-          onChange={handleChange}
-        />
-        {fieldMessages.roll_number && (
-          <p className={`live-message-text ${isLiveValid.roll_number ? "valid" : "invalid"}`}>
-            {isLiveValid.roll_number ? <FaCheckCircle /> : <FaTimesCircle />} {fieldMessages.roll_number}
-          </p>
-        )}
-
-        <div className="combined-phone-field">
-          <select
-            name="countryCode"
-            value={form.countryCode}
-            onChange={handleChange}
-          >
-            <option value="+91">🇮🇳 +91</option>
-            <option value="+1">🇺🇸 +1</option>
-            <option value="+44">🇬🇧 +44</option>
-          </select>
+    <div
+      style={{
+        backgroundImage: "url('/wave-haikei.svg')",
+        backgroundSize: "cover",
+        backgroundRepeat: "no-repeat",
+        backgroundPosition: "center",
+        backgroundAttachment: "fixed",
+        minHeight: "100vh",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
+      <div className="student-form">
+        <h2>Student Form</h2>
+        <form>
           <input
-            type="tel"
-            name="phone_number"
-            placeholder="Phone Number"
-            value={form.phone_number}
+            type="text"
+            name="name"
+            placeholder="Name"
+            value={form.name}
             onChange={handleChange}
           />
-        </div>
-        {fieldMessages.phone_number && (
-          <p className={`live-message-text ${isLiveValid.phone_number ? "valid" : "invalid"}`}>
-            {isLiveValid.phone_number ? <FaCheckCircle /> : <FaTimesCircle />} {fieldMessages.phone_number}
-          </p>
-        )}
+          {fieldMessages.name && (
+            <p className={`live-message-text ${isLiveValid.name ? "valid" : "invalid"}`}>
+              {isLiveValid.name ? <FaCheckCircle /> : <FaTimesCircle />} {fieldMessages.name}
+            </p>
+          )}
 
-        <input
-          type="text"
-          name="gmail_address"
-          placeholder="Gmail Address"
-          value={form.gmail_address}
-          onChange={handleChange}
-        />
-        {fieldMessages.gmail_address && (
-          <p className={`live-message-text ${isLiveValid.gmail_address ? "valid" : "invalid"}`}>
-            {isLiveValid.gmail_address ? <FaCheckCircle /> : <FaTimesCircle />} {fieldMessages.gmail_address}
-          </p>
-        )}
+          <input
+            type="text"
+            name="roll_number"
+            placeholder="Roll Number"
+            value={form.roll_number}
+            onChange={handleChange}
+          />
+          {fieldMessages.roll_number && (
+            <p className={`live-message-text ${isLiveValid.roll_number ? "valid" : "invalid"}`}>
+              {isLiveValid.roll_number ? <FaCheckCircle /> : <FaTimesCircle />} {fieldMessages.roll_number}
+            </p>
+          )}
 
-        <select name="branch" value={form.branch} onChange={handleChange}>
-          <option value="">Select Branch</option>
-          {Object.entries(branchNameMap).map(([code, name]) => (
-            <option key={code} value={code}>
-              {name}
-            </option>
-          ))}
-        </select>
+          <div className="combined-phone-field">
+            <select
+              name="countryCode"
+              value={form.countryCode}
+              onChange={handleChange}
+            >
+              <option value="+91">🇮🇳 +91</option>
+              <option value="+1">🇺🇸 +1</option>
+              <option value="+44">🇬🇧 +44</option>
+            </select>
+            <input
+              type="tel"
+              name="phone_number"
+              placeholder="Phone Number"
+              value={form.phone_number}
+              onChange={handleChange}
+            />
+          </div>
+          {fieldMessages.phone_number && (
+            <p className={`live-message-text ${isLiveValid.phone_number ? "valid" : "invalid"}`}>
+              {isLiveValid.phone_number ? <FaCheckCircle /> : <FaTimesCircle />} {fieldMessages.phone_number}
+            </p>
+          )}
 
-        <select name="year" value={form.year} onChange={handleChange}>
-          <option value="">Select Year</option>
-          <option value="1">1</option>
-          <option value="2">2</option>
-          <option value="3">3</option>
-          <option value="4">4</option>
-        </select>
+          <input
+            type="text"
+            name="gmail_address"
+            placeholder="Gmail Address"
+            value={form.gmail_address}
+            onChange={handleChange}
+          />
+          {fieldMessages.gmail_address && (
+            <p className={`live-message-text ${isLiveValid.gmail_address ? "valid" : "invalid"}`}>
+              {isLiveValid.gmail_address ? <FaCheckCircle /> : <FaTimesCircle />} {fieldMessages.gmail_address}
+            </p>
+          )}
 
-        <input
-          type="text"
-          name="exam_hall_number"
-          placeholder="Exam Hall Number"
-          value={form.exam_hall_number}
-          onChange={handleChange}
-        />
+          <select name="branch" value={form.branch} onChange={handleChange}>
+            <option value="">Select Branch</option>
+            {Object.entries(branchNameMap).map(([code, name]) => (
+              <option key={code} value={code}>
+                {name}
+              </option>
+            ))}
+          </select>
 
-        <div className="btn-group">
-          <button type="button" onClick={handleCreate}>
-            Create
-          </button>
-          <button type="button" onClick={() => navigate("/StudentList")}>
-            Student Details
-          </button>
-        </div>
-      </form>
+          <select name="year" value={form.year} onChange={handleChange}>
+            <option value="">Select Year</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+          </select>
+
+          <input
+            type="text"
+            name="exam_hall_number"
+            placeholder="Exam Hall Number"
+            value={form.exam_hall_number}
+            onChange={handleChange}
+          />
+
+          <div className="btn-group">
+            <button type="button" onClick={handleCreate}>
+              Create
+            </button>
+            <button type="button" onClick={() => navigate("/StudentList")}>
+              Student Details
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
   );
 }
