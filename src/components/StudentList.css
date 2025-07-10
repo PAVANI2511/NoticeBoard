@@ -1,5 +1,5 @@
 body {
-  overflow: scroll;
+  overflow: hidden;
 }
 /* Container */
 .student-list-container {
