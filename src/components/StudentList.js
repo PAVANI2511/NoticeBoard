@@ -1,20 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import './StudentList.css';
-
-const branchNameMap = {
-  CSE: "Computer Science & Engineering (CSE)",
-  CAI: "Computer Science & Engineering Artificial Intelligence (CAI)",
-  CSM: "Computer Science & Engineering AI & ML (CSM)",
-  CSN: "Computer Science & Engineering Networks (CSN)",
-  CST: "Computer Science & Engineering Technology (CST)",
-  CSD: "Computer Science & Engineering Data Science (CSD)",
-  CSC: "Computer Science & Engineering Cyber Security (CSC)",
-  ECE: "Electronics & Communication Engineering (ECE)",
-  EEE: "Electrical & Electronics Engineering (EEE)",
-  MEC: "Mechanical Engineering (MEC)",
-  CIV: "Civil Engineering (CIV)",
-};
 
 const StudentList = () => {
   const [students, setStudents] = useState([]);
@@ -35,31 +20,14 @@ const StudentList = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
 
-  const navigate = useNavigate();
-
   const fetchStudents = async () => {
-    const token = localStorage.getItem('jwtToken');
-    if (!token) {
-      alert('Session expired. Please log in again.');
-      navigate('/login');
-      return;
-    }
-
     try {
       const response = await fetch('http://127.0.0.1:8000/api/students/', {
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${localStorage.getItem('jwtToken')}`,
           'Content-Type': 'application/json',
         },
       });
-
-      if (response.status === 401) {
-        alert('Unauthorized. Please log in again.');
-        localStorage.removeItem('jwtToken');
-        navigate('/login');
-        return;
-      }
-
       if (!response.ok) throw new Error(`Error ${response.status}: ${response.statusText}`);
       const data = await response.json();
       setStudents(data.results || data);
@@ -76,11 +44,12 @@ const StudentList = () => {
 
   const handleDelete = async (id) => {
     if (!window.confirm('Are you sure you want to delete this student?')) return;
-    const token = localStorage.getItem('jwtToken');
     try {
       const response = await fetch(`http://127.0.0.1:8000/api/students/${id}/`, {
         method: 'DELETE',
-        headers: { Authorization: `Bearer ${token}` },
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('jwtToken')}`,
+        },
       });
       if (response.status === 204) {
         setStudents(students.filter((s) => s.id !== id));
@@ -98,12 +67,11 @@ const StudentList = () => {
   };
 
   const handleUpdate = async () => {
-    const token = localStorage.getItem('jwtToken');
     try {
       const response = await fetch(`http://127.0.0.1:8000/api/students/${editingStudent}/`, {
         method: 'PUT',
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${localStorage.getItem('jwtToken')}`,
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(formData),
@@ -121,6 +89,7 @@ const StudentList = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  // Filtering logic
   const filteredStudents = students.filter((s) => {
     const matchesRoll = s.roll_number.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesBranch = formData.branch === '' || s.branch === formData.branch;
@@ -128,6 +97,7 @@ const StudentList = () => {
     return matchesRoll && matchesBranch && matchesYear;
   });
 
+  // Pagination logic
   const totalPages = Math.ceil(filteredStudents.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const currentData = filteredStudents.slice(startIndex, startIndex + itemsPerPage);
@@ -141,137 +111,124 @@ const StudentList = () => {
   };
 
   return (
-    <div
-      style={{
-        backgroundImage: "url('/wave-haikei.svg')",
-        backgroundSize: 'cover',
-        backgroundRepeat: 'no-repeat',
-        backgroundPosition: 'center',
-        backgroundAttachment: 'fixed',
-        minHeight: '100vh',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'flex-start',
-        paddingTop: '40px',
-      }}
-    >
-      <div style={{ padding: '30px', textAlign: 'center', backgroundColor: 'rgba(255, 255, 255, 0.95)', borderRadius: '12px' }}>
-        <h2>Student List</h2>
+    <div style={{ padding: '30px', textAlign: 'center' }}>
+      <h2>Student List</h2>
 
-        <input
-          type="text"
-          placeholder="Search by Roll Number"
-          value={searchTerm}
+      <input
+        type="text"
+        placeholder="Search by Roll Number"
+        value={searchTerm}
+        onChange={(e) => {
+          setSearchTerm(e.target.value);
+          setCurrentPage(1); // reset to first page on search
+        }}
+        className="search-input"
+      />
+
+      {/* Filter Dropdowns */}
+      <div style={{ display: 'flex', justifyContent: 'center', gap: '20px', marginTop: '20px' }}>
+        <select
+          value={formData.branch}
           onChange={(e) => {
-            setSearchTerm(e.target.value);
+            setFormData({ ...formData, branch: e.target.value });
             setCurrentPage(1);
           }}
-          className="search-input"
-        />
+        >
+          <option value="">All Branches</option>
+          <option value="CSE">CSE</option>
+          <option value="ECE">ECE</option>
+          <option value="MECH">MECH</option>
+          <option value="EEE">EEE</option>
+          <option value="CIVIL">CIVIL</option>
+        </select>
 
-        <div style={{ display: 'flex', justifyContent: 'center', gap: '20px', marginTop: '20px' }}>
-          <select
-            value={formData.branch}
-            onChange={(e) => {
-              setFormData({ ...formData, branch: e.target.value });
-              setCurrentPage(1);
-            }}
-          >
-            <option value="">All Branches</option>
-            {Object.entries(branchNameMap).map(([code, fullName]) => (
-              <option key={code} value={code}>{fullName}</option>
-            ))}
-          </select>
-
-          <select
-            value={formData.year}
-            onChange={(e) => {
-              setFormData({ ...formData, year: e.target.value });
-              setCurrentPage(1);
-            }}
-          >
-            <option value="">All Years</option>
-            <option value="1">1st Year</option>
-            <option value="2">2nd Year</option>
-            <option value="3">3rd Year</option>
-            <option value="4">4th Year</option>
-          </select>
-        </div>
-
-        {loading ? (
-          <p>Loading...</p>
-        ) : error ? (
-          <p style={{ color: 'red' }}>{error}</p>
-        ) : currentData.length === 0 ? (
-          <p>No students found.</p>
-        ) : (
-          <>
-            <table border="1" cellPadding="10" cellSpacing="0" style={{ margin: 'auto', marginTop: '20px' }}>
-              <thead>
-                <tr>
-                  <th>Roll Number</th>
-                  <th>Name</th>
-                  <th>Branch</th>
-                  <th>Year</th>
-                  <th>Hall Number</th>
-                  <th>Phone</th>
-                  <th>Email</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {currentData.map((student) => (
-                  <tr key={student.id}>
-                    {editingStudent === student.id ? (
-                      <>
-                        <td><input name="roll_number" value={formData.roll_number} onChange={handleInputChange} /></td>
-                        <td><input name="name" value={formData.name} onChange={handleInputChange} /></td>
-                        <td>
-                          <select name="branch" value={formData.branch} onChange={handleInputChange}>
-                            {Object.entries(branchNameMap).map(([code, fullName]) => (
-                              <option key={code} value={code}>{fullName}</option>
-                            ))}
-                          </select>
-                        </td>
-                        <td><input name="year" value={formData.year} onChange={handleInputChange} /></td>
-                        <td><input name="exam_hall_number" value={formData.exam_hall_number} onChange={handleInputChange} /></td>
-                        <td><input name="phone_number" value={formData.phone_number} onChange={handleInputChange} /></td>
-                        <td><input name="gmail_address" value={formData.gmail_address} onChange={handleInputChange} /></td>
-                        <td>
-                          <button className="button2" onClick={handleUpdate}>Save</button>
-                          <button className="button3" onClick={() => setEditingStudent(null)}>Cancel</button>
-                        </td>
-                      </>
-                    ) : (
-                      <>
-                        <td>{student.roll_number}</td>
-                        <td>{student.name}</td>
-                        <td style={{ maxWidth: '200px' }}>{branchNameMap[student.branch] || student.branch}</td>
-                        <td>{student.year}</td>
-                        <td>{student.exam_hall_number}</td>
-                        <td>{student.phone_number}</td>
-                        <td>{student.gmail_address}</td>
-                        <td>
-                          <button className="button1" onClick={() => handleEdit(student)}>Edit</button>
-                          <button className="button4" onClick={() => handleDelete(student.id)}>Delete</button>
-                        </td>
-                      </>
-                    )}
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-
-            <div className="pagination-buttons">
-              <button onClick={goToPreviousPage} disabled={currentPage === 1}>◀ Prev</button>
-              <span className="page-info">
-                Page <br /> {currentPage} of {totalPages}
-              </span>
-              <button onClick={goToNextPage} disabled={currentPage === totalPages}>Next ▶</button>
-            </div>
-          </>
-        )}
+        <select
+          value={formData.year}
+          onChange={(e) => {
+            setFormData({ ...formData, year: e.target.value });
+            setCurrentPage(1);
+          }}
+        >
+          <option value="">All Years</option>
+          <option value="1">1st Year</option>
+          <option value="2">2nd Year</option>
+          <option value="3">3rd Year</option>
+          <option value="4">4th Year</option>
+        </select>
       </div>
+
+      {loading ? (
+        <p>Loading...</p>
+      ) : error ? (
+        <p style={{ color: 'red' }}>{error}</p>
+      ) : currentData.length === 0 ? (
+        <p>No students found.</p>
+      ) : (
+        <>
+          <table border="1" cellPadding="10" cellSpacing="0" style={{ margin: 'auto', marginTop: '20px' }}>
+            <thead>
+              <tr>
+                <th>Roll Number</th>
+                <th>Name</th>
+                <th>Branch</th>
+                <th>Year</th>
+                <th>Hall Number</th>
+                <th>Phone</th>
+                <th>Email</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {currentData.map((student) => (
+                <tr key={student.id}>
+                  {editingStudent === student.id ? (
+                    <>
+                      <td><input name="roll_number" value={formData.roll_number} onChange={handleInputChange} /></td>
+                      <td><input name="name" value={formData.name} onChange={handleInputChange} /></td>
+                      <td><input name="branch" value={formData.branch} onChange={handleInputChange} /></td>
+                      <td><input name="year" value={formData.year} onChange={handleInputChange} /></td>
+                      <td><input name="exam_hall_number" value={formData.exam_hall_number} onChange={handleInputChange} /></td>
+                      <td><input name="phone_number" value={formData.phone_number} onChange={handleInputChange} /></td>
+                      <td><input name="gmail_address" value={formData.gmail_address} onChange={handleInputChange} /></td>
+                      <td>
+                        <button className="button2" onClick={handleUpdate}>Save</button>
+                        <button className="button3" onClick={() => setEditingStudent(null)}>Cancel</button>
+                      </td>
+                    </>
+                  ) : (
+                    <>
+                      <td>{student.roll_number}</td>
+                      <td>{student.name}</td>
+                      <td>{student.branch}</td>
+                      <td>{student.year}</td>
+                      <td>{student.exam_hall_number}</td>
+                      <td>{student.phone_number}</td>
+                      <td>{student.gmail_address}</td>
+                      <td>
+                        <button className="button1" onClick={() => handleEdit(student)}>Edit</button>
+                        <button  className="button4"  onClick={() => handleDelete(student.id)}>Delete</button>
+                      </td>
+                    </>
+                  )}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+
+          {/* Pagination Controls */}
+          <div className="pagination-buttons">
+            <button onClick={goToPreviousPage} disabled={currentPage === 1}>
+              ◀ Prev
+            </button>
+            <span className="page-info">
+              Page <br /> {currentPage} of {totalPages}
+            </span>
+            <button onClick={goToNextPage} disabled={currentPage === totalPages}>
+              Next ▶
+            </button>
+          </div>
+        </>
+      )}
     </div>
   );
 };
