@@ -1,3 +1,6 @@
+body, html {
+  overflow: hidden;
+}
 /* Container */
 .student-list-container {
   max-width: 95%;
@@ -59,10 +62,10 @@ tr:hover {
 
 /* Inputs in editable cells */
 input[type="text"] {
-  padding: 6px 10px;
+  padding: 10px 15px;
   border: 1px solid #ccc;
   border-radius: 5px;
-  width: 100%;
+  width: 50%;
   box-sizing: border-box;
 }
 

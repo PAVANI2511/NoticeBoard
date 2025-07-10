@@ -1,6 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import './StudentList.css';
 
+const branchNameMap = {
+  CSE: "Computer Science & Engineering (CSE)",
+  CAI: "Computer Science & Engineering Artificial Intelligence (CAI)",
+  CSM: "Computer Science & Engineering AI & ML (CSM)",
+  CSN: "Computer Science & Engineering Networks (CSN)",
+  CST: "Computer Science & Engineering Technology (CST)",
+  CSD: "Computer Science & Engineering Data Science (CSD)",
+  CSC: "Computer Science & Engineering Cyber Security (CSC)",
+  ECE: "Electronics & Communication Engineering (ECE)",
+  EEE: "Electrical & Electronics Engineering (EEE)",
+  MEC: "Mechanical Engineering (MEC)",
+  CIV: "Civil Engineering (CIV)",
+};
+
 const StudentList = () => {
   const [students, setStudents] = useState([]);
   const [error, setError] = useState('');
@@ -89,7 +103,6 @@ const StudentList = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  // Filtering logic
   const filteredStudents = students.filter((s) => {
     const matchesRoll = s.roll_number.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesBranch = formData.branch === '' || s.branch === formData.branch;
@@ -97,7 +110,6 @@ const StudentList = () => {
     return matchesRoll && matchesBranch && matchesYear;
   });
 
-  // Pagination logic
   const totalPages = Math.ceil(filteredStudents.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const currentData = filteredStudents.slice(startIndex, startIndex + itemsPerPage);
@@ -120,7 +132,7 @@ const StudentList = () => {
         value={searchTerm}
         onChange={(e) => {
           setSearchTerm(e.target.value);
-          setCurrentPage(1); // reset to first page on search
+          setCurrentPage(1);
         }}
         className="search-input"
       />
@@ -135,11 +147,9 @@ const StudentList = () => {
           }}
         >
           <option value="">All Branches</option>
-          <option value="CSE">CSE</option>
-          <option value="ECE">ECE</option>
-          <option value="MECH">MECH</option>
-          <option value="EEE">EEE</option>
-          <option value="CIVIL">CIVIL</option>
+          {Object.entries(branchNameMap).map(([code, fullName]) => (
+            <option key={code} value={code}>{fullName}</option>
+          ))}
         </select>
 
         <select
@@ -185,7 +195,13 @@ const StudentList = () => {
                     <>
                       <td><input name="roll_number" value={formData.roll_number} onChange={handleInputChange} /></td>
                       <td><input name="name" value={formData.name} onChange={handleInputChange} /></td>
-                      <td><input name="branch" value={formData.branch} onChange={handleInputChange} /></td>
+                      <td>
+                        <select name="branch" value={formData.branch} onChange={handleInputChange}>
+                          {Object.entries(branchNameMap).map(([code, fullName]) => (
+                            <option key={code} value={code}>{fullName}</option>
+                          ))}
+                        </select>
+                      </td>
                       <td><input name="year" value={formData.year} onChange={handleInputChange} /></td>
                       <td><input name="exam_hall_number" value={formData.exam_hall_number} onChange={handleInputChange} /></td>
                       <td><input name="phone_number" value={formData.phone_number} onChange={handleInputChange} /></td>
@@ -199,14 +215,14 @@ const StudentList = () => {
                     <>
                       <td>{student.roll_number}</td>
                       <td>{student.name}</td>
-                      <td>{student.branch}</td>
+                      <td style={{ maxWidth: '200px' }}>{branchNameMap[student.branch] || student.branch}</td>
                       <td>{student.year}</td>
                       <td>{student.exam_hall_number}</td>
                       <td>{student.phone_number}</td>
                       <td>{student.gmail_address}</td>
                       <td>
                         <button className="button1" onClick={() => handleEdit(student)}>Edit</button>
-                        <button  className="button4"  onClick={() => handleDelete(student.id)}>Delete</button>
+                        <button className="button4" onClick={() => handleDelete(student.id)}>Delete</button>
                       </td>
                     </>
                   )}
@@ -217,15 +233,11 @@ const StudentList = () => {
 
           {/* Pagination Controls */}
           <div className="pagination-buttons">
-            <button onClick={goToPreviousPage} disabled={currentPage === 1}>
-              ◀ Prev
-            </button>
+            <button onClick={goToPreviousPage} disabled={currentPage === 1}>◀ Prev</button>
             <span className="page-info">
               Page <br /> {currentPage} of {totalPages}
             </span>
-            <button onClick={goToNextPage} disabled={currentPage === totalPages}>
-              Next ▶
-            </button>
+            <button onClick={goToNextPage} disabled={currentPage === totalPages}>Next ▶</button>
           </div>
         </>
       )}
