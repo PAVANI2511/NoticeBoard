@@ -152,8 +152,7 @@ const StudentList = () => {
           className="search-input"
         />
 
-        {/* Filters */}
-        <div style={{ display: 'flex', justifyContent: 'center', gap: '20px', marginTop: '20px' }}>
+        <div className="filter-container">
           <select
             value={formData.branch}
             onChange={(e) => {
@@ -189,7 +188,7 @@ const StudentList = () => {
           <p>No students found.</p>
         ) : (
           <>
-            <table border="1" cellPadding="10" cellSpacing="0" style={{ margin: 'auto', marginTop: '20px' }}>
+            <table>
               <thead>
                 <tr>
                   <th>Roll Number</th>
@@ -251,12 +250,9 @@ const StudentList = () => {
               </tbody>
             </table>
 
-            {/* Pagination */}
             <div className="pagination-buttons">
               <button onClick={goToPreviousPage} disabled={currentPage === 1}>◀ Prev</button>
-              <span className="page-info">
-                Page <br /> {currentPage} of {totalPages}
-              </span>
+              <span className="page-info">Page <br /> {currentPage} of {totalPages}</span>
               <button onClick={goToNextPage} disabled={currentPage === totalPages}>Next ▶</button>
             </div>
           </>

@@ -1,4 +1,7 @@
-
+/* === Body Scroll === */
+body {
+  overflow: scroll;
+}
 
 /* === Container === */
 .student-list-container {
@@ -118,7 +121,6 @@ button:hover {
   gap: 8px;
   margin-top: 5px;
   width: 30%;
-  
 }
 
 .pagination-buttons button {
