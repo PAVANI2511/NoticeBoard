@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import './StudentList.css';
 
 const branchNameMap = {
@@ -16,6 +15,23 @@ const branchNameMap = {
   CIV: "Civil Engineering (CIV)",
 };
 
+<<<<<<< HEAD
+=======
+const yearChoices = [
+  ['1', '1st Year'],
+  ['2', '2nd Year'],
+  ['3', '3rd Year'],
+  ['4', '4th Year'],
+];
+
+const yearMap = {
+  '1': '1st Year',
+  '2': '2nd Year',
+  '3': '3rd Year',
+  '4': '4th Year',
+};
+
+>>>>>>> 9e6e983d363b13bd3cf61b56278779b55d4590bb
 const StudentList = () => {
   const [students, setStudents] = useState([]);
   const [error, setError] = useState('');
@@ -34,31 +50,19 @@ const StudentList = () => {
 
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
+<<<<<<< HEAD
   const navigate = useNavigate();
+=======
+>>>>>>> 9e6e983d363b13bd3cf61b56278779b55d4590bb
 
   const fetchStudents = async () => {
-    const token = localStorage.getItem('jwtToken');
-    if (!token) {
-      alert('Session expired. Please log in again.');
-      navigate('/login');
-      return;
-    }
-
     try {
       const response = await fetch('http://127.0.0.1:8000/api/students/', {
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${localStorage.getItem('jwtToken')}`,
           'Content-Type': 'application/json',
         },
       });
-
-      if (response.status === 401) {
-        alert('Unauthorized. Please log in again.');
-        localStorage.removeItem('jwtToken');
-        navigate('/login');
-        return;
-      }
-
       if (!response.ok) throw new Error(`Error ${response.status}: ${response.statusText}`);
       const data = await response.json();
       setStudents(data.results || data);
@@ -75,11 +79,12 @@ const StudentList = () => {
 
   const handleDelete = async (id) => {
     if (!window.confirm('Are you sure you want to delete this student?')) return;
-    const token = localStorage.getItem('jwtToken');
     try {
       const response = await fetch(`http://127.0.0.1:8000/api/students/${id}/`, {
         method: 'DELETE',
-        headers: { Authorization: `Bearer ${token}` },
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('jwtToken')}`,
+        },
       });
       if (response.status === 204) {
         setStudents(students.filter((s) => s.id !== id));
@@ -97,12 +102,11 @@ const StudentList = () => {
   };
 
   const handleUpdate = async () => {
-    const token = localStorage.getItem('jwtToken');
     try {
       const response = await fetch(`http://127.0.0.1:8000/api/students/${editingStudent}/`, {
         method: 'PUT',
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${localStorage.getItem('jwtToken')}`,
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(formData),
@@ -140,21 +144,8 @@ const StudentList = () => {
   };
 
   return (
-    <div
-      style={{
-        backgroundImage: "url('/wave-haikei.svg')",
-        backgroundSize: 'cover',
-        backgroundRepeat: 'no-repeat',
-        backgroundPosition: 'center',
-        backgroundAttachment: 'fixed',
-        minHeight: '100vh',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'flex-start',
-        paddingTop: '40px',
-      }}
-    >
-      <div style={{ padding: '30px', textAlign: 'center', backgroundColor: 'rgba(255, 255, 255, 0.95)', borderRadius: '12px' }}>
+    <div className="student-list-container">
+      <div style={{ padding: '30px', textAlign: 'center' }}>
         <h2>Student List</h2>
 
         <input
@@ -168,7 +159,7 @@ const StudentList = () => {
           className="search-input"
         />
 
-        <div style={{ display: 'flex', justifyContent: 'center', gap: '20px', marginTop: '20px' }}>
+        <div className="filter-container">
           <select
             value={formData.branch}
             onChange={(e) => {
@@ -190,10 +181,9 @@ const StudentList = () => {
             }}
           >
             <option value="">All Years</option>
-            <option value="1">1st Year</option>
-            <option value="2">2nd Year</option>
-            <option value="3">3rd Year</option>
-            <option value="4">4th Year</option>
+            {yearChoices.map(([value, label]) => (
+              <option key={value} value={value}>{label}</option>
+            ))}
           </select>
         </div>
 
@@ -205,7 +195,7 @@ const StudentList = () => {
           <p>No students found.</p>
         ) : (
           <>
-            <table border="1" cellPadding="10" cellSpacing="0" style={{ margin: 'auto', marginTop: '20px' }}>
+            <table>
               <thead>
                 <tr>
                   <th>Roll Number</th>
@@ -232,7 +222,13 @@ const StudentList = () => {
                             ))}
                           </select>
                         </td>
-                        <td><input name="year" value={formData.year} onChange={handleInputChange} /></td>
+                        <td>
+                          <select name="year" value={formData.year} onChange={handleInputChange}>
+                            {yearChoices.map(([value, label]) => (
+                              <option key={value} value={value}>{label}</option>
+                            ))}
+                          </select>
+                        </td>
                         <td><input name="exam_hall_number" value={formData.exam_hall_number} onChange={handleInputChange} /></td>
                         <td><input name="phone_number" value={formData.phone_number} onChange={handleInputChange} /></td>
                         <td><input name="gmail_address" value={formData.gmail_address} onChange={handleInputChange} /></td>
@@ -246,7 +242,7 @@ const StudentList = () => {
                         <td>{student.roll_number}</td>
                         <td>{student.name}</td>
                         <td style={{ maxWidth: '200px' }}>{branchNameMap[student.branch] || student.branch}</td>
-                        <td>{student.year}</td>
+                        <td>{yearMap[student.year] || student.year}</td>
                         <td>{student.exam_hall_number}</td>
                         <td>{student.phone_number}</td>
                         <td>{student.gmail_address}</td>
