@@ -86,7 +86,17 @@ body {
   margin-bottom: 20px;
   text-align: center;
 }
+.input-username{
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+  border-radius: 8px;
+  border: none;
+  background-color: #c6c3c3;
+  font-size: 16px;
+  box-sizing: border-box;                     
 
+}
 .input-field,
 .phone-number-input,
 .country-select {

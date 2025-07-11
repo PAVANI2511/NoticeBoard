@@ -189,7 +189,7 @@ function SignIn() {
             <h2 className="login-title">Sign In</h2>
 
             <form onSubmit={handleSubmit}>
-              <input type="text" name="username" placeholder="Username" value={form.username} onChange={handleChange} className="input-field" />
+              <input type="text" name="username" placeholder="Username" value={form.username} onChange={handleChange} className="input-username" />
               {fieldMessages.username && (
                 <p className={`live-message-text ${isLiveValid.username ? 'valid' : 'invalid'}`}>
                   {isLiveValid.username ? <FaCheckCircle /> : <FaTimesCircle />} {fieldMessages.username}
