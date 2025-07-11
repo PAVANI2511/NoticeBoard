@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 import "./ForgotPassword.css";
 
 const ForgotPassword = () => {
@@ -85,68 +86,81 @@ const ForgotPassword = () => {
   };
 
   return (
-    <div className="forgot-password-container">
-      <form onSubmit={handleSubmit} className="forgot-password-form">
-        <h2>Change Password</h2>
+    <div
+      className="forgotpassword-background"
+      style={{
+        backgroundImage: "url('/wave-haikei.svg')",
+        backgroundSize: "cover",
+        backgroundRepeat: "no-repeat",
+        backgroundPosition: "center",
+        backgroundAttachment: "fixed",
+        minHeight: "100vh",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
+      <div className="forgot-password-container">
+        <form onSubmit={handleSubmit} className="forgot-password-form">
+          <h2>Change Password</h2>
 
-        {/* New Password */}
-        <label>New Password</label>
-        <div className="password-input-wrapper">
-          <input
-            type={showNewPassword ? "text" : "password"}
-            placeholder="Enter new password"
-            value={newPassword}
-            onChange={(e) => setNewPassword(e.target.value)}
-            required
-            autoComplete="new-password"
-          />
-          <span
-            className="toggle-eye"
-            onClick={() => setShowNewPassword((prev) => !prev)}
-            title={showNewPassword ? "Hide password" : "Show password"}
-          >
-            {showNewPassword ? "🔒" : "👁"}
-          </span>
-        </div>
-        {newPassword.length > 0 && (
-          <p className={`validation-message ${passwordValid ? "valid" : ""}`}>
-            {passwordValid
-              ? "✅ Strong password"
-              : "❌ Password must be at least 8 characters long with uppercase, lowercase, number, and symbol."}
-          </p>
-        )}
+          {/* New Password */}
+          <label>New Password</label>
+          <div className="password-input-wrapper">
+            <input
+              type={showNewPassword ? "text" : "password"}
+              placeholder="Enter new password"
+              value={newPassword}
+              onChange={(e) => setNewPassword(e.target.value)}
+              required
+              autoComplete="new-password"
+            />
+            <span
+              className="toggle-eye"
+              onClick={() => setShowNewPassword((prev) => !prev)}
+              title={showNewPassword ? "Hide password" : "Show password"}
+            >
+            </span>
+          </div>
+          {newPassword.length > 0 && (
+            <p className={`validation-message ${passwordValid ? "valid" : ""}`}>
+              {passwordValid
+                ? "✅ Strong password"
+                : "❌ Password must be at least 8 characters long with uppercase, lowercase, number, and symbol."}
+            </p>
+          )}
 
-        {/* Confirm Password */}
-        <label>Confirm Password</label>
-        <div className="password-input-wrapper">
-          <input
-            type={showConfirmPassword ? "text" : "password"}
-            placeholder="Re-enter new password"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            required
-            autoComplete="new-password"
-          />
-          <span
-            className="toggle-eye"
-            onClick={() => setShowConfirmPassword((prev) => !prev)}
-            title={showConfirmPassword ? "Hide password" : "Show password"}
-          >
-            {showConfirmPassword ? "🔒" : "👁"}
-          </span>
-        </div>
-        {confirmPassword.length > 0 && (
-          <p className={`validation-message ${matchValid ? "valid" : ""}`}>
-            {matchValid ? "✅ Passwords match" : "❌ Passwords do not match."}
-          </p>
-        )}
+          {/* Confirm Password */}
+          <label>Confirm Password</label>
+          <div className="password-input-wrapper">
+            <input
+              type={showConfirmPassword ? "text" : "password"}
+              placeholder="Re-enter new password"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              required
+              autoComplete="new-password"
+            />
+            <span
+              className="toggle-eye"
+              onClick={() => setShowConfirmPassword((prev) => !prev)}
+              title={showConfirmPassword ? "Hide password" : "Show password"}
+            >
+            </span>
+          </div>
+          {confirmPassword.length > 0 && (
+            <p className={`validation-message ${matchValid ? "valid" : ""}`}>
+              {matchValid ? "✅ Passwords match" : "❌ Passwords do not match."}
+            </p>
+          )}
 
-        <button type="submit" disabled={!passwordValid || !matchValid}>
-          Change Password
-        </button>
+          <button type="submit" disabled={!passwordValid || !matchValid}>
+            Change Password
+          </button>
 
-        {message && <p className="message">{message}</p>}
-      </form>
+          {message && <p className="message">{message}</p>}
+        </form>
+      </div>
     </div>
   );
 };

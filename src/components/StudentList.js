@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './StudentList.css';
 
 const branchNameMap = {
@@ -14,9 +15,6 @@ const branchNameMap = {
   MEC: "Mechanical Engineering (MEC)",
   CIV: "Civil Engineering (CIV)",
 };
-
-<<<<<<< HEAD
-=======
 const yearChoices = [
   ['1', '1st Year'],
   ['2', '2nd Year'],
@@ -30,8 +28,6 @@ const yearMap = {
   '3': '3rd Year',
   '4': '4th Year',
 };
-
->>>>>>> 9e6e983d363b13bd3cf61b56278779b55d4590bb
 const StudentList = () => {
   const [students, setStudents] = useState([]);
   const [error, setError] = useState('');
@@ -50,11 +46,7 @@ const StudentList = () => {
 
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
-<<<<<<< HEAD
   const navigate = useNavigate();
-=======
->>>>>>> 9e6e983d363b13bd3cf61b56278779b55d4590bb
-
   const fetchStudents = async () => {
     try {
       const response = await fetch('http://127.0.0.1:8000/api/students/', {
