@@ -1,4 +1,3 @@
-/* Reset & Page */
 body {
   margin: 0;
   padding: 0;
@@ -7,8 +6,6 @@ body {
   height: 100vh;
   overflow: hidden;
 }
-
-/* Wrapper */
 .card-wrapper {
   height: 100vh;
   display: flex;
@@ -16,8 +13,6 @@ body {
   align-items: center;
   position: relative;
 }
-
-/* Top-right user menu */
 .user-menu {
   position: absolute;
   top: 16px;
@@ -25,12 +20,10 @@ body {
   cursor: pointer;
   z-index: 10;
 }
-
 .menu-icon {
   font-size: 26px;
   color: #444;
 }
-
 .menu-dropdown {
   position: absolute;
   top: 48px;
@@ -43,7 +36,6 @@ body {
   min-width: 120px;
   text-align: left;
 }
-
 .menu-dropdown span {
   display: block;
   padding: 10px 16px;
@@ -51,12 +43,9 @@ body {
   color: #333;
   cursor: pointer;
 }
-
 .menu-dropdown span:hover {
   background-color: #f0f0f0;
 }
-
-/* Card Layout */
 .login-card {
   display: flex;
   width: 800px;
@@ -66,18 +55,14 @@ body {
   overflow: hidden;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
 }
-
 .login-left {
   width: 50%;
 }
-
 .left-image {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
-
-/* Right Side */
 .login-right {
   width: 50%;
   padding: 30px;
@@ -87,15 +72,12 @@ body {
   justify-content: center;
   align-items: center;
 }
-
 .login-title {
   font-size: 28px;
   font-weight: bold;
   margin-bottom: 20px;
   text-align: center;
 }
-
-/* Form Styling */
 .form-block {
   width: 100%;
   max-width: 320px;
@@ -124,12 +106,11 @@ body {
   background-color: #fdf2f2;
 }
 
-/* Password Field */
+
 .password-wrapper {
   position: relative;
   width: 100%;
 }
-
 .password-input {
   padding-right: 44px;
 }
@@ -144,7 +125,6 @@ body {
   color: #555;
 }
 
-/* Button Styling */
 .visible-login,
 .signin-btn {
   width: 100%;
