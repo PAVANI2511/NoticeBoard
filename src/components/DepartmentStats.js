@@ -1,78 +1,72 @@
-import React, { useState } from 'react';
-import './DepartmentStats.css';
-import Navbar from './Navbar'; 
+import React, { useEffect, useState } from 'react';
+import './DepartmentStats.css'; // You can create custom styles here
+
 const DepartmentStats = () => {
-  const [selectedDept, setSelectedDept] = useState('');
-  const [selectedYear, setSelectedYear] = useState('');
+  const [stats, setStats] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  // Department List
-  const departments = ['CSM', 'CSD', 'CSC', 'CAI', 'CSN', 'CSE', 'ECE', 'EEE', 'MEC', 'CIV'];
+  useEffect(() => {
+    const fetchStats = async () => {
+      try {
+        const token = localStorage.getItem('jwtToken');
+        const response = await fetch('http://127.0.0.1:8000/api/students/statistics/', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
 
-  // Year List
-  const years = ['1', '2', '3', '4'];
+        if (!response.ok) {
+          throw new Error('Failed to fetch statistics');
+        }
 
-  // Mock Dynamic Data
-  const data = {};
+        const data = await response.json();
+        setStats(data);
+        setLoading(false);
+      } catch (err) {
+        setError(err.message);
+        setLoading(false);
+      }
+    };
 
-  departments.forEach(dept => {
-    data[dept] = {};
-    years.forEach(year => {
-      const sent = Math.floor(Math.random() * 60);
-      const notSent = 60 - sent;
-      data[dept][year] = { sent, notSent };
-    });
-  });
+    fetchStats();
+  }, []);
 
-  const getStats = () => {
-    if (selectedDept && selectedYear) {
-      return data[selectedDept][selectedYear];
-    }
-    return null;
-  };
+  if (loading) return <div>Loading statistics...</div>;
+  if (error) return <div>Error: {error}</div>;
 
   return (
-    
-    <div className="dept-stats-container">
-      <h2>📊 Mail Delivery Stats</h2>
-
-      <div className="dropdown-group">
-        <label>Department:</label>
-        <select
-          value={selectedDept}
-          onChange={(e) => {
-            setSelectedDept(e.target.value);
-            setSelectedYear('');
-          }}
-        >
-          <option value="">--Select--</option>
-          {departments.map(dept => (
-            <option key={dept} value={dept}>{dept}</option>
-          ))}
-        </select>
+    <div className="stats-container">
+      <h2>Department Statistics</h2>
+      <div className="overall-stats">
+        <p><strong>Total Students:</strong> {stats.total_students}</p>
+        <p><strong>Students with Gmail:</strong> {stats.students_with_gmail}</p>
+        <p><strong>Students with Room:</strong> {stats.students_with_room}</p>
+        <p><strong>Emails Sent:</strong> {stats.emails_sent}</p>
+        <p><strong>Emails Pending:</strong> {stats.emails_pending}</p>
       </div>
 
-      {selectedDept && (
-        <div className="dropdown-group">
-          <label>Year:</label>
-          <select
-            value={selectedYear}
-            onChange={(e) => setSelectedYear(e.target.value)}
-          >
-            <option value="">--Select--</option>
-            {years.map(year => (
-              <option key={year} value={year}>{year}</option>
-            ))}
-          </select>
-        </div>
-      )}
+      <h3>Branch-wise Statistics</h3>
+      {Object.entries(stats.branches_statistics).map(([branchCode, branchData]) => (
+        <div key={branchCode} className="branch-card">
+          <h4>{branchData.name}</h4>
+          <p><strong>Total Students:</strong> {branchData.count}</p>
+          <p><strong>Emails Sent:</strong> {branchData.emails_sent}</p>
+          <p><strong>Students with Room:</strong> {branchData.with_room}</p>
 
-      {selectedDept && selectedYear && (
-        <div className="result-card">
-          <h3>Results for {selectedDept} - Year {selectedYear}</h3>
-          <p>✅ Mails Sent: <strong>{getStats().sent}</strong></p>
-          <p>❌ Mails Not Sent: <strong>{getStats().notSent}</strong></p>
+          <div className="years-info">
+            <h5>Year-wise Breakdown:</h5>
+            {Object.entries(branchData.years).map(([yearKey, yearData]) => (
+              <div key={yearKey} className="year-card">
+                <p><strong>{yearData.name}</strong></p>
+                <p>Count: {yearData.count}</p>
+                <p>Emails Sent: {yearData.emails_sent}</p>
+                <p>With Room: {yearData.with_room}</p>
+              </div>
+            ))}
+          </div>
         </div>
-      )}
+      ))}
     </div>
   );
 };

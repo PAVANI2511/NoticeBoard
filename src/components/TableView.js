@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './TableView.css';
 import { FaPaperPlane, FaChartBar } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom'; // ✅ added for navigation
 
 const TableView = () => {
   const [data, setData] = useState([]);
@@ -8,9 +9,9 @@ const TableView = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedRows, setSelectedRows] = useState([]);
   const [selectAll, setSelectAll] = useState(false);
-  const [showPopup, setShowPopup] = useState(false);
-  const [stats, setStats] = useState(null);
+
   const itemsPerPage = 10;
+  const navigate = useNavigate(); // ✅ initialized navigation
 
   useEffect(() => {
     const storedData = JSON.parse(localStorage.getItem('excelData')) || [];
@@ -49,30 +50,9 @@ const TableView = () => {
     }
   };
 
-  const showStatistics = async () => {
-    try {
-      const token = localStorage.getItem('jwtToken'); // Ensure token is stored
-      const response = await fetch('http://localhost:8000/api/students/statistics/', {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to fetch statistics');
-      }
-
-      const data = await response.json();
-      setStats(data);
-      setShowPopup(true);
-    } catch (error) {
-      console.error('Error:', error);
-      alert('Failed to fetch statistics. Please check your token or server.');
-    }
-  };
-
-  const closePopup = () => {
-    setShowPopup(false);
+  // ✅ Navigate to Department Stats Page
+  const showStatistics = () => {
+    navigate('/departmentstats');
   };
 
   const countSent = data.filter(row => row.sent === true).length;
@@ -146,36 +126,6 @@ const TableView = () => {
         </>
       ) : (
         <p>No data available. Please upload a file first.</p>
-      )}
-
-      {showPopup && stats && (
-        <div className="popup-overlay">
-          <div className="popup-content scrollable">
-            <h3>📊 System Statistics</h3>
-            <p><strong>Total Students:</strong> {stats.total_students}</p>
-            <p><strong>With Gmail:</strong> {stats.students_with_gmail}</p>
-            <p><strong>With Room Info:</strong> {stats.students_with_room}</p>
-            <p><strong>Emails Sent:</strong> {stats.emails_sent}</p>
-            <p><strong>Emails Pending:</strong> {stats.emails_pending}</p>
-
-            <h4>📚 Branch-wise Statistics</h4>
-            {Object.entries(stats.branches_statistics).map(([branchCode, branch]) => (
-              <div key={branchCode} className="branch-block">
-                <h5>{branch.name}</h5>
-                <p><strong>Total:</strong> {branch.count} | <strong>Emails Sent:</strong> {branch.emails_sent} | <strong>With Room:</strong> {branch.with_room}</p>
-                <ul>
-                  {branch.years &&
-                    Object.entries(branch.years).map(([yearCode, year]) => (
-                      <li key={yearCode}>
-                        {year.name}: {year.count} students, {year.emails_sent} sent, {year.with_room} with room
-                      </li>
-                    ))}
-                </ul>
-              </div>
-            ))}
-            <button className="close-button" onClick={closePopup}>Close</button>
-          </div>
-        </div>
       )}
     </div>
   );

@@ -1,40 +1,75 @@
-.dept-stats-container {
-  background: #fff;
-  padding: 25px;
-  margin: 30px auto;
-  border-radius: 14px;
-  width: 420px;
-  text-align: left;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+/* Container with scroll */
+.stats-container {
+  max-width: 900px;
+  height: 80vh; /* Fixed height to enable scrolling */
+  margin: 90px auto;
+  padding: 0; /* Padding removed to help sticky header stick */
+  background: #f7f9fc;
+  border-radius: 16px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  font-family: 'Segoe UI', sans-serif;
+  overflow-y: auto;
+  position: relative;
 }
 
-.dept-stats-container h2 {
+/* Fixed heading while scrolling */
+.stats-heading {
+  position: sticky;
+  top: 0;
+  background: #f7f9fc;
+  padding: 20px;
+  font-size: 24px;
+  font-weight: bold;
+  z-index: 10;
+  border-bottom: 2px solid #ddd;
   text-align: center;
-  margin-bottom: 20px;
-  color: #0077ff;
 }
 
-.dropdown-group {
-  margin-bottom: 18px;
+/* Overall statistics styling */
+.overall-stats {
+  padding: 20px 30px;
 }
 
-.dropdown-group label {
-  display: block;
-  font-weight: 600;
-  margin-bottom: 6px;
+.overall-stats p {
+  margin: 8px 0;
+  font-size: 16px;
 }
 
-.dropdown-group select {
-  padding: 10px;
-  width: 100%;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-}
-
-.result-card {
-  background: #f9f9f9;
+/* Branch-level blocks */
+.branch-card {
+  background-color: #ffffff;
+  margin: 20px 30px;
   padding: 20px;
   border-radius: 12px;
-  box-shadow: 0 3px 10px rgba(0,0,0,0.08);
-  margin-top: 20px;
+  border: 1px solid #ddd;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.branch-card h4 {
+  margin-bottom: 10px;
+  font-size: 20px;
+  color: #333;
+}
+
+.branch-card p {
+  margin: 6px 0;
+}
+
+/* Year-wise nested info */
+.years-info {
+  margin-top: 15px;
+  padding-left: 15px;
+}
+
+.year-card {
+  background-color: #f0f4ff;
+  margin-top: 10px;
+  padding: 10px 15px;
+  border-radius: 8px;
+  border-left: 4px solid #337ab7;
+}
+
+.year-card p {
+  margin: 4px 0;
+  font-size: 15px;
 }
