@@ -104,7 +104,6 @@ const ForgotPassword = () => {
         <form onSubmit={handleSubmit} className="forgot-password-form">
           <h2>Change Password</h2>
 
-          {/* New Password */}
           <label>New Password</label>
           <div className="password-input-wrapper">
             <input
@@ -120,17 +119,17 @@ const ForgotPassword = () => {
               onClick={() => setShowNewPassword((prev) => !prev)}
               title={showNewPassword ? "Hide password" : "Show password"}
             >
+          
             </span>
           </div>
-          {newPassword.length > 0 && (
-            <p className={`validation-message ${passwordValid ? "valid" : ""}`}>
-              {passwordValid
+          <p className={`validation-message ${passwordValid ? "valid" : ""}`}>
+            {newPassword.length > 0
+              ? passwordValid
                 ? "✅ Strong password"
-                : "❌ Password must be at least 8 characters long with uppercase, lowercase, number, and symbol."}
-            </p>
-          )}
+                : "❌ Password must be at least 8 characters long with uppercase, lowercase, number, and symbol."
+              : "\u00A0"}
+          </p>
 
-          {/* Confirm Password */}
           <label>Confirm Password</label>
           <div className="password-input-wrapper">
             <input
@@ -146,15 +145,18 @@ const ForgotPassword = () => {
               onClick={() => setShowConfirmPassword((prev) => !prev)}
               title={showConfirmPassword ? "Hide password" : "Show password"}
             >
+    
             </span>
           </div>
-          {confirmPassword.length > 0 && (
-            <p className={`validation-message ${matchValid ? "valid" : ""}`}>
-              {matchValid ? "✅ Passwords match" : "❌ Passwords do not match."}
-            </p>
-          )}
+          <p className={`validation-message ${matchValid ? "valid" : ""}`}>
+            {confirmPassword.length > 0
+              ? matchValid
+                ? "✅ Passwords match"
+                : "❌ Passwords do not match."
+              : "\u00A0"}
+          </p>
 
-          <button type="submit" disabled={!passwordValid || !matchValid}>
+          <button type="submit" className="submit-btn" disabled={!passwordValid || !matchValid}>
             Change Password
           </button>
 
