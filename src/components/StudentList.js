@@ -2,19 +2,20 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './StudentList.css';
 
-const branchNameMap = {
-  CSE: "Computer Science & Engineering (CSE)",
-  CAI: "Computer Science & Engineering Artificial Intelligence (CAI)",
-  CSM: "Computer Science & Engineering AI & ML (CSM)",
-  CSN: "Computer Science & Engineering Networks (CSN)",
-  CST: "Computer Science & Engineering Technology (CST)",
-  CSD: "Computer Science & Engineering Data Science (CSD)",
-  CSC: "Computer Science & Engineering Cyber Security (CSC)",
-  ECE: "Electronics & Communication Engineering (ECE)",
-  EEE: "Electrical & Electronics Engineering (EEE)",
-  MEC: "Mechanical Engineering (MEC)",
-  CIV: "Civil Engineering (CIV)",
-};
+const branchChoices = [
+  ['CSE', 'Computer Science & Engineering (CSE)'],
+  ['CSM', 'Computer Science & Engineering - AI & ML (CSM)'],
+  ['CAI', 'Computer Science & Engineering - Artificial Intelligence (CAI)'],
+  ['CSD', 'Computer Science & Engineering - Data Science (CSD)'],
+  ['CSC', 'Computer Science & Engineering - Cyber Security (CSC)'],
+  ['ECE', 'Electronics and Communication Engineering (ECE)'],
+  ['EEE', 'Electrical and Electronics Engineering (EEE)'],
+  ['ME', 'Mechanical Engineering (ME)'],
+  ['CIV', 'Civil Engineering (CIV)'],
+  ['CSN', 'Computer Science & Engineering - Networks (CSN)'],
+  ['CST', 'Computer Science & Engineering - Technology (CST)'],
+];
+
 const yearChoices = [
   ['1', '1st Year'],
   ['2', '2nd Year'],
@@ -22,12 +23,9 @@ const yearChoices = [
   ['4', '4th Year'],
 ];
 
-const yearMap = {
-  '1': '1st Year',
-  '2': '2nd Year',
-  '3': '3rd Year',
-  '4': '4th Year',
-};
+const branchMap = Object.fromEntries(branchChoices);
+const yearMap = Object.fromEntries(yearChoices);
+
 const StudentList = () => {
   const [students, setStudents] = useState([]);
   const [error, setError] = useState('');
@@ -44,9 +42,15 @@ const StudentList = () => {
     exam_hall_number: '',
   });
 
+  const [filterData, setFilterData] = useState({
+    branch: '',
+    year: '',
+  });
+
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
   const navigate = useNavigate();
+
   const fetchStudents = async () => {
     try {
       const response = await fetch('http://127.0.0.1:8000/api/students/', {
@@ -90,7 +94,11 @@ const StudentList = () => {
 
   const handleEdit = (student) => {
     setEditingStudent(student.id);
-    setFormData({ ...student });
+    setFormData({
+      ...student,
+      branch: student.branch || '',
+      year: student.year?.toString() || '',
+    });
   };
 
   const handleUpdate = async () => {
@@ -118,8 +126,8 @@ const StudentList = () => {
 
   const filteredStudents = students.filter((s) => {
     const matchesRoll = s.roll_number.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesBranch = formData.branch === '' || s.branch === formData.branch;
-    const matchesYear = formData.year === '' || s.year.toString() === formData.year;
+    const matchesBranch = filterData.branch === '' || s.branch === filterData.branch;
+    const matchesYear = filterData.year === '' || String(s.year) === filterData.year;
     return matchesRoll && matchesBranch && matchesYear;
   });
 
@@ -153,22 +161,22 @@ const StudentList = () => {
 
         <div className="filter-container">
           <select
-            value={formData.branch}
+            value={filterData.branch}
             onChange={(e) => {
-              setFormData({ ...formData, branch: e.target.value });
+              setFilterData({ ...filterData, branch: e.target.value });
               setCurrentPage(1);
             }}
           >
             <option value="">All Branches</option>
-            {Object.entries(branchNameMap).map(([code, fullName]) => (
-              <option key={code} value={code}>{fullName}</option>
+            {branchChoices.map(([value, label]) => (
+              <option key={value} value={value}>{label}</option>
             ))}
           </select>
 
           <select
-            value={formData.year}
+            value={filterData.year}
             onChange={(e) => {
-              setFormData({ ...formData, year: e.target.value });
+              setFilterData({ ...filterData, year: e.target.value });
               setCurrentPage(1);
             }}
           >
@@ -209,8 +217,8 @@ const StudentList = () => {
                         <td><input name="name" value={formData.name} onChange={handleInputChange} /></td>
                         <td>
                           <select name="branch" value={formData.branch} onChange={handleInputChange}>
-                            {Object.entries(branchNameMap).map(([code, fullName]) => (
-                              <option key={code} value={code}>{fullName}</option>
+                            {branchChoices.map(([value, label]) => (
+                              <option key={value} value={value}>{label}</option>
                             ))}
                           </select>
                         </td>
@@ -233,8 +241,8 @@ const StudentList = () => {
                       <>
                         <td>{student.roll_number}</td>
                         <td>{student.name}</td>
-                        <td style={{ maxWidth: '200px' }}>{branchNameMap[student.branch] || student.branch}</td>
-                        <td>{yearMap[student.year] || student.year}</td>
+                        <td>{branchMap[student.branch] || student.branch}</td>
+                        <td>{yearMap[String(student.year)] || student.year}</td>
                         <td>{student.exam_hall_number}</td>
                         <td>{student.phone_number}</td>
                         <td>{student.gmail_address}</td>
