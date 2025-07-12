@@ -2,14 +2,14 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh; /* Full screen height */
-  background-color: #f5f5f5; /* Optional background */
+  height: 100vh; 
+  background-color: #f5f5f5; 
 }
 
 /* Main card container */
 .container {
   font-family: Arial, sans-serif;
-  background-color: #ffffffee; /* semi-transparent white */
+  background-color: #ffffffee; 
   border-radius: 16px;
   width: 400px;
   padding: 0;
@@ -50,4 +50,42 @@
 
 .year-button:hover {
   background-color: #d5d5d5;
+}
+
+/* === Responsive for Tablets === */
+@media (max-width: 768px) {
+  .container {
+    width: 90%;
+    border-radius: 14px;
+  }
+
+  .header {
+    font-size: 20px;
+    padding: 18px;
+  }
+
+  .year-button {
+    width: 80%;
+    font-size: 17px;
+    padding: 11px;
+  }
+}
+
+/* === Responsive for Mobile Phones === */
+@media (max-width: 480px) {
+  .container {
+    width: 95%;
+    border-radius: 12px;
+  }
+
+  .header {
+    font-size: 18px;
+    padding: 16px;
+  }
+
+  .year-button {
+    width: 90%;
+    font-size: 16px;
+    padding: 10px;
+  }
 }

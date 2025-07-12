@@ -73,3 +73,35 @@ input {
 .close-btn:hover {
   background-color: #b3b3b3;
 }
+
+/* ✅ Responsive Design: Media Query for screens ≤ 600px */
+@media (max-width: 600px) {
+  .email-card {
+    width: 90%;
+    padding: 25px 20px;
+    border-radius: 12px;
+  }
+
+  .email-card h2 {
+    font-size: 20px;
+    margin-bottom: 20px;
+  }
+
+  input {
+    font-size: 13px;
+    padding: 9px;
+  }
+
+  .button-group {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .send-btn,
+  .close-btn {
+    width: 100%;
+    margin-right: 0;
+    font-size: 13px;
+    padding: 10px;
+  }
+}

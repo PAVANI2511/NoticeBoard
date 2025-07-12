@@ -1,3 +1,4 @@
+/* === Container === */
 .table-container {
   max-width: 95%;
   margin: 40px auto;
@@ -6,13 +7,17 @@
   border-radius: 16px;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
   font-family: 'Segoe UI', sans-serif;
+  overflow-x: auto;
 }
 
+/* === Header === */
 .table-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 16px;
+  flex-wrap: wrap;
+  gap: 10px;
 }
 
 .table-header h2 {
@@ -20,24 +25,26 @@
   color: #333;
   flex: 1;
   text-align: center;
+  font-size: 22px;
 }
 
+/* === Controls === */
 .left-controls,
 .right-controls {
   display: flex;
   align-items: center;
   gap: 10px;
+  flex-wrap: nowrap;
 }
 
-/* Checkbox */
+/* === Checkbox === */
 .select-all-checkbox {
   transform: scale(1.4);
   cursor: pointer;
-  vertical-align: middle;
-  margin-top: 25px;
+  margin: 0;
 }
 
-/* Buttons */
+/* === Buttons === */
 .small-button {
   padding: 8px 14px;
   border: none;
@@ -47,6 +54,7 @@
   display: flex;
   align-items: center;
   gap: 6px;
+  white-space: nowrap;
 }
 
 .resend-button {
@@ -64,12 +72,13 @@
   opacity: 0.9;
 }
 
-/* Table */
+/* === Table === */
 .styled-table {
   width: 100%;
   border-collapse: collapse;
   font-size: 14px;
   border: 1px solid #ccc;
+  min-width: 700px;
 }
 
 .styled-table th {
@@ -94,7 +103,7 @@
   background-color: #f1f1f1;
 }
 
-/* Pagination */
+/* === Pagination === */
 .pagination-buttons {
   display: flex;
   float: right;
@@ -102,6 +111,7 @@
   gap: 8px;
   margin-top: 25px;
   width: 30%;
+  flex-wrap: wrap;
 }
 
 .pagination-buttons button {
@@ -130,7 +140,7 @@
   white-space: nowrap;
 }
 
-/* Popup Styling */
+/* === Popup Styling === */
 .popup-overlay {
   position: fixed;
   top: 0;
@@ -166,4 +176,59 @@
   padding: 8px 16px;
   border-radius: 6px;
   cursor: pointer;
+}
+
+/* === Responsive Media Queries === */
+@media (max-width: 768px) {
+  .table-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .table-header h2 {
+    text-align: left;
+    font-size: 20px;
+  }
+
+  .left-controls,
+  .right-controls {
+    width: 100%;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+
+  .small-button {
+    font-size: 13px;
+    padding: 8px 12px;
+  }
+
+  .pagination-buttons {
+    width: 100%;
+    justify-content: center;
+    float: none;
+    margin-top: 15px;
+  }
+
+  .styled-table {
+    font-size: 13px;
+  }
+
+  .styled-table th,
+  .styled-table td {
+    padding: 8px;
+  }
+
+  .page-info {
+    padding: 10px;
+    text-align: center;
+  }
+
+  .popup-content {
+    padding: 20px;
+  }
+
+  .close-button {
+    width: 100%;
+  }
 }

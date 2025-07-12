@@ -19,7 +19,7 @@ h2 {
   font-weight: 700;
 }
 
-/* === Grid layout for desktop === */
+/* === Grid layout === */
 .desktop-layout .profile-grid {
   display: flex;
   flex-direction: column;
@@ -45,4 +45,38 @@ h2 {
   border-radius: 6px;
   font-size: 16px;
   color: #2c3e50;
+}
+@media (max-width: 768px) {
+  .profile-container {
+    padding: 25px;
+    margin: 40px 20px;
+  }
+
+  h2 {
+    font-size: 24px;
+  }
+
+  .field span {
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .profile-container {
+    padding: 20px;
+    margin: 30px 10px;
+  }
+
+  h2 {
+    font-size: 22px;
+  }
+
+  .field span {
+    font-size: 14px;
+    padding: 10px;
+  }
+
+  .field label {
+    font-size: 14px;
+  }
 }

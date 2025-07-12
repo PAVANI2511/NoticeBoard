@@ -19,7 +19,7 @@
   padding: 15px;
   margin-bottom: 15px;
   background-color: white;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
 }
 
 .branch-card h3 {
@@ -63,4 +63,52 @@
   font-size: 18px;
   color: #666;
   margin-top: 30px;
+}
+
+/* ✅ Responsive Styles */
+@media (max-width: 768px) {
+  .hierarchy-container {
+    padding: 16px;
+    margin: 20px;
+  }
+
+  .branch-card {
+    padding: 12px;
+  }
+
+  .branch-card h3 {
+    font-size: 18px;
+  }
+
+  .studentlist-button {
+    font-size: 13px;
+    padding: 6px 10px;
+  }
+
+  .hierarchy-container h2 {
+    font-size: 22px;
+  }
+}
+
+@media (max-width: 480px) {
+  .hierarchy-container {
+    padding: 12px;
+  }
+
+  .branch-card h3 {
+    font-size: 16px;
+  }
+
+  .studentlist-button {
+    font-size: 12.5px;
+    padding: 6px 8px;
+  }
+
+  .hierarchy-container h2 {
+    font-size: 20px;
+  }
+
+  .loading {
+    font-size: 16px;
+  }
 }
