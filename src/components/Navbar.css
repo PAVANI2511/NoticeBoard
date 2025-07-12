@@ -17,7 +17,7 @@
   font-size: 28px;
   cursor: pointer;
   color: #333;
-  margin-right: 80px; 
+  margin-right: 50px; 
 }
 
 /* Dropdown Menu */
@@ -30,7 +30,7 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   overflow: hidden;
   min-width: 140px;
-  margin-right:80px;
+  margin-right:50px;
 }
 
 .dropdown-item {
