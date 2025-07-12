@@ -3,7 +3,7 @@ body {
   padding: 0;
   background-color: #f8f9fa;
   font-family: Arial, sans-serif;
-  height: 100vh;
+ 
   overflow: hidden;
 }
 
@@ -140,7 +140,7 @@ body {
   transition: background-color 0.3s ease;
   
   display:block;
-  margin: 10px auto 5px auto;
+  margin: 0px auto 5px auto;
   
 }
 
@@ -152,7 +152,7 @@ body {
 .divider {
   display: flex;
   align-items: center;
-  margin: 20px 0;
+  margin: 2px 0;
   color: #999;
   width: 100%;
 }
