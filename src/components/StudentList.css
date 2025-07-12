@@ -97,7 +97,7 @@ button {
   color: white;
 }
 
-<<<<<<< HEAD
+
 .button1,
 .button2 {
   background-color: #256fd1;
@@ -107,12 +107,12 @@ button {
 .button4 {
   background-color: red;
 }
-=======
+
 .button1 { background-color: #256fd1; padding: 7px 19px;} /* Edit */
 .button2 { background-color: #256fd1;padding: 7px 19px; } /* Save */
 .button3 { background-color: red;padding: 6px 12px; }     /* Cancel */
 .button4 { background-color: red;padding: 6px 12px; }     /* Delete */
->>>>>>> 6561f12 (changes occured)
+
 
 button:hover {
   opacity: 0.9;
