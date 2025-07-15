@@ -11,6 +11,7 @@
   max-width: 400px;
   height: auto;
   margin: 100px auto;
+  overflow: auto;
 }
 
 .drop-area {
@@ -66,6 +67,7 @@ label {
   cursor: pointer;
   transition: background-color 0.3s ease;
   color: white;
+  font-size: 15px;
 }
 
 .submit-button {
@@ -74,6 +76,11 @@ label {
 
 .submit-button:hover {
   background-color: #5548d9;
+}
+
+.submit-button:disabled {
+  background-color: #a5a5e3;
+  cursor: not-allowed;
 }
 
 .preview-button {
@@ -98,10 +105,66 @@ label {
 }
 
 .message {
-  margin-top: 8px;
+  margin-top: 12px;
+  padding: 8px 14px;
+  border-radius: 6px;
   font-size: 14px;
-  color: #333;
   text-align: center;
+  white-space: pre-line;
+  word-break: break-word;
+  background-color: #f1f1f1;
+  color: #333;
+  border-left: 4px solid #6c63ff;
+  max-width: 100%;
+}
+
+/* Optional: Success/Error coloring */
+.message.success {
+  border-left-color: #28a745;
+  background-color: #e8f5e9;
+  color: #2e7d32;
+}
+
+.message.error {
+  border-left-color: #dc3545;
+  background-color: #fcebea;
+  color: #a71d2a;
+}
+
+.message.info {
+  border-left-color: #17a2b8;
+  background-color: #e0f7fa;
+  color: #007b8a;
+}
+
+/* === NEW: Upload result display === */
+.upload-details {
+  background-color: #f5f5f5;
+  padding: 15px;
+  margin-top: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 14px;
+  width: 100%;
+}
+
+.upload-details h4 {
+  color: #1a237e;
+  margin-bottom: 10px;
+}
+
+.upload-details ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.upload-details li {
+  margin-bottom: 5px;
+}
+
+.email-results li {
+  font-size: 14px;
+  margin: 4px 0;
 }
 
 /* === Responsive Styles === */
@@ -130,6 +193,10 @@ label {
   label {
     font-size: 13px;
   }
+
+  .upload-details {
+    font-size: 13px;
+  }
 }
 
 @media (max-width: 480px) {
@@ -145,6 +212,10 @@ label {
 
   .file-info,
   .message {
+    font-size: 13px;
+  }
+
+  .upload-details li {
     font-size: 13px;
   }
 }

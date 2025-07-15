@@ -13,7 +13,7 @@ import AdminProfile from './components/profile';
 import Hierarchy from './components/Hierarchy';
 import StudentList from './components/StudentList';
 import Student from './components/Student'; 
-import DepartmentStats from './components/DepartmentStats';
+import StudentDashboard from './components/StudentDashboard';
 function App() {
   return (
     <Router>
@@ -31,7 +31,7 @@ function App() {
         <Route path="/Hierarchy" element={<Hierarchy />} />
         <Route path="/student" element={<Student />} />
         <Route path="/StudentList" element={<StudentList />} />
-        <Route path="/departmentstats" element={<DepartmentStats />} />
+        <Route path="/StudentDashboard" element={<StudentDashboard />} />
 
       </Routes>
     </Router>

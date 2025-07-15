@@ -52,7 +52,7 @@ const TableView = () => {
 
   // ✅ Navigate to Department Stats Page
   const showStatistics = () => {
-    navigate('/departmentstats');
+    navigate('/StudentDashboard');
   };
 
   const countSent = data.filter(row => row.sent === true).length;
@@ -80,7 +80,7 @@ const TableView = () => {
         <div className="right-controls">
           <button className="small-button green-button" onClick={showStatistics}>
             <FaChartBar />
-            Statistics
+            StudentDashboard
           </button>
         </div>
       </div>

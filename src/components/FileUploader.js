@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Papa from 'papaparse'; // CSV parser
+import Papa from 'papaparse';
 import './FileUploader.css';
 import Navbar from './Navbar';
 
@@ -9,6 +9,8 @@ const FileUploader = () => {
   const [file, setFile] = useState(null);
   const [message, setMessage] = useState('');
   const [sendEmails, setSendEmails] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [uploadResult, setUploadResult] = useState(null); // Store full API response
   const navigate = useNavigate();
 
   const handleFileChange = (event) => {
@@ -16,6 +18,7 @@ const FileUploader = () => {
     if (selectedFile) {
       setFile(selectedFile);
       setMessage(`Selected: ${selectedFile.name}`);
+      setUploadResult(null); // Clear previous results
     }
   };
 
@@ -28,6 +31,10 @@ const FileUploader = () => {
       setMessage('Please select a file before uploading.');
       return;
     }
+
+    setLoading(true);
+    setMessage('📤 Uploading...');
+    setUploadResult(null);
 
     const formData = new FormData();
     formData.append('file', file);
@@ -43,17 +50,18 @@ const FileUploader = () => {
       });
 
       const result = await response.json();
+      console.log("📨 Upload API Result:", result);
+
       if (response.ok) {
-        setMessage(`✅ File uploaded successfully!
-Processed: ${result.processed_records}, 
-Updated: ${result.updated_students}, 
-Failed: ${result.failed_records}, 
-Emails Sent: ${result.emails_sent}`);
+        setUploadResult(result);
+        setMessage(`✅ ${result.message}`);
       } else {
         setMessage(`❌ Error: ${result.detail || 'Upload failed'}`);
       }
     } catch (error) {
       setMessage('❌ Server error. Please try again later.');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -130,16 +138,59 @@ Emails Sent: ${result.emails_sent}`);
           </label>
 
           <div className="button-group">
-            <button className="submit-button" onClick={handleSubmit}>
-              Upload File
+            <button
+              className="submit-button"
+              onClick={handleSubmit}
+              disabled={loading}
+            >
+              {loading ? 'Uploading...' : 'Upload File'}
             </button>
-            <button className="preview-button" onClick={handlePreview} disabled={!file}>
+            <button
+              className="preview-button"
+              onClick={handlePreview}
+              disabled={!file || loading}
+            >
               Preview
             </button>
           </div>
 
           {file && <div className="file-info">{file.name}</div>}
           {message && <div className="message">{message}</div>}
+
+          {/* 📊 Full API Response Output */}
+          {uploadResult && (
+            <div className="upload-details">
+              <h4>📊 Upload Summary</h4>
+              <ul>
+                <li><strong>Total Processed:</strong> {uploadResult.total_processed}</li>
+                <li><strong>Updated:</strong> {uploadResult.updated_count}</li>
+                <li><strong>Not Found:</strong> {uploadResult.not_found_count}</li>
+                {uploadResult.not_found_roll_numbers?.length > 0 && (
+                  <li>
+                    <strong>Missing Roll Numbers:</strong> {uploadResult.not_found_roll_numbers.join(', ')}
+                  </li>
+                )}
+                <li><strong>Emails Sent:</strong> {uploadResult.emails_sent}</li>
+                <li><strong>Email Failures:</strong> {uploadResult.email_failures}</li>
+              </ul>
+
+              {uploadResult.email_results?.length > 0 && (
+                <>
+                  <h4>📬 Email Status per Student</h4>
+                  <ul className="email-results">
+                    {uploadResult.email_results.map((res) => (
+                      <li
+                        key={res.student_id}
+                        style={{ color: res.success ? 'green' : 'red' }}
+                      >
+                        {res.roll_number} - {res.email} ➜ {res.message}
+                      </li>
+                    ))}
+                  </ul>
+                </>
+              )}
+            </div>
+          )}
         </div>
       </div>
     </>
