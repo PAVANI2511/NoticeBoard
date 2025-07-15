@@ -62,7 +62,7 @@ function Login() {
     }
 
     if (!isValidPassword(password)) {
-      setError('Password must include uppercase, lowercase, number, and special character.');
+      setError('Password must include  minimum 8 characters,uppercase, lowercase, number, and special character.');
       return;
     }
 
@@ -140,7 +140,7 @@ function Login() {
                 {passwordRequired && <p className="error-text">Password is required.</p>}
                 {passwordValid === false && (
                   <p className="error-text">
-                    Password must include uppercase, lowercase, number, and special character.
+                    Password must include minimum 8 characters,uppercase, lowercase, number, and special character.
                   </p>
                 )}
                 {passwordValid === true && <p className="success-text">Strong password ✅</p>}
