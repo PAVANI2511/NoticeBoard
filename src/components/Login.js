@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Login.css';
-import { FaEye } from 'react-icons/fa';
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import Navbar from './Navbar';
 
 function Login() {
@@ -9,6 +9,7 @@ function Login() {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [rememberMe, setRememberMe] = useState(false);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [emailValid, setEmailValid] = useState(null);
@@ -20,9 +21,17 @@ function Login() {
   const [showProfile, setShowProfile] = useState(false);
 
   useEffect(() => {
+    // Clear login tokens on load
     localStorage.removeItem('jwtToken');
     localStorage.removeItem('refreshToken');
     setLoggedIn(false);
+
+    // Load remembered email
+    const savedEmail = localStorage.getItem('rememberedEmail');
+    if (savedEmail) {
+      setEmail(savedEmail);
+      setRememberMe(true);
+    }
   }, []);
 
   const isValidEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
@@ -62,7 +71,7 @@ function Login() {
     }
 
     if (!isValidPassword(password)) {
-      setError('Password must include  minimum 8 characters,uppercase, lowercase, number, and special character.');
+      setError('Password must include minimum 8 characters, uppercase, lowercase, number, and special character.');
       return;
     }
 
@@ -78,6 +87,11 @@ function Login() {
       if (response.ok && data.tokens) {
         localStorage.setItem('jwtToken', data.tokens.access);
         localStorage.setItem('refreshToken', data.tokens.refresh);
+        if (rememberMe) {
+          localStorage.setItem('rememberedEmail', email);
+        } else {
+          localStorage.removeItem('rememberedEmail');
+        }
         setLoggedIn(true);
         navigate('/Departments');
       } else {
@@ -131,8 +145,9 @@ function Login() {
                 <span
                   className="toggle-icon"
                   onClick={() => setShowPassword(!showPassword)}
+                  title={showPassword ? 'Hide password' : 'Show password'}
                 >
-                  <FaEye />
+                  {showPassword ? <FaEyeSlash /> : <FaEye />}
                 </span>
               </div>
 
@@ -140,7 +155,7 @@ function Login() {
                 {passwordRequired && <p className="error-text">Password is required.</p>}
                 {passwordValid === false && (
                   <p className="error-text">
-                    Password must include minimum 8 characters,uppercase, lowercase, number, and special character.
+                    Password must include minimum 8 characters, uppercase, lowercase, number, and special character.
                   </p>
                 )}
                 {passwordValid === true && <p className="success-text">Strong password ✅</p>}
@@ -155,7 +170,12 @@ function Login() {
 
             <div className="options">
               <label className="remember-label">
-                <input type="checkbox" /> Remember me
+                <input
+                  type="checkbox"
+                  checked={rememberMe}
+                  onChange={() => setRememberMe((prev) => !prev)}
+                />
+                Remember me
               </label>
               <span className="Email" onClick={() => navigate('/Email')}>
                 Forgot password?
