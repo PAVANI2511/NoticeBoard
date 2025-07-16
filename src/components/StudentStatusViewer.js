@@ -1,42 +1,61 @@
 // src/components/StudentStatusViewer.js
-import React, { useState } from 'react';
-import './StudentStatusViewer.css';
+import React, { useState } from "react";
+import { FaCheckCircle, FaTimesCircle } from "react-icons/fa";
+import "./Student.css"; // Reuse same CSS as Student form
 
 const StudentStatusViewer = () => {
-  const [status, setStatus] = useState('pending');
-  const [branch, setBranch] = useState('');
-  const [year, setYear] = useState('');
+  const [status, setStatus] = useState("pending");
+  const [branch, setBranch] = useState("");
+  const [year, setYear] = useState("");
   const [students, setStudents] = useState([]);
   const [error, setError] = useState(null);
+  const [fetchTriggered, setFetchTriggered] = useState(false);
 
-  const fetchStudents = async () => {
+  const token = localStorage.getItem("jwtToken");
+
+  const branchNameMap = {
+    CSE: "Computer Science & Engineering (CSE)",
+    CAI: "CSE - Artificial Intelligence",
+    CSM: "CSE - AI & ML",
+    CSN: "CSE - Networks",
+    CST: "CSE - Technology",
+    CSD: "CSE - Data Science",
+    CSC: "CSE - Cyber Security",
+    ECE: "Electronics & Communication Engineering",
+    EEE: "Electrical & Electronics Engineering",
+    MEC: "Mechanical Engineering",
+    CIV: "Civil Engineering",
+  };
+
+  const handleFetch = async () => {
     try {
-      const token = localStorage.getItem('jwtToken');
-      let url = `http://127.0.0.1:8000/api/students/students-by-email-status/?status=${status}`;
+      setFetchTriggered(true);
+      let url = `http://localhost:8000/api/students/students-by-email-status/?status=${status}`;
       if (branch) url += `&branch=${branch}`;
       if (year) url += `&year=${year}`;
 
       const response = await fetch(url, {
         headers: {
-          Authorization: `Bearer ${token}`
-        }
+          Authorization: `Bearer ${token}`,
+        },
       });
 
       const data = await response.json();
-      if (!response.ok) throw new Error(data.detail || 'Failed to fetch students');
+      if (!response.ok) throw new Error(data.detail || "Failed to fetch students");
+
       setStudents(data.students || []);
       setError(null);
     } catch (err) {
+      setStudents([]);
       setError(err.message);
     }
   };
 
   return (
-    <div className="student-status-viewer">
+    <div className="student-form">
       <h2>View Students by Email Status</h2>
-
-      <div className="filter-group">
-        <label>Status:</label>
+      <form>
+        <label>Status</label>
         <select value={status} onChange={(e) => setStatus(e.target.value)}>
           <option value="pending">Pending</option>
           <option value="sent">Sent</option>
@@ -44,29 +63,64 @@ const StudentStatusViewer = () => {
           <option value="missing_room">Missing Room</option>
         </select>
 
-        <label>Branch:</label>
-        <input type="text" value={branch} onChange={(e) => setBranch(e.target.value)} placeholder="e.g. CSE" />
+        <label>Branch</label>
+        <select value={branch} onChange={(e) => setBranch(e.target.value)}>
+          <option value="">Select Branch</option>
+          {Object.entries(branchNameMap).map(([code, name]) => (
+            <option key={code} value={code}>
+              {name}
+            </option>
+          ))}
+        </select>
 
-        <label>Year:</label>
-        <input type="text" value={year} onChange={(e) => setYear(e.target.value)} placeholder="e.g. 2" />
+        <label>Year</label>
+        <select value={year} onChange={(e) => setYear(e.target.value)}>
+          <option value="">Select Year</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+        </select>
 
-        <button onClick={fetchStudents}>Fetch</button>
-      </div>
+        <div className="btn-group">
+          <button type="button" onClick={handleFetch}>
+            Fetch Students
+          </button>
+        </div>
+      </form>
 
-      {error && <p className="error">{error}</p>}
+      {/* Show error if any */}
+      {error && (
+        <p className="live-message-text invalid">
+          <FaTimesCircle /> {error}
+        </p>
+      )}
 
-      {students.length > 0 && (
+      {/* Show student data if present */}
+      {students.length > 0 ? (
         <div className="student-list">
           <h3>Total: {students.length}</h3>
           <ul>
-            {students.map(student => (
+            {students.map((student) => (
               <li key={student.id}>
-                {student.roll_number} - {student.name} ({student.branch}, Year {student.year})<br />
-                Gmail: {student.gmail_address || 'N/A'} | Hall: {student.exam_hall_number || 'N/A'} | Email Sent: {student.email_sent ? '✅' : '❌'}
+                <strong>{student.roll_number}</strong> - {student.name} ({student.branch}, Year {student.year})<br />
+                Gmail: {student.gmail_address || "N/A"} | Hall: {student.exam_hall_number || "N/A"} | Email Sent:{" "}
+                {student.email_sent ? (
+                  <FaCheckCircle color="green" />
+                ) : (
+                  <FaTimesCircle color="red" />
+                )}
               </li>
             ))}
           </ul>
         </div>
+      ) : (
+        // Show only if fetch was triggered and no students found
+        fetchTriggered && !error && (
+          <p className="live-message-text invalid">
+            <FaTimesCircle /> No students found for the selected criteria.
+          </p>
+        )
       )}
     </div>
   );

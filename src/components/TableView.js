@@ -1,17 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import './TableView.css';
-import { FaPaperPlane, FaChartBar } from 'react-icons/fa';
-import { useNavigate } from 'react-router-dom'; // ✅ added for navigation
+import { FaChartBar } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
 
 const TableView = () => {
   const [data, setData] = useState([]);
   const [headers, setHeaders] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [selectedRows, setSelectedRows] = useState([]);
-  const [selectAll, setSelectAll] = useState(false);
 
   const itemsPerPage = 10;
-  const navigate = useNavigate(); // ✅ initialized navigation
+  const navigate = useNavigate();
 
   useEffect(() => {
     const storedData = JSON.parse(localStorage.getItem('excelData')) || [];
@@ -32,25 +30,6 @@ const TableView = () => {
     if (currentPage < totalPages) setCurrentPage(prev => prev + 1);
   };
 
-  const handleSelectAll = () => {
-    if (selectAll) {
-      setSelectedRows([]);
-    } else {
-      const pageRowIds = currentData.map((_, index) => index + startIndex);
-      setSelectedRows(pageRowIds);
-    }
-    setSelectAll(!selectAll);
-  };
-
-  const handleResend = () => {
-    if (selectedRows.length === 0) {
-      alert("⚠️ Please select at least one person to resend.");
-    } else {
-      alert("📧 Resend triggered for selected unsent records.");
-    }
-  };
-
-  // ✅ Navigate to Department Stats Page
   const showStatistics = () => {
     navigate('/StudentDashboard');
   };
@@ -62,17 +41,7 @@ const TableView = () => {
     <div className="table-container">
       <div className="table-header">
         <div className="left-controls">
-          <input
-            type="checkbox"
-            className="select-all-checkbox"
-            title="Select All"
-            checked={selectAll}
-            onChange={handleSelectAll}
-          />
-          <button className="small-button resend-button" onClick={handleResend}>
-            <FaPaperPlane />
-            Resend
-          </button>
+          {/* Removed checkbox and resend button */}
         </div>
 
         <h2>📊 Uploaded CSV Data</h2>
@@ -96,19 +65,15 @@ const TableView = () => {
               </tr>
             </thead>
             <tbody>
-              {currentData.map((row, rowIndex) => {
-                const actualIndex = startIndex + rowIndex;
-                const isSelected = selectedRows.includes(actualIndex);
-                return (
-                  <tr key={`row-${rowIndex}`} className={isSelected ? 'selected' : ''}>
-                    {headers.map((col, colIndex) => (
-                      <td key={`cell-${rowIndex}-${colIndex}`}>
-                        {row[col] ?? ''}
-                      </td>
-                    ))}
-                  </tr>
-                );
-              })}
+              {currentData.map((row, rowIndex) => (
+                <tr key={`row-${rowIndex}`}>
+                  {headers.map((col, colIndex) => (
+                    <td key={`cell-${rowIndex}-${colIndex}`}>
+                      {row[col] ?? ''}
+                    </td>
+                  ))}
+                </tr>
+              ))}
             </tbody>
           </table>
 

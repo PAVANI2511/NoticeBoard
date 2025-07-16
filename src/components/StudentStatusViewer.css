@@ -1,62 +1,128 @@
-/* src/components/StudentStatusViewer.css */
-
-.status-viewer {
-  padding: 20px;
-  max-width: 900px;
-  margin: auto;
-  background-color: #f9f9f9;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+/* Fullscreen layout and background */
+body, html {
+  margin: 0;
+  padding: 0;
   font-family: 'Segoe UI', sans-serif;
+  background-color: #f2f6fc;
 }
 
-.status-viewer h2 {
-  margin-bottom: 20px;
+/* Centered card layout */
+.student-form {
+  position: fixed;                 /* Fixes the card */
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #ffffffee;
+  padding: 30px;
+  border-radius: 16px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  width: 90%;
+  max-width: 600px;
+  max-height: 90vh;               /* Controls the vertical height */
+  overflow-y: auto;               /* Enables internal scroll if content overflows */
+}
+
+/* Form elements */
+.student-form h2 {
   text-align: center;
-  color: #333;
-}
-
-.filters {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  justify-content: center;
   margin-bottom: 20px;
+  color: #1a237e;
 }
 
-.filters select,
-.filters input,
-.filters button {
-  padding: 10px;
+.student-form form {
+  display: flex;
+  flex-direction: column;
+}
+
+.student-form input,
+.student-form select,
+.student-form button {
+  padding: 10px 14px;
+  margin-bottom: 14px;
   font-size: 16px;
   border-radius: 8px;
   border: 1px solid #ccc;
+  outline: none;
+  transition: border-color 0.3s;
 }
 
-.filters button {
+.student-form input:focus,
+.student-form select:focus {
+  border-color: #007bff;
+}
+
+.student-form select {
+  background-color: #fff;
+}
+
+/* Validation messages */
+.live-message-text {
+  margin-top: -10px;
+  margin-bottom: 10px;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.live-message-text.valid {
+  color: green;
+}
+
+.live-message-text.invalid {
+  color: red;
+}
+
+/* Buttons */
+.btn-group {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.btn-group button {
+  flex: 1;
+  padding: 10px;
   background-color: #007bff;
   color: white;
+  border: none;
+  border-radius: 8px;
   cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s;
 }
 
-.filters button:hover {
+.btn-group button:hover {
   background-color: #0056b3;
 }
 
-.error {
-  color: red;
-  text-align: center;
+/* Student list section */
+.student-list {
+  margin-top: 20px;
 }
 
-.student-list {
+.student-list h3 {
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.student-list ul {
   list-style: none;
   padding: 0;
 }
 
 .student-list li {
-  padding: 10px;
-  border-bottom: 1px solid #ddd;
-  background: #fff;
-  margin-bottom: 10px;
+  padding: 12px;
+  background-color: #fefefe;
+  border: 1px solid #ddd;
   border-radius: 8px;
+  margin-bottom: 10px;
+  line-height: 1.6;
+}
+
+/* Error message styling */
+.error {
+  text-align: center;
+  color: red;
+  margin-top: 10px;
 }

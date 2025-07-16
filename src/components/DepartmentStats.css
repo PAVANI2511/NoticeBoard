@@ -1,9 +1,12 @@
 .department-stats {
- 
   padding: 20px;
   background-color: #fefefe;
   font-family: Arial, sans-serif;
- 
+
+  max-height: 85vh;              /* You can adjust this based on screen size */
+  overflow-y: auto;              /* Vertical scrolling only */
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 h2, h3, h4 {
@@ -67,4 +70,12 @@ strong {
   display: block;
   margin-top: 10px;
   color: #37474f;
+}
+.department-stats::-webkit-scrollbar {
+  width: 8px;
+}
+
+.department-stats::-webkit-scrollbar-thumb {
+  background-color: #ccc;
+  border-radius: 4px;
 }
