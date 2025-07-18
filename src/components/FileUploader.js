@@ -11,6 +11,8 @@ const FileUploader = () => {
   const [sendEmails, setSendEmails] = useState(false);
   const [loading, setLoading] = useState(false);
   const [uploadResult, setUploadResult] = useState(null); // Store full API response
+  const [checkboxError, setCheckboxError] = useState(''); // NEW
+
   const navigate = useNavigate();
 
   const handleFileChange = (event) => {
@@ -26,9 +28,21 @@ const FileUploader = () => {
     fileInputRef.current.click();
   };
 
+  const handleCheckboxChange = (e) => {
+    setSendEmails(e.target.checked);
+    if (e.target.checked) {
+      setCheckboxError('');
+    }
+  };
+
   const handleSubmit = async () => {
     if (!file) {
       setMessage('Please select a file before uploading.');
+      return;
+    }
+
+    if (!sendEmails) {
+      setCheckboxError('Please check the box to send emails.');
       return;
     }
 
@@ -132,10 +146,15 @@ const FileUploader = () => {
             <input
               type="checkbox"
               checked={sendEmails}
-              onChange={() => setSendEmails(!sendEmails)}
+              onChange={handleCheckboxChange}
             />
             Send Emails to Students
           </label>
+
+          {/* ✅ Error message for checkbox */}
+          {checkboxError && (
+            <div style={{ color: 'red', marginTop: '5px' }}>{checkboxError}</div>
+          )}
 
           <div className="button-group">
             <button

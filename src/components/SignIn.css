@@ -83,6 +83,7 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  overflow: auto;
 }
 
 /* Title */
@@ -233,4 +234,12 @@ body {
   .password-toggle-icon {
     right: 12px;
   }
+}
+.login-right::-webkit-scrollbar {
+  width: 8px;
+}
+
+.login-right::-webkit-scrollbar-thumb {
+  background-color: #ccc;
+  border-radius: 4px;
 }
