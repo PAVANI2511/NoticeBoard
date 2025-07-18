@@ -40,8 +40,8 @@ function SignIn() {
     }
     if (code === '+1') {
       return /^[2-9]\d{2}[2-9]\d{6}$/.test(number)
-        ? { valid: true, message: 'US phone number must be 10 digits.' }
-        : { valid: false, message: 'Invalid US phone number.' };
+        ? { valid: true, message: 'phone number looks valid.' }
+        : { valid: false, message: 'Invalid US phone number must be 10 digits.' };
     }
     if (code === '+44') {
       return /^[1-9]\d{9,10}$/.test(number)
