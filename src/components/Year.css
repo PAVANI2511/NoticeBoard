@@ -16,6 +16,8 @@
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
   display: flex;
   flex-direction: column;
+   width: 600px; /* Default desktop width */
+  height: 65vh;
   align-items: center;
   overflow: hidden;
 }
@@ -38,7 +40,8 @@
 .year-button {
   margin: 20px auto;
   padding: 12px;
-  width: 250px;
+  width: 100%;
+  max-width: 500px;
   background-color: #e0e0e0;
   color: black;
   border: none;

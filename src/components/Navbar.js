@@ -21,10 +21,16 @@ const Navbar = () => {
       navigate('/profile');
     }
   };
-
   const handleStudentClick = () => {
-    navigate('/student'); // Ensure this route exists in your router
+    const token = localStorage.getItem('jwtToken');
+    if (!token) {
+      alert('You must be logged in to access student section.');
+    } else {
+      navigate('/student');
+    }
   };
+
+  
 
   const handleLogout = async () => {
     const accessToken = localStorage.getItem('jwtToken');
