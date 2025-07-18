@@ -21,12 +21,10 @@ function Login() {
   const [showProfile, setShowProfile] = useState(false);
 
   useEffect(() => {
-    // Clear login tokens on load
     localStorage.removeItem('jwtToken');
     localStorage.removeItem('refreshToken');
     setLoggedIn(false);
 
-    // Load remembered email
     const savedEmail = localStorage.getItem('rememberedEmail');
     if (savedEmail) {
       setEmail(savedEmail);
@@ -34,7 +32,20 @@ function Login() {
     }
   }, []);
 
-  const isValidEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  // ✅ Email validator that allows specific domains only
+  const isValidEmail = (email) => {
+    const allowedPersonalDomains = ['gmail.com', 'yahoo.com', 'outlook.com', 'hotmail.com'];
+    const collegePattern = /^[a-zA-Z0-9._%+-]+@mits\.ac\.in$/;
+
+    if (collegePattern.test(email)) return true;
+
+    const parts = email.split('@');
+    if (parts.length !== 2) return false;
+
+    const domain = parts[1].toLowerCase();
+    return allowedPersonalDomains.includes(domain);
+  };
+
   const isValidPassword = (password) =>
     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%?#&])[A-Za-z\d@$!%?#&]{8,}$/.test(password);
 
@@ -66,7 +77,7 @@ function Login() {
     if (isEmailEmpty || isPasswordEmpty) return;
 
     if (!isValidEmail(email)) {
-      setError('Please enter a valid email address.');
+      setError('Please enter a valid personal or MITS college email address.');
       return;
     }
 

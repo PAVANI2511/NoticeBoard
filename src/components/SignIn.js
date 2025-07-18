@@ -30,7 +30,7 @@ function SignIn() {
 
   const strongPasswordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%?#&])[A-Za-z\d@$!%?#&]{8,}$/;
   const usernameRegex = /^(?=[A-Za-z\d@$!%?#&]{5,})(?=(?:[^@$!%?#&]*[@$!%?#&][^@$!%?#&]*)$)(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*?#&]+$/;
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const emailRegex = /^[^\s@]+@(gmail\.com|yahoo\.com|outlook\.com|hotmail\.com|mits\.ac\.in)$/;
 
   const validatePhone = (code, number) => {
     if (code === '+91') {

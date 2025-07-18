@@ -7,14 +7,18 @@ const Email = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  const isValidEmail = (email) =>
-    /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  // ✅ Updated validation function
+  const isValidEmail = (email) => {
+    const personalEmailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const collegeEmailRegex = /^[a-z0-9]+@mits\.ac\.in$/i;
+    return personalEmailRegex.test(email) || collegeEmailRegex.test(email);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!isValidEmail(email)) {
-      alert('Please enter a valid email address.');
+      alert('Please enter a valid personal or MITS college email.');
       return;
     }
 
