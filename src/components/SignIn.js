@@ -189,14 +189,14 @@ function SignIn() {
             <h2 className="login-title">Sign In</h2>
 
             <form onSubmit={handleSubmit}>
-              <input type="text" name="username" placeholder="Username" value={form.username} onChange={handleChange} className="input-username" />
+              <input type="text" name="username" placeholder=" enter Username" value={form.username} onChange={handleChange} className="input-username" />
               {fieldMessages.username && (
                 <p className={`live-message-text ${isLiveValid.username ? 'valid' : 'invalid'}`}>
                   {isLiveValid.username ? <FaCheckCircle /> : <FaTimesCircle />} {fieldMessages.username}
                 </p>
               )}
 
-              <input type="email" name="email" placeholder="Email" value={form.email} onChange={handleChange} className="input-field" />
+              <input type="email" name="email" placeholder=" enter Email" value={form.email} onChange={handleChange} className="input-field" />
               {fieldMessages.email && (
                 <p className={`live-message-text ${isLiveValid.email ? 'valid' : 'invalid'}`}>
                   {isLiveValid.email ? <FaCheckCircle /> : <FaTimesCircle />} {fieldMessages.email}
@@ -250,7 +250,7 @@ function SignIn() {
                 <input
                   type="tel"
                   name="phone_number"
-                  placeholder="Phone Number"
+                  placeholder="enter Phone Number"
                   value={form.phone_number}
                   onChange={handleChange}
                   className="phone-number-input"
