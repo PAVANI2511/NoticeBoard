@@ -67,7 +67,7 @@ function SignIn() {
 
     if (name === 'username') {
       if (!usernameRegex.test(value)) {
-        message = 'Username must contain letters, a number, and exactly one special character.';
+        message = 'Username must contain letters, a number, and exactly one special character and min of 5 characters.';
         valid = false;
       } else {
         message = 'Username looks good!';
@@ -117,7 +117,7 @@ function SignIn() {
     }
 
     if (!usernameRegex.test(username)) {
-      setError('Username must contain letters, a number, and exactly one special character.');
+      setError('Username must contain letters, a number, and exactly one special character and 5 min chracters.');
       return;
     }
 
