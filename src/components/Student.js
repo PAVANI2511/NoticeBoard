@@ -56,7 +56,8 @@ function Student() {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
+    const { name } = e.target;
+    let value = e.target.value;
 
     if (name === "phone_number" && value.length > 10) return;
     if (name === "roll_number" && value.length > 10) return;
@@ -67,26 +68,32 @@ function Student() {
     let message = "";
     let valid = null;
 
-    if (["name", "branch", "year", "exam_hall_number"].includes(name)) {
-      if (!value.trim()) {
-        message = "This field is required";
+    if (name === "name") {
+      const trimmed = value.trim();
+      const nameRegex = /^[A-Za-z\s]+$/;
+
+      if (!trimmed) {
+        message = "Name is required";
         valid = false;
-      } else if (name === "year" && !/^[1-4]$/.test(value)) {
-        message = "Year must be between 1 and 4";
+      } else if (!nameRegex.test(trimmed)) {
+        message = "Only letters and spaces allowed";
+        valid = false;
+      } else if (trimmed.length < 4) {
+        message = "Minimum 4 characters required";
         valid = false;
       } else {
-        message = "Looks good!";
+        message = "Valid name!";
         valid = true;
       }
     }
 
     if (name === "roll_number") {
-      const rollRegex = /^[A-Za-z0-9]{1,10}$/;
+      const rollRegex = /^[A-Za-z0-9]{10}$/;
       if (!value.trim()) {
         message = "Roll number is required";
         valid = false;
       } else if (!rollRegex.test(value)) {
-        message = "Only letters & numbers, max 10 characters";
+        message = "Exactly 10 characters: only letters & numbers";
         valid = false;
       } else {
         message = "Valid roll number!";
@@ -110,14 +117,48 @@ function Student() {
       valid = result.valid;
     }
 
+    if (name === "countryCode") {
+      const result = validatePhone(value, form.phone_number);
+      setFieldMessages((prev) => ({ ...prev, phone_number: result.message }));
+      setIsLiveValid((prev) => ({ ...prev, phone_number: result.valid }));
+    }
+
+    if (["branch", "year", "exam_hall_number"].includes(name)) {
+      if (!value.trim()) {
+        message = "This field is required";
+        valid = false;
+      } else if (name === "year" && !/^[1-4]$/.test(value)) {
+        message = "Year must be between 1 and 4";
+        valid = false;
+      } else if (name === "exam_hall_number" && !/^\w{1,10}$/.test(value)) {
+        message = "Max 10 characters, alphanumeric only";
+        valid = false;
+      } else {
+        message = "Looks good!";
+        valid = true;
+      }
+    }
+
     setFieldMessages((prev) => ({ ...prev, [name]: message }));
     setIsLiveValid((prev) => ({ ...prev, [name]: valid }));
   };
 
   const handleCreate = async () => {
-    const allValid = Object.values(isLiveValid).every(Boolean);
-    if (!allValid) {
-      alert("❌ Please fix validation errors before submitting.");
+    const requiredFields = [
+      "name",
+      "roll_number",
+      "phone_number",
+      "gmail_address",
+      "branch",
+      "year",
+      "exam_hall_number",
+    ];
+    const missing = requiredFields.filter(
+      (field) => !form[field] || isLiveValid[field] === false
+    );
+
+    if (missing.length > 0) {
+      alert("❌ Please fill all required fields correctly.");
       return;
     }
 
@@ -246,6 +287,11 @@ function Student() {
             value={form.exam_hall_number}
             onChange={handleChange}
           />
+          {fieldMessages.exam_hall_number && (
+            <p className={`live-message-text ${isLiveValid.exam_hall_number ? "valid" : "invalid"}`}>
+              {isLiveValid.exam_hall_number ? <FaCheckCircle /> : <FaTimesCircle />} {fieldMessages.exam_hall_number}
+            </p>
+          )}
 
           <div className="btn-group">
             <button type="button" onClick={handleCreate}>
