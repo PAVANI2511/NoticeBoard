@@ -10,8 +10,8 @@ const FileUploader = () => {
   const [message, setMessage] = useState('');
   const [sendEmails, setSendEmails] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [uploadResult, setUploadResult] = useState(null); // Store full API response
-  const [checkboxError, setCheckboxError] = useState(''); // NEW
+  const [uploadResult, setUploadResult] = useState(null);
+  const [checkboxError, setCheckboxError] = useState('');
 
   const navigate = useNavigate();
 
@@ -20,7 +20,7 @@ const FileUploader = () => {
     if (selectedFile) {
       setFile(selectedFile);
       setMessage(`Selected: ${selectedFile.name}`);
-      setUploadResult(null); // Clear previous results
+      setUploadResult(null);
     }
   };
 
@@ -68,7 +68,12 @@ const FileUploader = () => {
 
       if (response.ok) {
         setUploadResult(result);
-        setMessage(`✅ ${result.message}`);
+
+        if (result.not_found_roll_numbers?.length > 0) {
+          setMessage(`❌ Some roll numbers were not found: ${result.not_found_roll_numbers.join(', ')}`);
+        } else {
+          setMessage(`✅ ${result.message}`);
+        }
       } else {
         setMessage(`❌ Error: ${result.detail || 'Upload failed'}`);
       }
@@ -151,7 +156,6 @@ const FileUploader = () => {
             Send Emails to Students
           </label>
 
-          {/* ✅ Error message for checkbox */}
           {checkboxError && (
             <div style={{ color: 'red', marginTop: '5px' }}>{checkboxError}</div>
           )}
@@ -176,7 +180,6 @@ const FileUploader = () => {
           {file && <div className="file-info">{file.name}</div>}
           {message && <div className="message">{message}</div>}
 
-          {/* 📊 Full API Response Output */}
           {uploadResult && (
             <div className="upload-details">
               <h4>📊 Upload Summary</h4>
