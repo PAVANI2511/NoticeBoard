@@ -10,7 +10,7 @@ import Email from './components/Email';
 import Password from './components/Password';
 import ForgotPassword from './components/ForgotPassword';
 import AdminProfile from './components/profile';
-import Hierarchy from './components/Hierarchy';
+
 import StudentList from './components/StudentList';
 import Student from './components/Student'; 
 import StudentDashboard from './components/StudentDashboard';
@@ -28,7 +28,6 @@ function App() {
         <Route path="/Password" element={<Password />} />
         <Route path="/forgotpassword" element={<ForgotPassword />} />
         <Route path="/profile" element={<AdminProfile />} />
-        <Route path="/Hierarchy" element={<Hierarchy />} />
         <Route path="/student" element={<Student />} />
         <Route path="/StudentList" element={<StudentList />} />
         <Route path="/StudentDashboard" element={<StudentDashboard />} />

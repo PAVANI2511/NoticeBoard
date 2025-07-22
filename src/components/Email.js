@@ -37,7 +37,7 @@ const Email = () => {
         alert(data.message || `OTP sent to: ${email}`);
         navigate('/Password', { state: { email } });
       } else {
-        alert(data.message || 'Failed to send OTP.');
+        alert(data.message || 'Enter registered email.');
       }
     } catch (error) {
       alert('Server error. Please try again.');
