@@ -52,12 +52,23 @@ function Student() {
     }
     return { valid: false, message: "Unsupported country" };
   };
-
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const isValidEmail = (email) => {
+    const allowedPersonalDomains = [
+      "gmail.com",
+      "yahoo.com",
+      "outlook.com",
+      "hotmail.com",
+    ];
+    const collegePattern = /^[a-zA-Z0-9._%+-]+@mits\.ac\.in$/;
+    if (collegePattern.test(email)) return true;
+    const parts = email.split("@");
+    if (parts.length !== 2) return false;
+    return allowedPersonalDomains.includes(parts[1].toLowerCase());
+  };
 
   const handleChange = (e) => {
-    const { name } = e.target;
-    let value = e.target.value;
+    const { name, value: rawValue } = e.target;
+    let value = rawValue;
 
     if (name === "phone_number" && value.length > 10) return;
     if (name === "roll_number" && value.length > 10) return;
@@ -71,7 +82,6 @@ function Student() {
     if (name === "name") {
       const trimmed = value.trim();
       const nameRegex = /^[A-Za-z\s]+$/;
-
       if (!trimmed) {
         message = "Name is required";
         valid = false;
@@ -101,9 +111,10 @@ function Student() {
       }
     }
 
+    // ✅ Updated email validation
     if (name === "gmail_address") {
-      if (!emailRegex.test(value)) {
-        message = "Invalid email format";
+      if (!isValidEmail(value)) {
+        message = "invalid email format";
         valid = false;
       } else {
         message = "Valid email!";
@@ -119,8 +130,14 @@ function Student() {
 
     if (name === "countryCode") {
       const result = validatePhone(value, form.phone_number);
-      setFieldMessages((prev) => ({ ...prev, phone_number: result.message }));
-      setIsLiveValid((prev) => ({ ...prev, phone_number: result.valid }));
+      setFieldMessages((prev) => ({
+        ...prev,
+        phone_number: result.message,
+      }));
+      setIsLiveValid((prev) => ({
+        ...prev,
+        phone_number: result.valid,
+      }));
     }
 
     if (["branch", "year", "exam_hall_number"].includes(name)) {
@@ -130,8 +147,11 @@ function Student() {
       } else if (name === "year" && !/^[1-4]$/.test(value)) {
         message = "Year must be between 1 and 4";
         valid = false;
-      } else if (name === "exam_hall_number" && !/^\w{1,10}$/.test(value)) {
-        message = "Max 10 characters, alphanumeric only";
+      } else if (
+        name === "exam_hall_number" &&
+        !/^[A-Za-z0-9]{1,10}$/.test(value)
+      ) {
+        message = "Max 10 alphanumeric characters";
         valid = false;
       } else {
         message = "Looks good!";
@@ -199,7 +219,8 @@ function Student() {
     >
       <div className="student-form">
         <h2>Student Form</h2>
-        <form>
+        <form onSubmit={(e) => e.preventDefault()}>
+          {/* Name */}
           <input
             type="text"
             name="name"
@@ -208,11 +229,17 @@ function Student() {
             onChange={handleChange}
           />
           {fieldMessages.name && (
-            <p className={`live-message-text ${isLiveValid.name ? "valid" : "invalid"}`}>
-              {isLiveValid.name ? <FaCheckCircle /> : <FaTimesCircle />} {fieldMessages.name}
+            <p
+              className={`live-message-text ${
+                isLiveValid.name ? "valid" : "invalid"
+              }`}
+            >
+              {isLiveValid.name ? <FaCheckCircle /> : <FaTimesCircle />}{" "}
+              {fieldMessages.name}
             </p>
           )}
 
+          {/* Roll Number */}
           <input
             type="text"
             name="roll_number"
@@ -221,11 +248,17 @@ function Student() {
             onChange={handleChange}
           />
           {fieldMessages.roll_number && (
-            <p className={`live-message-text ${isLiveValid.roll_number ? "valid" : "invalid"}`}>
-              {isLiveValid.roll_number ? <FaCheckCircle /> : <FaTimesCircle />} {fieldMessages.roll_number}
+            <p
+              className={`live-message-text ${
+                isLiveValid.roll_number ? "valid" : "invalid"
+              }`}
+            >
+              {isLiveValid.roll_number ? <FaCheckCircle /> : <FaTimesCircle />}{" "}
+              {fieldMessages.roll_number}
             </p>
           )}
 
+          {/* Phone */}
           <div className="combined-phone-field">
             <select
               name="countryCode"
@@ -245,24 +278,36 @@ function Student() {
             />
           </div>
           {fieldMessages.phone_number && (
-            <p className={`live-message-text ${isLiveValid.phone_number ? "valid" : "invalid"}`}>
-              {isLiveValid.phone_number ? <FaCheckCircle /> : <FaTimesCircle />} {fieldMessages.phone_number}
+            <p
+              className={`live-message-text ${
+                isLiveValid.phone_number ? "valid" : "invalid"
+              }`}
+            >
+              {isLiveValid.phone_number ? <FaCheckCircle /> : <FaTimesCircle />}{" "}
+              {fieldMessages.phone_number}
             </p>
           )}
 
+          {/* Email */}
           <input
             type="text"
             name="gmail_address"
-            placeholder="Gmail Address"
+            placeholder="Email Address"
             value={form.gmail_address}
             onChange={handleChange}
           />
           {fieldMessages.gmail_address && (
-            <p className={`live-message-text ${isLiveValid.gmail_address ? "valid" : "invalid"}`}>
-              {isLiveValid.gmail_address ? <FaCheckCircle /> : <FaTimesCircle />} {fieldMessages.gmail_address}
+            <p
+              className={`live-message-text ${
+                isLiveValid.gmail_address ? "valid" : "invalid"
+              }`}
+            >
+              {isLiveValid.gmail_address ? <FaCheckCircle /> : <FaTimesCircle />}{" "}
+              {fieldMessages.gmail_address}
             </p>
           )}
 
+          {/* Branch & Year */}
           <select name="branch" value={form.branch} onChange={handleChange}>
             <option value="">Select Branch</option>
             {Object.entries(branchNameMap).map(([code, name]) => (
@@ -280,6 +325,7 @@ function Student() {
             <option value="4">4</option>
           </select>
 
+          {/* Exam Hall Number */}
           <input
             type="text"
             name="exam_hall_number"
@@ -288,11 +334,17 @@ function Student() {
             onChange={handleChange}
           />
           {fieldMessages.exam_hall_number && (
-            <p className={`live-message-text ${isLiveValid.exam_hall_number ? "valid" : "invalid"}`}>
-              {isLiveValid.exam_hall_number ? <FaCheckCircle /> : <FaTimesCircle />} {fieldMessages.exam_hall_number}
+            <p
+              className={`live-message-text ${
+                isLiveValid.exam_hall_number ? "valid" : "invalid"
+              }`}
+            >
+              {isLiveValid.exam_hall_number ? <FaCheckCircle /> : <FaTimesCircle />}{" "}
+              {fieldMessages.exam_hall_number}
             </p>
           )}
 
+          {/* Buttons */}
           <div className="btn-group">
             <button type="button" onClick={handleCreate}>
               Create
