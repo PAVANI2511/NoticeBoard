@@ -7,7 +7,6 @@ const Email = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  // ✅ Updated validation function
   const isValidEmail = (email) => {
     const personalEmailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const collegeEmailRegex = /^[a-z0-9]+@mits\.ac\.in$/i;
@@ -79,7 +78,7 @@ const Email = () => {
             <button
               type="button"
               className="close-btn"
-              onClick={() => setEmail('')}
+              onClick={() => navigate('/')}
               disabled={loading}
             >
               Close
