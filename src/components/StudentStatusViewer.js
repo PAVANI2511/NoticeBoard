@@ -1,7 +1,6 @@
-// src/components/StudentStatusViewer.js
 import React, { useState } from "react";
 import { FaCheckCircle, FaTimesCircle } from "react-icons/fa";
-import "./Student.css"; // Reuse same CSS as Student form
+import "./Student.css"; 
 
 const StudentStatusViewer = () => {
   const [status, setStatus] = useState("pending");
@@ -115,7 +114,6 @@ const StudentStatusViewer = () => {
           </ul>
         </div>
       ) : (
-        // Show only if fetch was triggered and no students found
         fetchTriggered && !error && (
           <p className="live-message-text invalid">
             <FaTimesCircle /> No students found for the selected criteria.

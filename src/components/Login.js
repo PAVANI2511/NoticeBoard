@@ -32,7 +32,6 @@ function Login() {
     }
   }, []);
 
-  // ✅ Email validator that allows specific domains only
   const isValidEmail = (email) => {
     const allowedPersonalDomains = ['gmail.com', 'yahoo.com', 'outlook.com', 'hotmail.com'];
     const collegePattern = /^[a-zA-Z0-9._%+-]+@mits\.ac\.in$/;

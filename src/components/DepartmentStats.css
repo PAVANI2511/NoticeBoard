@@ -3,8 +3,8 @@
   background-color: #fefefe;
   font-family: Arial, sans-serif;
 
-  max-height: 85vh;              /* You can adjust this based on screen size */
-  overflow-y: auto;              /* Vertical scrolling only */
+  max-height: 85vh;              
+  overflow-y: auto;              
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }

@@ -1,4 +1,4 @@
-/* Base Styles */
+
 body {
   margin: 0;
   padding: 0;
@@ -16,7 +16,6 @@ body {
   position: relative;
 }
 
-/* User Menu */
 .user-menu {
   position: absolute;
   top: 16px;
@@ -55,7 +54,6 @@ body {
   background-color: #f0f0f0;
 }
 
-/* Login Card */
 .login-card {
   display: flex;
   width: 800px;
@@ -87,7 +85,6 @@ body {
   overflow: auto;
 }
 
-/* Form */
 .login-title {
   font-size: 28px;
   font-weight: bold;
@@ -123,7 +120,6 @@ body {
   background-color: #fdf2f2;
 }
 
-/* Password Wrapper */
 .password-wrapper {
   position: relative;
   width: 100%;
@@ -143,7 +139,6 @@ body {
   color: #555;
 }
 
-/* Buttons */
 .visible-login,
 .signin-btn {
   width: 100%;
@@ -163,8 +158,6 @@ body {
 .signin-btn:hover {
   background-color: #5a4bd6;
 }
-
-/* Options */
 .options {
   display: flex;
   justify-content: space-between;
@@ -198,7 +191,6 @@ body {
   text-decoration: underline;
 }
 
-/* Divider */
 .divider {
   display: flex;
   align-items: center;
@@ -217,8 +209,6 @@ body {
 .divider span {
   padding: 0 10px;
 }
-
-/* Text */
 .register-text {
   font-size: 14px;
   text-align: center;
@@ -241,7 +231,7 @@ body {
 .validation-msg {
   min-height: 20px;
 }
-/* Tablet: ≤768px */
+
 @media (max-width: 768px) {
   .login-card {
     flex-direction: column;
@@ -269,7 +259,7 @@ body {
   }
 }
 
-/* Mobile: ≤480px */
+
 @media (max-width: 480px) {
   .login-card {
     height: auto;

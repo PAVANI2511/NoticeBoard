@@ -41,7 +41,6 @@ const TableView = () => {
     <div className="table-container">
       <div className="table-header">
         <div className="left-controls">
-          {/* Removed checkbox and resend button */}
         </div>
 
         <h2>📊 Uploaded CSV Data</h2>

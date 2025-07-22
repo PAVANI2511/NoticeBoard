@@ -9,7 +9,6 @@ const Departments = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
-  // Local fallback map for unknown branch codes
   const branchNameMap = {
     CSE: 'Computer Science & Engineering (CSE)',
     CAI: 'Computer Science & Engineering Artificial Intelligence (CAI)',
@@ -43,8 +42,6 @@ const Departments = () => {
         }
 
         const data = await response.json();
-
-        // Patch department names using local map if missing
         const enrichedDepartments = data.branches.map((dept) => ({
           ...dept,
           name: dept.name || branchNameMap[dept.code] || `Unknown (${dept.code})`,

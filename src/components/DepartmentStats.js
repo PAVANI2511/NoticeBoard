@@ -1,4 +1,4 @@
-// src/components/DepartmentStats.js
+
 import React, { useEffect, useState } from 'react';
 import './DepartmentStats.css';
 

@@ -110,8 +110,6 @@ function Student() {
         valid = true;
       }
     }
-
-    // ✅ Updated email validation
     if (name === "gmail_address") {
       if (!isValidEmail(value)) {
         message = "invalid email format";

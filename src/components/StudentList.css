@@ -10,10 +10,8 @@
   border-radius: 16px;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
   text-align: center;
-  overflow-x: auto; /* Scroll only when needed */
+  overflow-x: auto; 
 }
-
-/* === Title === */
 h2 {
   color: #333;
   margin-bottom: 20px;
@@ -38,7 +36,6 @@ select {
   min-width: 160px;
 }
 
-/* Filter container */
 .filter-container {
   display: flex;
   justify-content: center;
@@ -47,7 +44,6 @@ select {
   margin-bottom: 20px;
 }
 
-/* === Table === */
 table {
   width: 100%;
   border-collapse: collapse;
@@ -78,7 +74,6 @@ tr:hover {
   background-color: #f1f1f1;
 }
 
-/* Editable Inputs */
 input[type="text"] {
   padding: 10px 15px;
   border: 1px solid #ccc;
@@ -86,7 +81,6 @@ input[type="text"] {
   width: 100%;
 }
 
-/* === Buttons === */
 button {
   padding: 6px 12px;
   margin: 2px;
@@ -108,17 +102,16 @@ button {
   background-color: red;
 }
 
-.button1 { background-color: #256fd1; padding: 7px 19px;} /* Edit */
-.button2 { background-color: #256fd1;padding: 7px 19px; } /* Save */
-.button3 { background-color: red;padding: 6px 12px; }     /* Cancel */
-.button4 { background-color: red;padding: 6px 12px; }     /* Delete */
+.button1 { background-color: #256fd1; padding: 7px 19px;} 
+.button2 { background-color: #256fd1;padding: 7px 19px; } 
+.button3 { background-color: red;padding: 6px 12px; }     
+.button4 { background-color: red;padding: 6px 12px; }     
 
 
 button:hover {
   opacity: 0.9;
 }
 
-/* === Pagination === */
 .pagination-buttons {
   display: flex;
   float: right;
@@ -152,8 +145,6 @@ button:hover {
   padding: 25px;
   white-space: nowrap;
 }
-
-/* === Status/Error Messages === */
 p {
   font-size: 16px;
   color: #555;

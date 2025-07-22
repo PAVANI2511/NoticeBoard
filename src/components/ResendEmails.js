@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import "./Student.css"; // Reuse styling from Student form
+import "./Student.css"; 
 
 const ResendEmails = () => {
   const [branch, setBranch] = useState("");
   const [year, setYear] = useState("");
   const [result, setResult] = useState(null);
   const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(false); // <-- new
+  const [loading, setLoading] = useState(false); 
 
   const token = localStorage.getItem("jwtToken");
 
@@ -34,7 +34,7 @@ const ResendEmails = () => {
       payload.send_to_all = true;
     }
 
-    setLoading(true); // start loading
+    setLoading(true); 
     setResult(null);
     setError(null);
 
@@ -59,7 +59,7 @@ const ResendEmails = () => {
     } catch (err) {
       setError(err.message);
     } finally {
-      setLoading(false); // stop loading
+      setLoading(false); 
     }
   };
 

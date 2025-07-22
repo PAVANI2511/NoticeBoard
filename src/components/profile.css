@@ -1,4 +1,4 @@
-/* === Container === */
+
 .profile-container {
   max-width: 600px;
   margin: 60px auto;
@@ -10,7 +10,6 @@
   transition: all 0.3s ease;
 }
 
-/* === Title === */
 h2 {
   text-align: center;
   margin-bottom: 30px;
@@ -18,15 +17,12 @@ h2 {
   font-size: 28px;
   font-weight: 700;
 }
-
-/* === Grid layout === */
 .desktop-layout .profile-grid {
   display: flex;
   flex-direction: column;
   row-gap: 24px;
 }
 
-/* === Fields === */
 .field {
   display: flex;
   flex-direction: column;

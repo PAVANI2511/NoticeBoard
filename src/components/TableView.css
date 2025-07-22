@@ -1,4 +1,4 @@
-/* === Container === */
+
 .table-container {
   max-width: 95%;
   margin: 40px auto;
@@ -9,8 +9,6 @@
   font-family: 'Segoe UI', sans-serif;
   overflow-x: auto;
 }
-
-/* === Header === */
 .table-header {
   display: flex;
   justify-content: space-between;
@@ -28,7 +26,6 @@
   font-size: 22px;
 }
 
-/* === Controls === */
 .left-controls,
 .right-controls {
   display: flex;
@@ -37,14 +34,13 @@
   flex-wrap: nowrap;
 }
 
-/* === Checkbox === */
 .select-all-checkbox {
   transform: scale(1.4);
   cursor: pointer;
   margin: 0;
 }
 
-/* === Buttons === */
+
 .small-button {
   padding: 8px 14px;
   border: none;
@@ -72,7 +68,6 @@
   opacity: 0.9;
 }
 
-/* === Table === */
 .styled-table {
   width: 100%;
   border-collapse: collapse;
@@ -103,7 +98,6 @@
   background-color: #f1f1f1;
 }
 
-/* === Pagination === */
 .pagination-buttons {
   display: flex;
   float: right;
@@ -140,7 +134,6 @@
   white-space: nowrap;
 }
 
-/* === Popup Styling === */
 .popup-overlay {
   position: fixed;
   top: 0;
@@ -178,7 +171,6 @@
   cursor: pointer;
 }
 
-/* === Responsive Media Queries === */
 @media (max-width: 768px) {
   .table-header {
     flex-direction: column;

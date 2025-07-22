@@ -12,7 +12,6 @@
   margin-bottom: 0;
 }
 
-/* Profile Icon */
 .profile-icon {
   font-size: 28px;
   cursor: pointer;
@@ -20,7 +19,6 @@
   margin-right: 50px; 
 }
 
-/* Dropdown Menu */
 .dropdown-menu {
   position: absolute;
   top: 60px;

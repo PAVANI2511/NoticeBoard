@@ -1,6 +1,6 @@
-/* Card container */
+
 .email-card {
-  background-color: #ffffffee; /* Slight transparency */
+  background-color: #ffffffee; 
   padding: 40px 50px;
   border-radius: 16px;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
@@ -9,15 +9,12 @@
   font-family: Arial, sans-serif;
 }
 
-/* Heading */
 .email-card h2 {
   text-align: center;
   margin-bottom: 25px;
   color: #333;
   font-size: 24px;
 }
-
-/* Label styling */
 label {
   display: block;
   margin-top: 15px;
@@ -25,7 +22,6 @@ label {
   color: #333;
 }
 
-/* Input styling */
 input {
   padding: 10px;
   margin-top: 5px;
@@ -35,15 +31,12 @@ input {
   outline: none;
   font-size: 14px;
 }
-
-/* Button group layout */
 .button-group {
   display: flex;
   justify-content: space-between;
   margin-top: 25px;
 }
 
-/* Buttons */
 .send-btn,
 .close-btn {
   flex: 1;
@@ -74,7 +67,6 @@ input {
   background-color: #b3b3b3;
 }
 
-/* ✅ Responsive Design: Media Query for screens ≤ 600px */
 @media (max-width: 600px) {
   .email-card {
     width: 90%;

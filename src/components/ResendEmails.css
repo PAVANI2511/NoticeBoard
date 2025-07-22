@@ -2,12 +2,11 @@ html, body {
   height: 100%;
   margin: 0;
   padding: 0;
-  overflow: hidden; /* Prevent page scroll, allow internal modal scroll */
+  overflow: hidden; 
   font-family: Arial, sans-serif;
   background-color: #f0f2f5;
 }
 
-/* Outer wrapper */
 .resend-emails {
   height: 100vh;
   display: flex;
@@ -15,7 +14,6 @@ html, body {
   justify-content: center;
 }
 
-/* Main form card */
 .student-form {
   position: fixed;
   top: 50%;
@@ -33,8 +31,8 @@ html, body {
   display: flex;
   flex-direction: column;
   gap: 12px;
-   max-height: 85vh;              /* You can adjust this based on screen size */
-  overflow-y: auto;              /* Vertical scrolling only */
+   max-height: 85vh;             
+  overflow-y: auto;             
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
@@ -44,7 +42,6 @@ html, body {
   color: #333;
 }
 
-/* Form elements */
 .student-form select,
 .student-form input {
   padding: 10px;
@@ -80,7 +77,6 @@ html, body {
   background-color: #218838;
 }
 
-/* Error message styling */
 .live-message-text.invalid {
   color: red;
   font-size: 14px;
@@ -91,7 +87,6 @@ html, body {
   justify-content: center;
 }
 
-/* Results container */
 .student-list {
   margin-top: 20px;
   max-height: 250px;

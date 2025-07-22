@@ -1,7 +1,6 @@
 .dashboard-container {
   width: 100%;
   height: 100vh;
-    /* Enables both x and y scrolling */
   padding: 20px;
   font-family: 'Segoe UI', sans-serif;
   background-color: #f9f9f9;
