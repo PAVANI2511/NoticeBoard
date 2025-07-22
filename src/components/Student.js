@@ -145,13 +145,13 @@ function Student() {
       } else if (name === "year" && !/^[1-4]$/.test(value)) {
         message = "Year must be between 1 and 4";
         valid = false;
-      } else if (
+      }else if (
         name === "exam_hall_number" &&
-        !/^[A-Za-z0-9]{1,10}$/.test(value)
-      ) {
-        message = "Max 10 alphanumeric characters";
-        valid = false;
-      } else {
+         (!/^[A-Za-z0-9-]{4,10}$/.test(value) || value.length < 4)
+) {
+  message = "Minimum 4 and max 10 characters (letters, digits, hyphens)";
+  valid = false;
+}else {
         message = "Looks good!";
         valid = true;
       }
