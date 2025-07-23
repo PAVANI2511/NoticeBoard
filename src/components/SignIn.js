@@ -180,13 +180,13 @@ function SignIn() {
       <Navbar />
 
       <div className="card-wrapper">
-        <div className="login-card">
-          <div className="login-left">
+        <div className="SignIn-card">
+          <div className="SignIn-left">
             <img src="/smartboard.jpg" alt="Sign In Visual" className="left-image" />
           </div>
 
-          <div className="login-right">
-            <h2 className="login-title">Sign In</h2>
+          <div className="SignIn-right">
+            <h2 className="SignIn-title">Sign In</h2>
 
             <form onSubmit={handleSubmit}>
               <input type="text" name="username" placeholder=" enter Username" value={form.username} onChange={handleChange} className="input-username" />

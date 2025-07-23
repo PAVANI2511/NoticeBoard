@@ -66,4 +66,26 @@
     padding: 10px 16px;
     font-size: 14px;
   }
+  .navbar {
+     position: sticky;
+  top: 0;
+  width: 110%;
+  background-color: #ffffff;
+  }
+}
+@media (max-width: 380px) {
+  .navbar {
+     position: sticky;
+  top: 0;
+  width: 130%;
+  background-color: #ffffff;
+  }
+}
+@media (max-width: 325px) {
+  .navbar {
+     position: sticky;
+  top: 0;
+  width: 145%;
+  background-color: #ffffff;
+  }
 }

@@ -3,7 +3,7 @@ body {
   padding: 0;
   background-color: #f8f9fa;
   font-family: Arial, sans-serif;
-  overflow: hidden;
+ 
 }
 .profile-icon-wrapper {
   position: fixed;
@@ -47,7 +47,7 @@ body {
   justify-content: center;
   align-items: center;
 }
-.login-card {
+.SignIn-card {
   display: flex;
   width: 800px;
   height: 600px;
@@ -57,7 +57,7 @@ body {
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
 }
 
-.login-left {
+.SignIn-left {
   width: 50%;
 }
 
@@ -66,7 +66,7 @@ body {
   height: 100%;
   object-fit: cover;
 }
-.login-right {
+.SignIn-right {
   width: 50%;
   padding: 30px;
   box-sizing: border-box;
@@ -76,11 +76,12 @@ body {
   align-items: center;
   overflow: auto;
 }
-.login-title {
+.SignIn-title {
   font-size: 28px;
   font-weight: bold;
   margin-bottom: 20px;
   text-align: center;
+  color: #000;
 }
 
 .input-username,
@@ -189,19 +190,43 @@ body {
   color: red;
 }
 @media (max-width: 768px) {
-  .login-card {
+  body{
+    overflow: auto;
+  }
+  
+  .SignIn-title {
+    font-size: 24px;
+    margin-top: 90px;
+  }
+
+
+  .card-wrapper{
+    height:150vh;
+    width:100vh;
+   
+  }
+  .left-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+  .SignIn-card {
     flex-direction: column;
-    width: 90%;
-    height: 90vh;
+     width: 70%;
+    height: 150vh;
+    overflow: scroll;
+
+    margin-left: 180px;
   }
 
-  .login-left,
-  .login-right {
+  .SignIn-left,
+  .SignIn-right {
     width: 100%;
-    height: 50%;
+    height: 100%;
+ 
   }
 
-  .login-right {
+  .SignIn-right {
     padding: 20px;
   }
 
@@ -214,11 +239,85 @@ body {
     right: 12px;
   }
 }
-.login-right::-webkit-scrollbar {
+.SignIn-right::-webkit-scrollbar {
   width: 8px;
 }
 
-.login-right::-webkit-scrollbar-thumb {
+.SignIn-right::-webkit-scrollbar-thumb {
   background-color: #ccc;
   border-radius: 4px;
+} 
+@media (max-width: 480px) {
+  .card-wrapper {
+    height: auto;
+    width: 100%;
+    padding: 20px;
+  }
+
+  .SignIn-card {
+    width: 100%;
+    height: auto;
+    flex-direction: column;
+    margin: 0 auto;
+    box-shadow: none;
+    border-radius: 0;
+  }
+
+  .SignIn-left,
+  .SignIn-right {
+    width: 100%;
+    height: auto;
+  }
+
+  .SignIn-right {
+    padding: 20px 15px;
+  }
+
+  .left-image {
+    height:auto;
+  }
+
+  .SignIn-title {
+    font-size: 24px;
+    margin-top: 20px;
+  }
+
+  .input-username,
+  .input-field,
+  .phone-number-input,
+  .country-select {
+    font-size: 14px;
+    padding: 10px;
+  }
+
+  .signin-btn,
+  .visible-login {
+    font-size: 14px;
+    padding: 10px;
+  }
+
+  .profile-icon-wrapper {
+    top: 10px;
+    right: 12px;
+  }
+
+  .password-toggle-icon {
+    font-size: 16px;
+    right: 10px;
+  }
+
+  .live-message-text {
+    font-size: 12px;
+  }
+}
+@media (max-width: 480px) {
+  .SignIn-card {
+    width: 100%;
+    height: auto;
+    flex-direction: column;
+    margin: 0 auto;
+    box-shadow: none;
+    border-radius: 0;
+    margin-left: 80px;
+  }
 }

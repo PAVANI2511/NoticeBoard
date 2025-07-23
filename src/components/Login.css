@@ -4,8 +4,8 @@ body {
   padding: 0;
   background-color: #f8f9fa;
   font-family: Arial, sans-serif;
-  height: 100vh;
-  overflow: hidden;
+  /* height: 100vh; */
+   overflow: hidden; 
 }
 
 .card-wrapper {
@@ -14,6 +14,7 @@ body {
   justify-content: center;
   align-items: center;
   position: relative;
+
 }
 
 .user-menu {
@@ -82,7 +83,7 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  overflow: auto;
+  /* overflow: auto; */
 }
 
 .login-title {
@@ -90,6 +91,7 @@ body {
   font-weight: bold;
   margin-bottom: 20px;
   text-align: center;
+  color: black;
 }
 
 .form-block {
@@ -233,16 +235,32 @@ body {
 }
 
 @media (max-width: 768px) {
+  body{
+    overflow: auto;
+  }
   .login-card {
     flex-direction: column;
-    width: 90%;
-    height: 90vh;
-  }
+    width: 70%;
+    height: 100vh;
+    overflow: auto;
 
+    margin-left: 180px;
+  }
+  .card-wrapper{
+    height:120vh;
+    width:80vh;
+
+    
+  }
+.left-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
   .login-left,
   .login-right {
     width: 100%;
-    height: 50%;
+    height: 100%;
   }
 
   .login-right {
